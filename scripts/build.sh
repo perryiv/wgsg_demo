@@ -1,5 +1,11 @@
-# Start at the top directory of the git repository.
-cd "$(git rev-parse --show-toplevel)"
+# Echo all commands to the terminal and exit on any error.
+set -e -x
+
+# Start at one directory up from where this script is located.
+cd "$(dirname "$0")/.."
+
+# Save the full path of the current directory in avariable.
+REPO_ROOT="$(pwd)"
 
 # Change to the wgsg app directory.
 cd ../wgsg/app
@@ -7,8 +13,8 @@ cd ../wgsg/app
 # Run the build script.
 yarn run build
 
-# Return to the top directory of the git repository.
-cd "$(git rev-parse --show-toplevel)"
+# Return to the original directory.
+cd "$REPO_ROOT"
 
 # Remove and recreate the docs directory.
 rm -rf docs
