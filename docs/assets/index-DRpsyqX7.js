@@ -10811,7 +10811,8 @@ const preMultiplyColor = (clearColor) => {
     // Alpha
   ];
 };
-const __vite_import_meta_env__$1 = { "VITE_KEEP_PERFORMANCE_INFO": "true" };
+const __vite_import_meta_env__ = { "VITE_KEEP_PERFORMANCE_INFO": "true", "VITE_LOG_LEVEL": "2" };
+const BUILD_ENVIRONMENT = __vite_import_meta_env__;
 const IDENTITY_MATRIX = [
   1,
   0,
@@ -10831,8 +10832,7 @@ const IDENTITY_MATRIX = [
   1
 ];
 const DEG_TO_RAD = Math.PI / 180;
-const BUILD_ENVIRONMENT$1 = __vite_import_meta_env__$1;
-const KEEP_PERFORMANCE_INFO = "true" === BUILD_ENVIRONMENT$1.VITE_KEEP_PERFORMANCE_INFO.toLowerCase();
+const KEEP_PERFORMANCE_INFO = "true" === BUILD_ENVIRONMENT.VITE_KEEP_PERFORMANCE_INFO.toLowerCase();
 let prodNextId = 0;
 function prodGetNextId() {
   return ++prodNextId;
@@ -10850,8 +10850,6 @@ function getNumElements(array, dimension) {
   }
   return array.length / dimension;
 }
-const __vite_import_meta_env__ = { "VITE_LOG_LEVEL": "2" };
-const BUILD_ENVIRONMENT = __vite_import_meta_env__;
 var LogLevel = /* @__PURE__ */ ((LogLevel2) => {
   LogLevel2[LogLevel2["FATAL"] = 0] = "FATAL";
   LogLevel2[LogLevel2["ERROR"] = 1] = "ERROR";
@@ -31947,4 +31945,4 @@ clientExports.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ jsxRuntimeExports.jsx(App, {})
   ] }) })
 );
-//# sourceMappingURL=index-OjBYCiv5.js.map
+//# sourceMappingURL=index-DRpsyqX7.js.map
