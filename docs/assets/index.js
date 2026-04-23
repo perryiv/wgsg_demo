@@ -16708,7 +16708,6 @@ class STL extends Reader {
       const { size } = file;
       let rowCount = 0;
       let byteCount = 0;
-      let done = false;
       const onProgress = this.getProgressCallback();
       let px = 0;
       let py = 0;
@@ -16722,31 +16721,24 @@ class STL extends Reader {
       let facetCount = 0;
       let loopCount = 0;
       const scene = new Group();
-      const step = (results) => {
-        if (true === done) {
-          return;
-        }
+      const innerStep = (results, parser) => {
         ++rowCount;
         if (!results) {
-          done = true;
-          reject(new Error(`Row ${rowCount} has no data`));
+          throw new Error(`Row ${rowCount} has no data`);
         }
         if (results.errors.length > 0) {
-          done = true;
-          reject(new Error(`Error when parsing row ${rowCount}: ${results.errors[0].message}`));
+          throw new Error(`Error when parsing row ${rowCount}: ${results.errors[0].message}`);
         }
         const { data: lines } = results;
         if (false === Array.isArray(lines)) {
-          done = true;
-          reject(new Error(`Row ${rowCount} is not an array`));
+          throw new Error(`Row ${rowCount} is not an array`);
         }
         let line2 = lines[0];
         if ("string" === typeof line2) {
           byteCount += line2.length;
           line2 = line2.trimStart();
         } else {
-          done = true;
-          reject(new Error(`Row ${rowCount} array does not contain one string`));
+          throw new Error(`Row ${rowCount} array does not contain one string`);
         }
         onProgress(byteCount, size);
         if (line2.length <= 0) {
@@ -16760,20 +16752,17 @@ class STL extends Reader {
           case "solid": {
             ++solidCount;
             if (1 !== solidCount) {
-              done = true;
-              reject(new Error(`Keyword 'solid' on line ${rowCount} not balanced with 'endsolid'`));
+              throw new Error(`Keyword 'solid' on line ${rowCount} not balanced with 'endsolid'`);
             }
             break;
           }
           case "facet": {
             if (5 !== parts.length || "normal" !== parts[1].toLowerCase()) {
-              done = true;
-              reject(new Error(`Invalid facet on line ${rowCount}: ${line2}`));
+              throw new Error(`Invalid facet on line ${rowCount}: ${line2}`);
             }
             ++facetCount;
             if (1 !== facetCount) {
-              done = true;
-              reject(new Error(`Keyword 'facet' on line ${rowCount} not balanced with 'endfacet'`));
+              throw new Error(`Keyword 'facet' on line ${rowCount} not balanced with 'endfacet'`);
             }
             normal[0] = parseFloat(parts[2]);
             normal[1] = parseFloat(parts[3]);
@@ -16792,32 +16781,26 @@ class STL extends Reader {
           }
           case "outer": {
             if ("loop" !== parts[1].toLowerCase()) {
-              done = true;
-              reject(new Error(`Keyword 'outer' on line ${rowCount} not followed by 'loop'`));
+              throw new Error(`Keyword 'outer' on line ${rowCount} not followed by 'loop'`);
             }
             ++loopCount;
             if (1 !== loopCount) {
-              done = true;
-              reject(new Error(`Keyword 'outer' on line ${rowCount} not balanced with 'endloop'`));
+              throw new Error(`Keyword 'outer' on line ${rowCount} not balanced with 'endloop'`);
             }
             break;
           }
           case "vertex": {
             if (4 !== parts.length) {
-              done = true;
-              reject(new Error(`Invalid vertex on line ${rowCount}: ${line2}`));
+              throw new Error(`Invalid vertex on line ${rowCount}: ${line2}`);
             }
             if (1 !== solidCount) {
-              done = true;
-              reject(new Error(`Keyword 'vertex' on line ${rowCount} not inside a 'solid'`));
+              throw new Error(`Keyword 'vertex' on line ${rowCount} not inside a 'solid'`);
             }
             if (1 !== facetCount) {
-              done = true;
-              reject(new Error(`Keyword 'vertex' on line ${rowCount} not inside a 'facet'`));
+              throw new Error(`Keyword 'vertex' on line ${rowCount} not inside a 'facet'`);
             }
             if (1 !== loopCount) {
-              done = true;
-              reject(new Error(`Keyword 'vertex' on line ${rowCount} not inside a 'loop'`));
+              throw new Error(`Keyword 'vertex' on line ${rowCount} not inside a 'loop'`);
             }
             px = parseFloat(parts[1]);
             py = parseFloat(parts[2]);
@@ -16831,20 +16814,17 @@ class STL extends Reader {
           case "endloop": {
             --loopCount;
             if (0 !== loopCount) {
-              done = true;
-              reject(new Error(`Keyword 'endloop' on line ${rowCount} not balanced with 'outer'`));
+              throw new Error(`Keyword 'endloop' on line ${rowCount} not balanced with 'outer'`);
             }
             break;
           }
           case "endfacet": {
             --facetCount;
             if (0 !== facetCount) {
-              done = true;
-              reject(new Error(`Keyword 'endfacet' on line ${rowCount} not balanced with 'facet'`));
+              throw new Error(`Keyword 'endfacet' on line ${rowCount} not balanced with 'facet'`);
             }
             if (indexCount > indices.length) {
-              done = true;
-              reject(new Error(`Index count ${indexCount} exceeds array length ${indices.length}`));
+              throw new Error(`Index count ${indexCount} exceeds array length ${indices.length}`);
             }
             if (indexCount === indices.length) {
               scene.addChild(this.buildScene(
@@ -16866,22 +16846,33 @@ class STL extends Reader {
           case "endsolid": {
             --solidCount;
             if (0 !== solidCount) {
-              done = true;
-              reject(new Error(`Keyword 'endsolid' on line ${rowCount} not balanced with 'solid'`));
+              throw new Error(`Keyword 'endsolid' on line ${rowCount} not balanced with 'solid'`);
             }
-            scene.addChild(this.buildScene(
-              points,
-              normals,
-              indices,
-              pointCount,
-              normalCount,
-              indexCount
-            ));
-            done = true;
-            onProgress(size, size);
-            resolve(scene);
+            break;
           }
         }
+      };
+      const step = (results, parser) => {
+        try {
+          innerStep(results, parser);
+        } catch (error) {
+          parser.abort();
+          reject(
+            error instanceof Error ? error : new Error(String(error))
+          );
+        }
+      };
+      const complete = () => {
+        scene.addChild(this.buildScene(
+          points,
+          normals,
+          indices,
+          pointCount,
+          normalCount,
+          indexCount
+        ));
+        onProgress(size, size);
+        resolve(scene);
       };
       const delimiter2 = ";";
       papaparse_minExports.parse(file, {
@@ -16891,6 +16882,7 @@ class STL extends Reader {
         fastMode: true,
         skipEmptyLines: true,
         step,
+        complete,
         // TODO: Figure out how to move a progress bar when using a worker.
         worker: false
       });
@@ -17016,8 +17008,8 @@ class Perspective extends Projection {
     super();
     __privateAdd(this, _fov, 45);
     __privateAdd(this, _aspect, 1);
-    __privateAdd(this, _near, 0.1);
-    __privateAdd(this, _far, 1e3);
+    __privateAdd(this, _near, 0.01);
+    __privateAdd(this, _far, 1e4);
     if (input) {
       this.setFrom(input);
     }
@@ -19624,9 +19616,8 @@ function Viewer({ style: style2 }) {
       } catch (error) {
         console.error(`Error reading file ${file.name}:`, error);
         return;
-      } finally {
-        setProgress(0);
       }
+      setProgress(0);
       if (!model) {
         console.warn(`Reader returned null model for file: ${file.name}`);
         return;
@@ -31945,4 +31936,4 @@ clientExports.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ jsxRuntimeExports.jsx(App, {})
   ] }) })
 );
-//# sourceMappingURL=index-DRpsyqX7.js.map
+//# sourceMappingURL=index.js.map
