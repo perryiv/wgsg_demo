@@ -16501,6 +16501,271 @@ function addReader(extension, factory2) {
 function getReader(extension) {
   return readers.get(extension) ?? null;
 }
+class Common extends Reader {
+  /**
+   * Construct the class.
+   * @abstract
+   */
+  constructor() {
+    super();
+  }
+  /**
+   * Return a progress callback function. Make one if needed.
+   * @returns {Function} A function that can be used report progress.
+   */
+  getProgressCallback() {
+    const progress = this.progress;
+    if (progress) {
+      return progress;
+    }
+    return () => {
+      return true;
+    };
+  }
+  /**
+   * Allocate the arrays. We make new ones if they get full, and we trim
+   * them when we are done if they are not full.
+   * @param {number} numTriangles The number of triangles.
+   * @returns {{ points: Float32Array, normals: Float32Array, indices: Uint32Array }} The allocated arrays.
+   */
+  static allocateArrays(numTriangles) {
+    const indices = new Uint32Array(numTriangles * 3);
+    const points = new Float32Array(indices.length * 3);
+    const normals = new Float32Array(points.length);
+    return { points, normals, indices };
+  }
+  /**
+   * Build the scene from the arrays.
+   * @param {Float32Array} points The array of point coordinates.
+   * @param {Float32Array} normals The array of normal coordinates.
+   * @param {Uint32Array} indices The array of indices.
+   * @param {number} pointCount The number of points in the points array.
+   * @param {number} normalCount The number of normals in the normals array.
+   * @param {number} indexCount The number of indices in the indices array.
+   * @returns {SceneNode} The scene node representing the STL file.
+   */
+  buildScene(points, normals, indices, pointCount, normalCount, indexCount) {
+    if (pointCount > points.length) {
+      throw new Error(`Too many point coordinates, ${pointCount}, for allocated array of length ${points.length}`);
+    }
+    if (normalCount > normals.length) {
+      throw new Error(`Too many normal coordinates, ${normalCount}, for allocated array of length ${normals.length}`);
+    }
+    if (indexCount > indices.length) {
+      throw new Error(`Too many indices, ${indexCount}, for allocated array of length ${indices.length}`);
+    }
+    points = points.slice(0, pointCount);
+    normals = normals.slice(0, normalCount);
+    indices = indices.slice(0, indexCount);
+    if (0 !== points.length % 9) {
+      throw new Error(`Number of point coordinates, ${points.length}, is not evenly divisible by 9`);
+    }
+    if (points.length !== normals.length) {
+      throw new Error(`Number of normals, ${normals.length}, is not equal to the number of points, ${points.length}`);
+    }
+    const shader = PhongShading.instance;
+    const group = new Group();
+    const tris = new Geometry({ points, normals });
+    {
+      const topology = "triangle-list";
+      tris.primitives = new Indexed({ topology, indices });
+      const color2 = [
+        clampNumber(Math.random(), 0.2, 0.8),
+        clampNumber(Math.random(), 0.2, 0.8),
+        clampNumber(Math.random(), 0.2, 0.8),
+        1
+      ];
+      tris.state = new State({
+        name: `State with shader: ${shader.type}, color: ${color2.join(", ")}, topology: ${topology}`,
+        shader,
+        topology,
+        apply: (() => {
+          shader.color = color2;
+        })
+      });
+      tris.getBoundingBox();
+      group.addChild(tris);
+    }
+    group.getBoundingBox();
+    return group;
+  }
+}
+class BinaryReader extends Common {
+  /**
+   * Construct the class.
+   * @class
+   */
+  constructor() {
+    super();
+  }
+  /**
+   * Return the class name.
+   * @returns {string} The class name.
+   */
+  getClassName() {
+    return "IO.Readers.STL.BinaryReader";
+  }
+  /**
+   * Read the file and return a promise that resolves to the scene node.
+   * @param {File} file The file to read.
+   * @returns {Promise<SceneNode>} A promise that resolves to the scene node.
+   */
+  read(file) {
+    return new Promise((resolve, reject) => {
+      const recordSize = 50;
+      const offset = 84;
+      const dataSize = file.size - offset;
+      {
+        if (dataSize < 0) {
+          reject(new Error("File is too small to be a valid binary STL"));
+          return;
+        }
+        if (0 !== dataSize % recordSize) {
+          reject(new Error("Size of binary STL data is not a multiple of the record size"));
+          return;
+        }
+      }
+      const numTriangles = dataSize / recordSize;
+      const chunkSize = Math.min(dataSize, recordSize * 1e4);
+      const onProgress = this.getProgressCallback();
+      let { points, normals, indices } = Common.allocateArrays(1024 * 1024);
+      let pointCount = 0;
+      let normalCount = 0;
+      let indexCount = 0;
+      const reader = new FileReader();
+      let triangleCount = 0;
+      let fileOffset = offset;
+      let p1x = 0;
+      let p1y = 0;
+      let p1z = 0;
+      let p2x = 0;
+      let p2y = 0;
+      let p2z = 0;
+      let p3x = 0;
+      let p3y = 0;
+      let p3z = 0;
+      const normal = [0, 0, 0];
+      const scene = new Group();
+      const processChunk = () => {
+        const endOffset = Math.min(fileOffset + chunkSize, file.size);
+        const blob = file.slice(fileOffset, endOffset);
+        reader.onerror = () => {
+          reject(new Error(`Error reading the file: ${reader.error}`));
+          return;
+        };
+        reader.onload = () => {
+          const buffer = reader.result;
+          const view = new DataView(buffer);
+          let byteOffset = 0;
+          while (byteOffset + recordSize <= view.byteLength) {
+            normal[0] = view.getFloat32(byteOffset, true);
+            byteOffset += 4;
+            normal[1] = view.getFloat32(byteOffset, true);
+            byteOffset += 4;
+            normal[2] = view.getFloat32(byteOffset, true);
+            byteOffset += 4;
+            if (!isFinite(normal[0]) || !isFinite(normal[1]) || !isFinite(normal[2])) {
+              reject(new Error(`Normal vector for triangle ${triangleCount} has non-finite values`));
+              return;
+            }
+            normalize$2(normal, normal);
+            p1x = view.getFloat32(byteOffset, true);
+            byteOffset += 4;
+            p1y = view.getFloat32(byteOffset, true);
+            byteOffset += 4;
+            p1z = view.getFloat32(byteOffset, true);
+            byteOffset += 4;
+            if (!isFinite(p1x) || !isFinite(p1y) || !isFinite(p1z)) {
+              reject(new Error(`First point for triangle ${triangleCount} has non-finite values`));
+              return;
+            }
+            p2x = view.getFloat32(byteOffset, true);
+            byteOffset += 4;
+            p2y = view.getFloat32(byteOffset, true);
+            byteOffset += 4;
+            p2z = view.getFloat32(byteOffset, true);
+            byteOffset += 4;
+            if (!isFinite(p2x) || !isFinite(p2y) || !isFinite(p2z)) {
+              reject(new Error(`Second point for triangle ${triangleCount} has non-finite values`));
+              return;
+            }
+            p3x = view.getFloat32(byteOffset, true);
+            byteOffset += 4;
+            p3y = view.getFloat32(byteOffset, true);
+            byteOffset += 4;
+            p3z = view.getFloat32(byteOffset, true);
+            byteOffset += 4;
+            if (!isFinite(p3x) || !isFinite(p3y) || !isFinite(p3z)) {
+              reject(new Error(`Third point for triangle ${triangleCount} has non-finite values`));
+              return;
+            }
+            byteOffset += 2;
+            if (pointCount + 9 >= points.length) {
+              scene.addChild(this.buildScene(
+                points,
+                normals,
+                indices,
+                pointCount,
+                normalCount,
+                indexCount
+              ));
+              const newArrays = Common.allocateArrays(1024 * 1024);
+              points = newArrays.points;
+              normals = newArrays.normals;
+              indices = newArrays.indices;
+              pointCount = normalCount = indexCount = 0;
+            }
+            points[pointCount++] = p1x;
+            points[pointCount++] = p1y;
+            points[pointCount++] = p1z;
+            points[pointCount++] = p2x;
+            points[pointCount++] = p2y;
+            points[pointCount++] = p2z;
+            points[pointCount++] = p3x;
+            points[pointCount++] = p3y;
+            points[pointCount++] = p3z;
+            normals[normalCount++] = normal[0];
+            normals[normalCount++] = normal[1];
+            normals[normalCount++] = normal[2];
+            normals[normalCount++] = normal[0];
+            normals[normalCount++] = normal[1];
+            normals[normalCount++] = normal[2];
+            normals[normalCount++] = normal[0];
+            normals[normalCount++] = normal[1];
+            normals[normalCount++] = normal[2];
+            indices[indexCount] = indexCount++;
+            indices[indexCount] = indexCount++;
+            indices[indexCount] = indexCount++;
+            onProgress(triangleCount, numTriangles);
+            triangleCount++;
+          }
+          if (0 !== byteOffset % recordSize) {
+            reject(new Error(`Byte offset ${byteOffset} is not a multiple of the record size ${recordSize}`));
+            return;
+          }
+          fileOffset = endOffset;
+          if (fileOffset < file.size) {
+            setTimeout(processChunk, 0);
+          } else {
+            scene.addChild(this.buildScene(
+              points,
+              normals,
+              indices,
+              pointCount,
+              normalCount,
+              indexCount
+            ));
+            onProgress(numTriangles, numTriangles);
+            scene.getBoundingBox();
+            resolve(scene);
+          }
+        };
+        reader.readAsArrayBuffer(blob);
+      };
+      processChunk();
+    });
+  }
+}
 var papaparse_min$1 = { exports: {} };
 /* @license
 Papa Parse
@@ -16928,7 +17193,7 @@ function requirePapaparse_min() {
   return papaparse_min$1.exports;
 }
 var papaparse_minExports = requirePapaparse_min();
-class STL extends Reader {
+class TextReader extends Common {
   /**
    * Construct the class.
    * @class
@@ -16941,20 +17206,7 @@ class STL extends Reader {
    * @returns {string} The class name.
    */
   getClassName() {
-    return "IO.Readers.STL";
-  }
-  /**
-   * Return a progress callback function. Make one if needed.
-   * @returns {Function} A function that can be used report progress.
-   */
-  getProgressCallback() {
-    const progress = this.progress;
-    if (progress) {
-      return progress;
-    }
-    return () => {
-      return true;
-    };
+    return "IO.Readers.STL.TextReader";
   }
   /**
    * Read the file and return a promise that resolves to the scene node.
@@ -16962,12 +17214,6 @@ class STL extends Reader {
    * @returns {Promise<SceneNode>} A promise that resolves to the scene node.
    */
   read(file) {
-    const allocateArrays = () => {
-      const indices = new Uint32Array(1024 * 1024 * 3);
-      const points = new Float32Array(indices.length * 3);
-      const normals = new Float32Array(points.length);
-      return { points, normals, indices };
-    };
     return new Promise((resolve, reject) => {
       const { size } = file;
       let rowCount = 0;
@@ -16977,7 +17223,7 @@ class STL extends Reader {
       let py = 0;
       let pz = 0;
       const normal = [0, 0, 0];
-      let { points, normals, indices } = allocateArrays();
+      let { points, normals, indices } = Common.allocateArrays(1024 * 1024);
       let indexCount = 0;
       let pointCount = 0;
       let normalCount = 0;
@@ -17099,7 +17345,7 @@ class STL extends Reader {
                 normalCount,
                 indexCount
               ));
-              const newArrays = allocateArrays();
+              const newArrays = Common.allocateArrays(1024 * 1024);
               points = newArrays.points;
               normals = newArrays.normals;
               indices = newArrays.indices;
@@ -17152,58 +17398,65 @@ class STL extends Reader {
       });
     });
   }
+}
+class STL extends Common {
   /**
-   * Build the scene from the arrays.
-   * @param {Float32Array} points The array of point coordinates.
-   * @param {Float32Array} normals The array of normal coordinates.
-   * @param {Uint32Array} indices The array of indices.
-   * @param {number} pointCount The number of points in the points array.
-   * @param {number} normalCount The number of normals in the normals array.
-   * @param {number} indexCount The number of indices in the indices array.
-   * @returns {SceneNode} The scene node representing the STL file.
+   * Construct the class.
+   * @class
    */
-  buildScene(points, normals, indices, pointCount, normalCount, indexCount) {
-    if (pointCount > points.length) {
-      throw new Error(`Too many point coordinates, ${pointCount}, for allocated array of length ${points.length}`);
-    }
-    if (normalCount > normals.length) {
-      throw new Error(`Too many normal coordinates, ${normalCount}, for allocated array of length ${normals.length}`);
-    }
-    if (indexCount > indices.length) {
-      throw new Error(`Too many indices, ${indexCount}, for allocated array of length ${indices.length}`);
-    }
-    points = points.slice(0, pointCount);
-    normals = normals.slice(0, normalCount);
-    indices = indices.slice(0, indexCount);
-    if (0 !== points.length % 9) {
-      throw new Error(`Number of point coordinates, ${points.length}, is not evenly divisible by 9`);
-    }
-    if (points.length !== normals.length) {
-      throw new Error(`Number of normals, ${normals.length}, is not equal to the number of points, ${points.length}`);
-    }
-    const shader = PhongShading.instance;
-    const group = new Group();
-    const tris = new Geometry({ points, normals });
-    {
-      const topology = "triangle-list";
-      tris.primitives = new Indexed({ topology, indices });
-      const color2 = [
-        clampNumber(Math.random(), 0.2, 0.8),
-        clampNumber(Math.random(), 0.2, 0.8),
-        clampNumber(Math.random(), 0.2, 0.8),
-        1
-      ];
-      tris.state = new State({
-        name: `State with shader: ${shader.type}, color: ${color2.join(", ")}, topology: ${topology}`,
-        shader,
-        topology,
-        apply: (() => {
-          shader.color = color2;
-        })
+  constructor() {
+    super();
+  }
+  /**
+   * Return the class name.
+   * @returns {string} The class name.
+   */
+  getClassName() {
+    return "IO.Readers.STL";
+  }
+  /**
+   * Determine if the file is binary.
+   * See: https://stackoverflow.com/questions/26171521/verifying-that-an-stl-file-is-ascii-or-binary
+   * @param {File} file The file to check.
+   * @returns {Promise<boolean>} A promise that resolves to true if the file is binary, false if it is ASCII.
+   */
+  isBinary(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const view = new DataView(reader.result);
+        const numTriangles = view.getUint32(0, true);
+        resolve(file.size === 84 + numTriangles * 50);
+      };
+      reader.onerror = () => {
+        reject(new Error(`Error reading the file: ${reader.error}`));
+      };
+      reader.readAsArrayBuffer(file.slice(80, 84));
+    });
+  }
+  /**
+   * Read the file and return a promise that resolves to the scene node.
+   * @param {File} file The file to read.
+   * @returns {Promise<SceneNode>} A promise that resolves to the scene node.
+   */
+  read(file) {
+    return new Promise((resolve, reject) => {
+      this.isBinary(file).then((binary) => {
+        if (true === binary) {
+          const reader = new BinaryReader();
+          reader.progress = this.progress;
+          return reader.read(file).then(resolve).catch(reject);
+        } else {
+          const reader = new TextReader();
+          reader.progress = this.progress;
+          return reader.read(file).then(resolve).catch(reject);
+        }
+      }).catch((error) => {
+        reject(
+          error instanceof Error ? error : new Error(String(error))
+        );
       });
-      group.addChild(tris);
-    }
-    return group;
+    });
   }
 }
 const factory = () => {
@@ -19875,6 +20128,7 @@ function Viewer({ style: style2 }) {
         console.warn(`No viewer found with name: ${VIEWER_NAME}`);
         return;
       }
+      model.getBoundingBox();
       viewer.modelScene = model;
       viewer.viewAll({ animate: false });
       viewer.requestRender();
