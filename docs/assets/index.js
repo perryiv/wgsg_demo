@@ -8,7 +8,7 @@ var __accessCheck = (obj, member, msg) => member.has(obj) || __typeError("Cannot
 var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
-var _min, _max, _p0, _p1, _point, _normal, _c2, _r, _a, _id, _b, _instance, _isInitializing, _device, _preferredFormat, _values, _buffer, _state, _parents, _flags, _children, _box, _matrix, _topology, _first, _count, _indices, _points, _normals, _colors, _texCoords, _primitives, _box2, _center, _radius, _numSubdivisions, _name, _layer, _bin, _shader, _topology2, _apply, _reset, _code, _module, _data, _device2, _projMatrix, _viewMatrix, _instance2, _color, _lightDir, _uniforms, _bindGroup, _instance3, _color2, _uniforms2, _bindGroup2, _state2, _shapes, _matrix2, _stateGroupMap, _matrix3, _viewMatrixMap, _shader2, _topology3, _projMatrixMap, _pipelines, _bins, _layers, _viewMatrix2, _projMatrix2, _root, _defaultState, _currentState, _info, _states, _shaders, _context, _depthTexture, _clearColor, _renderPassEncoder, _commandEncoder, _geometry, _info2, _wasDirty, _indices2, _points2, _colors2, _geom, _progress, _fov, _aspect, _near, _far, _matrix4, _inverse, _mode, _state3, _fun, _name2, _startTime, _duration, _axis, _angle, _space, _resetRotation, _scaleIn, _scaleOut, _scale, _scale2, _canvas, _context2, _observer, _viewport, _scene, _projection, _handles, _frame, _visitors, _root2, _defaultState2, _clearColor2, _info3, _eventListeners, _mouse, _navBase, _eventHandlers, _keyboardListeners, _mouseListeners, _clientListeners, _branches, _keysDown, _animations, _options, _c, _commands, _inputToCommand;
+var _min, _max, _p0, _p1, _point, _normal, _c2, _r, _a, _id, _b, _instance, _isInitializing, _device, _preferredFormat, _values, _buffer, _state, _parents, _flags, _children, _box, _matrix, _topology, _first, _count, _indices, _points, _normals, _colors, _texCoords, _primitives, _box2, _center, _radius, _numSubdivisions, _name, _layer, _bin, _shader, _topology2, _apply, _reset, _code, _module, _data, _device2, _projMatrix, _viewMatrix, _instance2, _color, _twoSided, _lightDir, _uniforms, _bindGroup, _instance3, _color2, _uniforms2, _bindGroup2, _state2, _shapes, _matrix2, _stateGroupMap, _matrix3, _viewMatrixMap, _shader2, _topology3, _projMatrixMap, _pipelines, _bins, _layers, _viewMatrix2, _projMatrix2, _root, _defaultState, _currentState, _info, _states, _shaders, _context, _depthTexture, _clearColor, _renderPassEncoder, _commandEncoder, _geometry, _info2, _wasDirty, _indices2, _points2, _colors2, _geom, _progress, _fov, _aspect, _near, _far, _matrix4, _inverse, _mode, _state3, _fun, _name2, _startTime, _duration, _axis, _angle, _space, _resetRotation, _scaleIn, _scaleOut, _scale, _scale2, _canvas, _context2, _observer, _viewport, _scene, _projection, _handles, _frame, _visitors, _root2, _defaultState2, _clearColor2, _info3, _eventListeners, _mouse, _navBase, _eventHandlers, _keyboardListeners, _mouseListeners, _clientListeners, _branches, _keysDown, _animations, _options, _c, _commands, _inputToCommand;
 function _mergeNamespaces(n, m) {
   for (var i = 0; i < m.length; i++) {
     const e = m[i];
@@ -14369,7 +14369,7 @@ class WithMatrices extends ShaderBase {
 }
 _projMatrix = new WeakMap();
 _viewMatrix = new WeakMap();
-const code$1 = "///////////////////////////////////////////////////////////////////////////////\n//\n//	Copyright (c) 2025, Perry L Miller IV\n//	All rights reserved.\n//	MIT License: https://opensource.org/licenses/mit-license.html\n//\n///////////////////////////////////////////////////////////////////////////////\n\n///////////////////////////////////////////////////////////////////////////////\n//\n//	Shader code that renders with Phong shading.\n//	https://gist.github.com/ccincotti3/f5bbfca9acd27c0efb9a2d22509b5aca\n//\n///////////////////////////////////////////////////////////////////////////////\n\nstruct Uniforms\n{\n	projMatrix: mat4x4f,\n	viewMatrix: mat4x4f,\n	color: vec4f,\n	lightDir: vec3f,\n};\n\n@group ( 0 ) @binding ( 0 ) var<uniform> uniforms : Uniforms;\n\nstruct VertexOut\n{\n	@builtin ( position ) position : vec4f,\n	@location ( 0 ) normal : vec3f,\n};\n\n@vertex fn vs ( @location ( 0 ) position: vec4f, @location ( 1 ) normal: vec3f ) -> VertexOut\n{\n	// The answer.\n	var answer : VertexOut;\n\n	// Transform the position to view space.\n	answer.position = uniforms.projMatrix * uniforms.viewMatrix * position;\n\n	// Transform the normal to view space. We ignore the translation.\n	answer.normal = normalize ( ( uniforms.viewMatrix * vec4f ( normal, 0.0 ) ).xyz );\n\n	// Return the answer.\n	return answer;\n}\n\n@fragment fn fs ( fragData: VertexOut ) -> @location ( 0 ) vec4f\n{\n	// Make sure the normal vector is unit length.\n	let normal = normalize ( fragData.normal );\n\n	// Calculate the diffuse lighting factor.\n	let diffuse = max ( dot ( normal, -uniforms.lightDir ), 0.0 );\n\n	// Calculate the color, assuming that the canvas is configured\n	// for pre-multiplied alpha.\n	return vec4 ( uniforms.color.rgb * diffuse * uniforms.color.a, uniforms.color.a );\n}\n";
+const code$1 = "///////////////////////////////////////////////////////////////////////////////\n//\n//	Copyright (c) 2025, Perry L Miller IV\n//	All rights reserved.\n//	MIT License: https://opensource.org/licenses/mit-license.html\n//\n///////////////////////////////////////////////////////////////////////////////\n\n///////////////////////////////////////////////////////////////////////////////\n//\n//	Shader code that renders with Phong shading.\n//	https://gist.github.com/ccincotti3/f5bbfca9acd27c0efb9a2d22509b5aca\n//\n///////////////////////////////////////////////////////////////////////////////\n\nstruct Uniforms\n{\n	projMatrix: mat4x4f,\n	viewMatrix: mat4x4f,\n	color: vec4f,\n	lightDir: vec3f,\n};\n\n@group ( 0 ) @binding ( 0 ) var<uniform> uniforms : Uniforms;\n\nstruct VertexOut\n{\n	@builtin ( position ) position : vec4f,\n	@location ( 0 ) normal : vec3f,\n};\n\n@group ( 0 ) @binding ( 1 ) var<uniform> twoSided : u32;\n\n@vertex fn vs ( @location ( 0 ) position: vec4f, @location ( 1 ) normal: vec3f ) -> VertexOut\n{\n	// The answer.\n	var answer : VertexOut;\n\n	// Transform the position to view space.\n	answer.position = uniforms.projMatrix * uniforms.viewMatrix * position;\n\n	// Transform the normal to view space. We ignore the translation.\n	answer.normal = normalize ( ( uniforms.viewMatrix * vec4f ( normal, 0.0 ) ).xyz );\n\n	// Return the answer.\n	return answer;\n}\n\n@fragment fn fs ( fragData: VertexOut ) -> @location ( 0 ) vec4f\n{\n	// Make sure the normal vector is unit length.\n	let normal = normalize ( fragData.normal );\n\n	// Calculate the diffuse lighting factor.\n	let dotProduct = dot ( normal, -uniforms.lightDir );\n	let diffuse = select ( max ( dotProduct, 0.0 ), abs ( dotProduct ), twoSided != 0u );\n\n	// Calculate the color, assuming that the canvas is configured\n	// for pre-multiplied alpha.\n	return vec4 ( uniforms.color.rgb * diffuse * uniforms.color.a, uniforms.color.a );\n}\n";
 const _PhongShading = class _PhongShading extends WithMatrices {
   /**
    * Construct the class.
@@ -14383,6 +14383,7 @@ const _PhongShading = class _PhongShading extends WithMatrices {
       topology: topology ?? "triangle-list"
     });
     __privateAdd(this, _color, [0.5, 0.5, 0.5, 1]);
+    __privateAdd(this, _twoSided, false);
     __privateAdd(this, _lightDir, [0, 0, -1, 0]);
     __privateAdd(this, _uniforms, null);
     __privateAdd(this, _bindGroup, null);
@@ -14438,7 +14439,7 @@ const _PhongShading = class _PhongShading extends WithMatrices {
   get name() {
     const color2 = this.color.join(", ");
     const lightDir = this.lightDir.join(", ");
-    return `${this.type} with color [${color2}] and light direction [${lightDir}]`;
+    return `${this.type} with color: [${color2}], two-sided lighting: ${this.twoSided}, and light direction: [${lightDir}]`;
   }
   /**
    * Get the view matrix.
@@ -14473,6 +14474,22 @@ const _PhongShading = class _PhongShading extends WithMatrices {
     __privateSet(this, _bindGroup, null);
   }
   /**
+   * Return whether to use two-sided lighting.
+   * @returns {boolean} Whether to use two-sided lighting.
+   */
+  get twoSided() {
+    return __privateGet(this, _twoSided);
+  }
+  /**
+   * Set whether to use two-sided lighting.
+   * @param {boolean} twoSided - Whether to use two-sided lighting.
+   */
+  set twoSided(twoSided) {
+    __privateSet(this, _twoSided, twoSided);
+    __privateSet(this, _uniforms, null);
+    __privateSet(this, _bindGroup, null);
+  }
+  /**
    * Return the light direction.
    * @returns {IVector4} The light direction.
    */
@@ -14498,14 +14515,15 @@ const _PhongShading = class _PhongShading extends WithMatrices {
       const device = Device.instance.device;
       buffer = device.createBuffer({
         label: `Uniform buffer for shader ${this.type} ${this.id}`,
-        size: (16 + 16 + 4 + 4) * 4,
-        // Two 4x4 matrices + 4D color + 4D light, 4 bytes each.
+        // Two 4x4 matrices + 4D color + 4D light + 1D twoSided, 4 bytes each.
+        size: (16 + 16 + 4 + 4 + 1) * 4,
         usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST
       });
       const pm = new Float32Array(this.projMatrix);
       const vm = new Float32Array(this.viewMatrix);
       const color2 = new Float32Array(__privateGet(this, _color));
       const lightDir = new Float32Array(__privateGet(this, _lightDir));
+      const twoSided = new Uint32Array([__privateGet(this, _twoSided) ? 1 : 0]);
       let offset = 0;
       device.queue.writeBuffer(buffer, offset, pm);
       offset += pm.byteLength;
@@ -14514,6 +14532,9 @@ const _PhongShading = class _PhongShading extends WithMatrices {
       device.queue.writeBuffer(buffer, offset, color2);
       offset += color2.byteLength;
       device.queue.writeBuffer(buffer, offset, lightDir);
+      offset += lightDir.byteLength;
+      device.queue.writeBuffer(buffer, offset, twoSided);
+      offset += twoSided.byteLength;
       __privateSet(this, _uniforms, buffer);
     }
     return buffer;
@@ -14610,6 +14631,10 @@ const _PhongShading = class _PhongShading extends WithMatrices {
           {
             binding: 0,
             resource: { buffer: this.uniforms }
+          },
+          {
+            binding: 1,
+            resource: { buffer: this.uniforms }
           }
         ]
       });
@@ -14628,19 +14653,21 @@ const _PhongShading = class _PhongShading extends WithMatrices {
 };
 _instance2 = new WeakMap();
 _color = new WeakMap();
+_twoSided = new WeakMap();
 _lightDir = new WeakMap();
 _uniforms = new WeakMap();
 _bindGroup = new WeakMap();
 __privateAdd(_PhongShading, _instance2, null);
-_PhongShading.makeState = ({ color: color2, topology }) => {
+_PhongShading.makeState = ({ color: color2, twoSided = false, topology }) => {
   color2 = [color2[0], color2[1], color2[2], color2[3]];
   const shader = _PhongShading.instance;
   return new State({
-    name: `${shader.type} state with color: ${color2.join(", ")}, topology: ${topology}`,
+    name: `${shader.type} state with color: ${color2.join(", ")}, twoSided: ${twoSided}, topology: ${topology}`,
     shader,
     topology,
     apply: (() => {
       shader.color = color2;
+      shader.twoSided = twoSided;
     })
   });
 };
@@ -16587,7 +16614,6 @@ class Common extends Reader {
     if (points.length !== normals.length) {
       throw new Error(`Number of normals, ${normals.length}, is not equal to the number of points, ${points.length}`);
     }
-    const shader = PhongShading.instance;
     const group = new Group();
     const tris = new Geometry({ points, normals });
     {
@@ -16599,26 +16625,9 @@ class Common extends Reader {
         clampNumber(Math.random(), 0.2, 0.8),
         1
       ];
-      tris.state = new State({
-        name: `State with shader: ${shader.type}, color: ${color2.join(", ")}, topology: ${topology}`,
-        shader,
-        topology,
-        apply: (() => {
-          shader.color = color2;
-        })
-      });
+      tris.state = PhongShading.makeState({ color: color2, twoSided: true, topology });
       tris.getBoundingBox();
       group.addChild(tris);
-    }
-    {
-      const lines = buildTriangleEdges(tris);
-      if (lines) {
-        lines.state = SolidColor.makeState({
-          color: [0, 0, 0, 1],
-          topology: "line-list"
-        });
-      }
-      group.addChild(lines);
     }
     group.getBoundingBox();
     return group;
