@@ -8,7 +8,7 @@ var __accessCheck = (obj, member, msg) => member.has(obj) || __typeError("Cannot
 var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
-var _min, _max, _p0, _p1, _point, _normal, _c2, _r, _a, _id, _b, _instance, _isInitializing, _device, _preferredFormat, _values, _buffer, _code, _module, _data, _device2, _projMatrix, _viewMatrix, _instance2, _color, _lightDir, _uniforms, _bindGroup, _instance3, _color2, _uniforms2, _bindGroup2, _state, _parents, _flags, _children, _box, _matrix, _topology, _first, _count, _indices, _points, _normals, _colors, _texCoords, _primitives, _box2, _center, _radius, _numSubdivisions, _name, _layer, _bin, _shader, _topology2, _apply, _reset, _state2, _shapes, _matrix2, _stateGroupMap, _matrix3, _viewMatrixMap, _shader2, _topology3, _projMatrixMap, _pipelines, _bins, _layers, _viewMatrix2, _projMatrix2, _root, _defaultState, _currentState, _info, _states, _shaders, _context, _depthTexture, _clearColor, _renderPassEncoder, _commandEncoder, _geometry, _info2, _wasDirty, _indices2, _points2, _colors2, _geom, _progress, _fov, _aspect, _near, _far, _matrix4, _inverse, _mode, _state3, _fun, _name2, _startTime, _duration, _axis, _angle, _space, _resetRotation, _scaleIn, _scaleOut, _scale, _scale2, _canvas, _context2, _observer, _viewport, _scene, _projection, _handles, _frame, _visitors, _root2, _defaultState2, _clearColor2, _info3, _eventListeners, _mouse, _navBase, _eventHandlers, _keyboardListeners, _mouseListeners, _clientListeners, _branches, _keysDown, _animations, _options, _c, _commands, _inputToCommand;
+var _min, _max, _p0, _p1, _point, _normal, _c2, _r, _a, _id, _b, _instance, _isInitializing, _device, _preferredFormat, _values, _buffer, _state, _parents, _flags, _children, _box, _matrix, _topology, _first, _count, _indices, _points, _normals, _colors, _texCoords, _primitives, _box2, _center, _radius, _numSubdivisions, _name, _layer, _bin, _shader, _topology2, _apply, _reset, _code, _module, _data, _device2, _projMatrix, _viewMatrix, _instance2, _color, _lightDir, _uniforms, _bindGroup, _instance3, _color2, _uniforms2, _bindGroup2, _state2, _shapes, _matrix2, _stateGroupMap, _matrix3, _viewMatrixMap, _shader2, _topology3, _projMatrixMap, _pipelines, _bins, _layers, _viewMatrix2, _projMatrix2, _root, _defaultState, _currentState, _info, _states, _shaders, _context, _depthTexture, _clearColor, _renderPassEncoder, _commandEncoder, _geometry, _info2, _wasDirty, _indices2, _points2, _colors2, _geom, _progress, _fov, _aspect, _near, _far, _matrix4, _inverse, _mode, _state3, _fun, _name2, _startTime, _duration, _axis, _angle, _space, _resetRotation, _scaleIn, _scaleOut, _scale, _scale2, _canvas, _context2, _observer, _viewport, _scene, _projection, _handles, _frame, _visitors, _root2, _defaultState2, _clearColor2, _info3, _eventListeners, _mouse, _navBase, _eventHandlers, _keyboardListeners, _mouseListeners, _clientListeners, _branches, _keysDown, _animations, _options, _c, _commands, _inputToCommand;
 function _mergeNamespaces(n, m) {
   for (var i = 0; i < m.length; i++) {
     const e = m[i];
@@ -12930,642 +12930,6 @@ class Array1 {
 }
 _values = new WeakMap();
 _buffer = new WeakMap();
-class ShaderBase extends Base$1 {
-  /**
-   * Construct the class.
-   * @class
-   * @param {IShaderBaseInput} input - The input for the constructor.
-   */
-  constructor({ code: code2 }) {
-    super();
-    __privateAdd(this, _code);
-    __privateAdd(this, _module, null);
-    __privateAdd(this, _data, { pipeline: null, topology: null });
-    __privateAdd(this, _device2, 0);
-    if ("string" !== typeof code2) {
-      throw new Error(`Shader code type is: ${typeof code2}`);
-    }
-    __privateSet(this, _code, code2);
-  }
-  /**
-   * Destroy this instance.
-   */
-  destroy() {
-    this.reset();
-    super.destroy();
-  }
-  /**
-   * Reset the shader.
-   */
-  reset() {
-    __privateSet(this, _module, null);
-    __privateSet(this, _data, { pipeline: null, topology: null });
-    __privateSet(this, _device2, 0);
-  }
-  /**
-   * Get the shader code.
-   * @returns {string} The shader code.
-   */
-  get code() {
-    const code2 = __privateGet(this, _code);
-    if (!code2) {
-      throw new Error("Shader code is not set");
-    }
-    if ("string" !== typeof code2) {
-      throw new Error(`Shader code type is: ${typeof code2}`);
-    }
-    if (code2.length < 1) {
-      throw new Error("Shader code is empty");
-    }
-    return __privateGet(this, _code);
-  }
-  /**
-   * Get the shader module.
-   * @returns {GPUShaderModule} The shader module.
-   */
-  get module() {
-    const device = Device.instance.id;
-    if (__privateGet(this, _device2) !== device) {
-      __privateSet(this, _device2, device);
-      __privateSet(this, _module, null);
-      __privateSet(this, _data, { pipeline: null, topology: null });
-    }
-    if (!__privateGet(this, _module)) {
-      __privateSet(this, _module, Device.instance.device.createShaderModule({
-        label: this.type,
-        code: this.code
-      }));
-    }
-    return __privateGet(this, _module);
-  }
-  /**
-   * Get the pipeline. Make it if we have to.
-   * @param {GPUPrimitiveTopology} topology - The primitive topology.
-   * @returns {GPURenderPipeline} The render pipeline.
-   */
-  getPipeline(topology) {
-    let { pipeline } = __privateGet(this, _data);
-    const { topology: currentTopology } = __privateGet(this, _data);
-    if (!pipeline || topology !== currentTopology) {
-      pipeline = this.makePipeline(topology);
-      __privateSet(this, _data, { pipeline, topology });
-    }
-    return pipeline;
-  }
-}
-_code = new WeakMap();
-_module = new WeakMap();
-_data = new WeakMap();
-_device2 = new WeakMap();
-class WithMatrices extends ShaderBase {
-  /**
-   * Construct the class.
-   * @class
-   * @param {IWithMatricesInput} [input] - The input for the shader.
-   */
-  constructor(input) {
-    super(input);
-    __privateAdd(this, _projMatrix, [...IDENTITY_MATRIX]);
-    __privateAdd(this, _viewMatrix, [...IDENTITY_MATRIX]);
-  }
-  /**
-   * Destroy this instance.
-   */
-  destroy() {
-    super.destroy();
-  }
-  /**
-   * Return the class name.
-   * @returns {string} The class name.
-   */
-  getClassName() {
-    return "Shaders.WithMatrices";
-  }
-  /**
-   * Get the projection matrix.
-   * @returns {IMatrix44} The projection matrix.
-   */
-  get projMatrix() {
-    return __privateGet(this, _projMatrix);
-  }
-  /**
-   * Set the projection matrix.
-   * @param {IMatrix44} matrix - The projection matrix.
-   */
-  set projMatrix(matrix) {
-    copy$2(__privateGet(this, _projMatrix), matrix);
-  }
-  /**
-   * Get the view matrix.
-   * @returns {IMatrix44} The view matrix.
-   */
-  get viewMatrix() {
-    return __privateGet(this, _viewMatrix);
-  }
-  /**
-   * Set the view matrix.
-   * @param {IMatrix44} matrix - The view matrix.
-   */
-  set viewMatrix(matrix) {
-    copy$2(__privateGet(this, _viewMatrix), matrix);
-  }
-}
-_projMatrix = new WeakMap();
-_viewMatrix = new WeakMap();
-const code$1 = "///////////////////////////////////////////////////////////////////////////////\n//\n//	Copyright (c) 2025, Perry L Miller IV\n//	All rights reserved.\n//	MIT License: https://opensource.org/licenses/mit-license.html\n//\n///////////////////////////////////////////////////////////////////////////////\n\n///////////////////////////////////////////////////////////////////////////////\n//\n//	Shader code that renders with Phong shading.\n//	https://gist.github.com/ccincotti3/f5bbfca9acd27c0efb9a2d22509b5aca\n//\n///////////////////////////////////////////////////////////////////////////////\n\nstruct Uniforms\n{\n	projMatrix: mat4x4f,\n	viewMatrix: mat4x4f,\n	color: vec4f,\n	lightDir: vec3f,\n};\n\n@group ( 0 ) @binding ( 0 ) var<uniform> uniforms : Uniforms;\n\nstruct VertexOut\n{\n	@builtin ( position ) position : vec4f,\n	@location ( 0 ) normal : vec3f,\n};\n\n@vertex fn vs ( @location ( 0 ) position: vec4f, @location ( 1 ) normal: vec3f ) -> VertexOut\n{\n	// The answer.\n	var answer : VertexOut;\n\n	// Transform the position to view space.\n	answer.position = uniforms.projMatrix * uniforms.viewMatrix * position;\n\n	// Transform the normal to view space. We ignore the translation.\n	answer.normal = normalize ( ( uniforms.viewMatrix * vec4f ( normal, 0.0 ) ).xyz );\n\n	// Return the answer.\n	return answer;\n}\n\n@fragment fn fs ( fragData: VertexOut ) -> @location ( 0 ) vec4f\n{\n	// Make sure the normal vector is unit length.\n	let normal = normalize ( fragData.normal );\n\n	// Calculate the diffuse lighting factor.\n	let diffuse = max ( dot ( normal, -uniforms.lightDir ), 0.0 );\n\n	// Calculate the color, assuming that the canvas is configured\n	// for pre-multiplied alpha.\n	return vec4 ( uniforms.color.rgb * diffuse * uniforms.color.a, uniforms.color.a );\n}\n";
-const _PhongShading = class _PhongShading extends WithMatrices {
-  /**
-   * Construct the class.
-   * @class
-   * @param {IPhongShadingShaderInput} [input] - The input.
-   */
-  constructor(input) {
-    const topology = input == null ? void 0 : input.topology;
-    super({
-      code: code$1,
-      topology: topology ?? "triangle-list"
-    });
-    __privateAdd(this, _color, [0.5, 0.5, 0.5, 1]);
-    __privateAdd(this, _lightDir, [0, 0, -1, 0]);
-    __privateAdd(this, _uniforms, null);
-    __privateAdd(this, _bindGroup, null);
-  }
-  /**
-   * Destroy this instance.
-   */
-  destroy() {
-    this.reset();
-    super.destroy();
-  }
-  /**
-   * Reset the shader.
-   */
-  reset() {
-    if (__privateGet(this, _uniforms)) {
-      __privateGet(this, _uniforms).destroy();
-      __privateSet(this, _uniforms, null);
-    }
-    __privateSet(this, _bindGroup, null);
-    super.reset();
-  }
-  /**
-   * Get the singleton instance.
-   * @returns {PhongShading} The singleton instance.
-   */
-  static get instance() {
-    if (!__privateGet(_PhongShading, _instance2)) {
-      __privateSet(_PhongShading, _instance2, new _PhongShading());
-    }
-    return __privateGet(_PhongShading, _instance2);
-  }
-  /**
-   * Destroy the singleton instance.
-   */
-  static destroy() {
-    if (__privateGet(_PhongShading, _instance2)) {
-      __privateGet(_PhongShading, _instance2).destroy();
-      __privateSet(_PhongShading, _instance2, null);
-    }
-  }
-  /**
-   * Return the class name.
-   * @returns {string} The class name.
-   */
-  getClassName() {
-    return "Shaders.PhongShading";
-  }
-  /**
-   * Get the name.
-   * @returns {string} The name of the shader.
-   */
-  get name() {
-    const color2 = this.color.join(", ");
-    const lightDir = this.lightDir.join(", ");
-    return `${this.type} with color [${color2}] and light direction [${lightDir}]`;
-  }
-  /**
-   * Get the view matrix.
-   * @returns {IMatrix44} The view matrix.
-   */
-  get viewMatrix() {
-    return super.viewMatrix;
-  }
-  /**
-   * Set the view matrix. Overload if needed.
-   * @param {IMatrix44} matrix - The view matrix.
-   */
-  set viewMatrix(matrix) {
-    super.viewMatrix = matrix;
-    __privateSet(this, _uniforms, null);
-    __privateSet(this, _bindGroup, null);
-  }
-  /**
-   * Return the color.
-   * @returns {IVector4} The color.
-   */
-  get color() {
-    return [...__privateGet(this, _color)];
-  }
-  /**
-   * Set the color.
-   * @param {IVector4} color - The color.
-   */
-  set color(color2) {
-    copy(__privateGet(this, _color), color2);
-    __privateSet(this, _uniforms, null);
-    __privateSet(this, _bindGroup, null);
-  }
-  /**
-   * Return the light direction.
-   * @returns {IVector4} The light direction.
-   */
-  get lightDir() {
-    return [...__privateGet(this, _lightDir)];
-  }
-  /**
-   * Set the light direction.
-   * @param {IVector4} lightDir - The light direction.
-   */
-  set lightDir(lightDir) {
-    copy(__privateGet(this, _lightDir), lightDir);
-    __privateSet(this, _uniforms, null);
-    __privateSet(this, _bindGroup, null);
-  }
-  /**
-   * Return the uniform buffer.
-   * @returns {GPUBuffer | null} The uniform buffer.
-   */
-  get uniforms() {
-    let buffer = __privateGet(this, _uniforms);
-    if (!buffer) {
-      const device = Device.instance.device;
-      buffer = device.createBuffer({
-        label: `Uniform buffer for shader ${this.type} ${this.id}`,
-        size: (16 + 16 + 4 + 4) * 4,
-        // Two 4x4 matrices + 4D color + 4D light, 4 bytes each.
-        usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST
-      });
-      const pm = new Float32Array(this.projMatrix);
-      const vm = new Float32Array(this.viewMatrix);
-      const color2 = new Float32Array(__privateGet(this, _color));
-      const lightDir = new Float32Array(__privateGet(this, _lightDir));
-      let offset = 0;
-      device.queue.writeBuffer(buffer, offset, pm);
-      offset += pm.byteLength;
-      device.queue.writeBuffer(buffer, offset, vm);
-      offset += vm.byteLength;
-      device.queue.writeBuffer(buffer, offset, color2);
-      offset += color2.byteLength;
-      device.queue.writeBuffer(buffer, offset, lightDir);
-      __privateSet(this, _uniforms, buffer);
-    }
-    return buffer;
-  }
-  /**
-   * Make the render pipeline.
-   * @param {GPUPrimitiveTopology} topology - The primitive topology.
-   * @returns {GPURenderPipeline} The render pipeline.
-   */
-  makePipeline(topology) {
-    const { device, preferredFormat } = Device.instance;
-    const arrayStride = 12;
-    const pipeline = device.createRenderPipeline({
-      label: `Render pipeline for shader ${this.type}`,
-      layout: "auto",
-      vertex: {
-        module: this.module,
-        entryPoint: "vs",
-        buffers: [
-          {
-            attributes: [
-              {
-                // Position
-                shaderLocation: 0,
-                offset: 0,
-                format: "float32x3"
-              }
-            ],
-            arrayStride,
-            stepMode: "vertex"
-          },
-          {
-            attributes: [
-              {
-                // Normal vector
-                shaderLocation: 1,
-                offset: 0,
-                format: "float32x3"
-              }
-            ],
-            arrayStride,
-            stepMode: "vertex"
-          }
-        ]
-      },
-      fragment: {
-        module: this.module,
-        entryPoint: "fs",
-        targets: [{
-          format: preferredFormat,
-          blend: {
-            color: {
-              srcFactor: "one",
-              dstFactor: "one-minus-src-alpha"
-            },
-            alpha: {
-              srcFactor: "one",
-              dstFactor: "one-minus-src-alpha"
-            }
-          }
-        }]
-      },
-      primitive: {
-        topology
-      },
-      depthStencil: {
-        depthWriteEnabled: true,
-        depthCompare: "less",
-        format: "depth24plus"
-      }
-    });
-    if (!pipeline) {
-      throw new Error("Failed to create pipeline");
-    }
-    return pipeline;
-  }
-  /**
-   * Get the bind group.
-   * @param {GPUPrimitiveTopology} topology - The primitive topology.
-   * @returns {GPUBindGroup} The bind group.
-   */
-  getBindGroup(topology) {
-    let bindGroup = __privateGet(this, _bindGroup);
-    if (!bindGroup) {
-      const pipeline = this.getPipeline(topology);
-      const device = Device.instance.device;
-      const index = 0;
-      const layout = pipeline.getBindGroupLayout(index);
-      layout.label = `Bind group layout ${index} for shader ${this.type}`;
-      bindGroup = device.createBindGroup({
-        label: `Bind group for shader ${this.type}`,
-        layout,
-        entries: [
-          {
-            binding: 0,
-            resource: { buffer: this.uniforms }
-          }
-        ]
-      });
-      __privateSet(this, _bindGroup, bindGroup);
-    }
-    return bindGroup;
-  }
-  /**
-   * Configure the render pass.
-   * @param {GPURenderPassEncoder} pass - The render pass encoder.
-   * @param {GPUPrimitiveTopology} topology - The primitive topology.
-   */
-  configureRenderPass(pass, topology) {
-    pass.setBindGroup(0, this.getBindGroup(topology));
-  }
-};
-_instance2 = new WeakMap();
-_color = new WeakMap();
-_lightDir = new WeakMap();
-_uniforms = new WeakMap();
-_bindGroup = new WeakMap();
-__privateAdd(_PhongShading, _instance2, null);
-let PhongShading = _PhongShading;
-const code = "///////////////////////////////////////////////////////////////////////////////\n//\n//	Copyright (c) 2025, Perry L Miller IV\n//	All rights reserved.\n//	MIT License: https://opensource.org/licenses/mit-license.html\n//\n///////////////////////////////////////////////////////////////////////////////\n\n///////////////////////////////////////////////////////////////////////////////\n//\n//	Shader code that renders a solid color.\n//	https://gist.github.com/ccincotti3/f5bbfca9acd27c0efb9a2d22509b5aca\n//\n///////////////////////////////////////////////////////////////////////////////\n\nstruct Uniforms\n{\n	projMatrix: mat4x4f,\n	viewMatrix: mat4x4f,\n	color: vec4f,\n};\n\n@group ( 0 ) @binding ( 0 ) var<uniform> uniforms : Uniforms;\n\nstruct VertexOut\n{\n	@builtin ( position ) position : vec4f,\n};\n\n@vertex fn vs ( @location ( 0 ) position: vec4f ) -> VertexOut\n{\n	var output : VertexOut;\n	output.position = uniforms.projMatrix * uniforms.viewMatrix * position;\n	return output;\n}\n\n@fragment fn fs ( fragData: VertexOut ) -> @location ( 0 ) vec4f\n{\n	// We assume that the canvas is configured for pre-multiplied alpha.\n	return vec4 ( uniforms.color.rgb * uniforms.color.a, uniforms.color.a );\n}\n";
-const _SolidColor = class _SolidColor extends WithMatrices {
-  /**
-   * Construct the class.
-   * @class
-   * @param {ISolidColorShaderInput} [input] - The input.
-   */
-  constructor(input) {
-    const topology = input == null ? void 0 : input.topology;
-    super({
-      code,
-      topology: topology ?? "triangle-list"
-    });
-    __privateAdd(this, _color2, [0.5, 0.5, 0.5, 1]);
-    __privateAdd(this, _uniforms2, null);
-    __privateAdd(this, _bindGroup2, null);
-  }
-  /**
-   * Destroy this instance.
-   */
-  destroy() {
-    this.reset();
-    super.destroy();
-  }
-  /**
-   * Reset the shader.
-   */
-  reset() {
-    if (__privateGet(this, _uniforms2)) {
-      __privateGet(this, _uniforms2).destroy();
-      __privateSet(this, _uniforms2, null);
-    }
-    __privateSet(this, _bindGroup2, null);
-    super.reset();
-  }
-  /**
-   * Get the singleton instance.
-   * @returns {SolidColor} The singleton instance.
-   */
-  static get instance() {
-    if (!__privateGet(_SolidColor, _instance3)) {
-      __privateSet(_SolidColor, _instance3, new _SolidColor());
-    }
-    return __privateGet(_SolidColor, _instance3);
-  }
-  /**
-   * Destroy the singleton instance.
-   */
-  static destroy() {
-    if (__privateGet(_SolidColor, _instance3)) {
-      __privateGet(_SolidColor, _instance3).destroy();
-      __privateSet(_SolidColor, _instance3, null);
-    }
-  }
-  /**
-   * Return the class name.
-   * @returns {string} The class name.
-   */
-  getClassName() {
-    return "Shaders.SolidColor";
-  }
-  /**
-   * Get the name.
-   * @returns {string} The name of the shader.
-   */
-  get name() {
-    const color2 = this.color.join(", ");
-    return `${this.type} with color [${color2}]`;
-  }
-  /**
-   * Get the view matrix.
-   * @returns {IMatrix44} The view matrix.
-   */
-  get viewMatrix() {
-    return super.viewMatrix;
-  }
-  /**
-   * Set the view matrix. Overload if needed.
-   * @param {IMatrix44} matrix - The view matrix.
-   */
-  set viewMatrix(matrix) {
-    super.viewMatrix = matrix;
-    __privateSet(this, _uniforms2, null);
-    __privateSet(this, _bindGroup2, null);
-  }
-  /**
-   * Return the color.
-   * @returns {IVector4} The color.
-   */
-  get color() {
-    return [...__privateGet(this, _color2)];
-  }
-  /**
-   * Set the color.
-   * @param {IVector4} color - The color.
-   */
-  set color(color2) {
-    copy(__privateGet(this, _color2), color2);
-    __privateSet(this, _uniforms2, null);
-    __privateSet(this, _bindGroup2, null);
-  }
-  /**
-   * Return the uniform buffer.
-   * @returns {GPUBuffer | null} The uniform buffer.
-   */
-  get uniforms() {
-    let buffer = __privateGet(this, _uniforms2);
-    if (!buffer) {
-      const device = Device.instance.device;
-      buffer = device.createBuffer({
-        label: `Uniform buffer for shader ${this.type} ${this.id}`,
-        size: (16 + 16 + 4) * 4,
-        // Two 4x4 matrices + 4D color, 4 bytes each.
-        usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST
-      });
-      const pm = new Float32Array(this.projMatrix);
-      const vm = new Float32Array(this.viewMatrix);
-      const color2 = new Float32Array(__privateGet(this, _color2));
-      let offset = 0;
-      device.queue.writeBuffer(buffer, offset, pm);
-      offset += pm.byteLength;
-      device.queue.writeBuffer(buffer, offset, vm);
-      offset += vm.byteLength;
-      device.queue.writeBuffer(buffer, offset, color2);
-      __privateSet(this, _uniforms2, buffer);
-    }
-    return buffer;
-  }
-  /**
-   * Make the render pipeline.
-   * @param {GPUPrimitiveTopology} topology - The primitive topology.
-   * @returns {GPURenderPipeline} The render pipeline.
-   */
-  makePipeline(topology) {
-    const { device, preferredFormat } = Device.instance;
-    const arrayStride = 12;
-    const pipeline = device.createRenderPipeline({
-      label: `Render pipeline for shader ${this.type}`,
-      layout: "auto",
-      vertex: {
-        module: this.module,
-        entryPoint: "vs",
-        buffers: [
-          {
-            attributes: [
-              {
-                // Position
-                shaderLocation: 0,
-                offset: 0,
-                format: "float32x3"
-              }
-            ],
-            arrayStride,
-            stepMode: "vertex"
-          }
-        ]
-      },
-      fragment: {
-        module: this.module,
-        entryPoint: "fs",
-        targets: [{
-          format: preferredFormat,
-          blend: {
-            color: {
-              srcFactor: "one",
-              dstFactor: "one-minus-src-alpha"
-            },
-            alpha: {
-              srcFactor: "one",
-              dstFactor: "one-minus-src-alpha"
-            }
-          }
-        }]
-      },
-      primitive: {
-        topology
-      },
-      depthStencil: {
-        depthWriteEnabled: true,
-        depthCompare: "less",
-        format: "depth24plus"
-      }
-    });
-    if (!pipeline) {
-      throw new Error("Failed to create pipeline");
-    }
-    return pipeline;
-  }
-  /**
-   * Get the bind group.
-   * @param {GPUPrimitiveTopology} topology - The primitive topology.
-   * @returns {GPUBindGroup} The bind group.
-   */
-  getBindGroup(topology) {
-    let bindGroup = __privateGet(this, _bindGroup2);
-    if (!bindGroup) {
-      const pipeline = this.getPipeline(topology);
-      const device = Device.instance.device;
-      const index = 0;
-      const layout = pipeline.getBindGroupLayout(index);
-      layout.label = `Bind group layout ${index} for shader ${this.type}`;
-      bindGroup = device.createBindGroup({
-        label: `Bind group for shader ${this.type}`,
-        layout,
-        entries: [
-          {
-            binding: 0,
-            resource: { buffer: this.uniforms }
-          }
-        ]
-      });
-      __privateSet(this, _bindGroup2, bindGroup);
-    }
-    return bindGroup;
-  }
-  /**
-   * Configure the render pass.
-   * @param {GPURenderPassEncoder} pass - The render pass encoder.
-   * @param {GPUPrimitiveTopology} topology - The primitive topology.
-   */
-  configureRenderPass(pass, topology) {
-    pass.setBindGroup(0, this.getBindGroup(topology));
-  }
-};
-_instance3 = new WeakMap();
-_color2 = new WeakMap();
-_uniforms2 = new WeakMap();
-_bindGroup2 = new WeakMap();
-__privateAdd(_SolidColor, _instance3, null);
-let SolidColor = _SolidColor;
 var Flags = /* @__PURE__ */ ((Flags2) => {
   Flags2[Flags2["ADDS_TO_BOUNDS"] = 1] = "ADDS_TO_BOUNDS";
   Flags2[Flags2["CLIPPED"] = 2] = "CLIPPED";
@@ -14863,7 +14227,667 @@ _shader = new WeakMap();
 _topology2 = new WeakMap();
 _apply = new WeakMap();
 _reset = new WeakMap();
-const makeSolidColorState$1 = ({ color: color2, topology }) => {
+class ShaderBase extends Base$1 {
+  /**
+   * Construct the class.
+   * @class
+   * @param {IShaderBaseInput} input - The input for the constructor.
+   */
+  constructor({ code: code2 }) {
+    super();
+    __privateAdd(this, _code);
+    __privateAdd(this, _module, null);
+    __privateAdd(this, _data, { pipeline: null, topology: null });
+    __privateAdd(this, _device2, 0);
+    if ("string" !== typeof code2) {
+      throw new Error(`Shader code type is: ${typeof code2}`);
+    }
+    __privateSet(this, _code, code2);
+  }
+  /**
+   * Destroy this instance.
+   */
+  destroy() {
+    this.reset();
+    super.destroy();
+  }
+  /**
+   * Reset the shader.
+   */
+  reset() {
+    __privateSet(this, _module, null);
+    __privateSet(this, _data, { pipeline: null, topology: null });
+    __privateSet(this, _device2, 0);
+  }
+  /**
+   * Get the shader code.
+   * @returns {string} The shader code.
+   */
+  get code() {
+    const code2 = __privateGet(this, _code);
+    if (!code2) {
+      throw new Error("Shader code is not set");
+    }
+    if ("string" !== typeof code2) {
+      throw new Error(`Shader code type is: ${typeof code2}`);
+    }
+    if (code2.length < 1) {
+      throw new Error("Shader code is empty");
+    }
+    return __privateGet(this, _code);
+  }
+  /**
+   * Get the shader module.
+   * @returns {GPUShaderModule} The shader module.
+   */
+  get module() {
+    const device = Device.instance.id;
+    if (__privateGet(this, _device2) !== device) {
+      __privateSet(this, _device2, device);
+      __privateSet(this, _module, null);
+      __privateSet(this, _data, { pipeline: null, topology: null });
+    }
+    if (!__privateGet(this, _module)) {
+      __privateSet(this, _module, Device.instance.device.createShaderModule({
+        label: this.type,
+        code: this.code
+      }));
+    }
+    return __privateGet(this, _module);
+  }
+  /**
+   * Get the pipeline. Make it if we have to.
+   * @param {GPUPrimitiveTopology} topology - The primitive topology.
+   * @returns {GPURenderPipeline} The render pipeline.
+   */
+  getPipeline(topology) {
+    let { pipeline } = __privateGet(this, _data);
+    const { topology: currentTopology } = __privateGet(this, _data);
+    if (!pipeline || topology !== currentTopology) {
+      pipeline = this.makePipeline(topology);
+      __privateSet(this, _data, { pipeline, topology });
+    }
+    return pipeline;
+  }
+}
+_code = new WeakMap();
+_module = new WeakMap();
+_data = new WeakMap();
+_device2 = new WeakMap();
+class WithMatrices extends ShaderBase {
+  /**
+   * Construct the class.
+   * @class
+   * @param {IWithMatricesInput} [input] - The input for the shader.
+   */
+  constructor(input) {
+    super(input);
+    __privateAdd(this, _projMatrix, [...IDENTITY_MATRIX]);
+    __privateAdd(this, _viewMatrix, [...IDENTITY_MATRIX]);
+  }
+  /**
+   * Destroy this instance.
+   */
+  destroy() {
+    super.destroy();
+  }
+  /**
+   * Return the class name.
+   * @returns {string} The class name.
+   */
+  getClassName() {
+    return "Shaders.WithMatrices";
+  }
+  /**
+   * Get the projection matrix.
+   * @returns {IMatrix44} The projection matrix.
+   */
+  get projMatrix() {
+    return __privateGet(this, _projMatrix);
+  }
+  /**
+   * Set the projection matrix.
+   * @param {IMatrix44} matrix - The projection matrix.
+   */
+  set projMatrix(matrix) {
+    copy$2(__privateGet(this, _projMatrix), matrix);
+  }
+  /**
+   * Get the view matrix.
+   * @returns {IMatrix44} The view matrix.
+   */
+  get viewMatrix() {
+    return __privateGet(this, _viewMatrix);
+  }
+  /**
+   * Set the view matrix.
+   * @param {IMatrix44} matrix - The view matrix.
+   */
+  set viewMatrix(matrix) {
+    copy$2(__privateGet(this, _viewMatrix), matrix);
+  }
+}
+_projMatrix = new WeakMap();
+_viewMatrix = new WeakMap();
+const code$1 = "///////////////////////////////////////////////////////////////////////////////\n//\n//	Copyright (c) 2025, Perry L Miller IV\n//	All rights reserved.\n//	MIT License: https://opensource.org/licenses/mit-license.html\n//\n///////////////////////////////////////////////////////////////////////////////\n\n///////////////////////////////////////////////////////////////////////////////\n//\n//	Shader code that renders with Phong shading.\n//	https://gist.github.com/ccincotti3/f5bbfca9acd27c0efb9a2d22509b5aca\n//\n///////////////////////////////////////////////////////////////////////////////\n\nstruct Uniforms\n{\n	projMatrix: mat4x4f,\n	viewMatrix: mat4x4f,\n	color: vec4f,\n	lightDir: vec3f,\n};\n\n@group ( 0 ) @binding ( 0 ) var<uniform> uniforms : Uniforms;\n\nstruct VertexOut\n{\n	@builtin ( position ) position : vec4f,\n	@location ( 0 ) normal : vec3f,\n};\n\n@vertex fn vs ( @location ( 0 ) position: vec4f, @location ( 1 ) normal: vec3f ) -> VertexOut\n{\n	// The answer.\n	var answer : VertexOut;\n\n	// Transform the position to view space.\n	answer.position = uniforms.projMatrix * uniforms.viewMatrix * position;\n\n	// Transform the normal to view space. We ignore the translation.\n	answer.normal = normalize ( ( uniforms.viewMatrix * vec4f ( normal, 0.0 ) ).xyz );\n\n	// Return the answer.\n	return answer;\n}\n\n@fragment fn fs ( fragData: VertexOut ) -> @location ( 0 ) vec4f\n{\n	// Make sure the normal vector is unit length.\n	let normal = normalize ( fragData.normal );\n\n	// Calculate the diffuse lighting factor.\n	let diffuse = max ( dot ( normal, -uniforms.lightDir ), 0.0 );\n\n	// Calculate the color, assuming that the canvas is configured\n	// for pre-multiplied alpha.\n	return vec4 ( uniforms.color.rgb * diffuse * uniforms.color.a, uniforms.color.a );\n}\n";
+const _PhongShading = class _PhongShading extends WithMatrices {
+  /**
+   * Construct the class.
+   * @class
+   * @param {IPhongShadingShaderInput} [input] - The input.
+   */
+  constructor(input) {
+    const topology = input == null ? void 0 : input.topology;
+    super({
+      code: code$1,
+      topology: topology ?? "triangle-list"
+    });
+    __privateAdd(this, _color, [0.5, 0.5, 0.5, 1]);
+    __privateAdd(this, _lightDir, [0, 0, -1, 0]);
+    __privateAdd(this, _uniforms, null);
+    __privateAdd(this, _bindGroup, null);
+  }
+  /**
+   * Destroy this instance.
+   */
+  destroy() {
+    this.reset();
+    super.destroy();
+  }
+  /**
+   * Reset the shader.
+   */
+  reset() {
+    if (__privateGet(this, _uniforms)) {
+      __privateGet(this, _uniforms).destroy();
+      __privateSet(this, _uniforms, null);
+    }
+    __privateSet(this, _bindGroup, null);
+    super.reset();
+  }
+  /**
+   * Get the singleton instance.
+   * @returns {PhongShading} The singleton instance.
+   */
+  static get instance() {
+    if (!__privateGet(_PhongShading, _instance2)) {
+      __privateSet(_PhongShading, _instance2, new _PhongShading());
+    }
+    return __privateGet(_PhongShading, _instance2);
+  }
+  /**
+   * Destroy the singleton instance.
+   */
+  static destroy() {
+    if (__privateGet(_PhongShading, _instance2)) {
+      __privateGet(_PhongShading, _instance2).destroy();
+      __privateSet(_PhongShading, _instance2, null);
+    }
+  }
+  /**
+   * Return the class name.
+   * @returns {string} The class name.
+   */
+  getClassName() {
+    return "Shaders.PhongShading";
+  }
+  /**
+   * Get the name.
+   * @returns {string} The name of the shader.
+   */
+  get name() {
+    const color2 = this.color.join(", ");
+    const lightDir = this.lightDir.join(", ");
+    return `${this.type} with color [${color2}] and light direction [${lightDir}]`;
+  }
+  /**
+   * Get the view matrix.
+   * @returns {IMatrix44} The view matrix.
+   */
+  get viewMatrix() {
+    return super.viewMatrix;
+  }
+  /**
+   * Set the view matrix. Overload if needed.
+   * @param {IMatrix44} matrix - The view matrix.
+   */
+  set viewMatrix(matrix) {
+    super.viewMatrix = matrix;
+    __privateSet(this, _uniforms, null);
+    __privateSet(this, _bindGroup, null);
+  }
+  /**
+   * Return the color.
+   * @returns {IVector4} The color.
+   */
+  get color() {
+    return [...__privateGet(this, _color)];
+  }
+  /**
+   * Set the color.
+   * @param {IVector4} color - The color.
+   */
+  set color(color2) {
+    copy(__privateGet(this, _color), color2);
+    __privateSet(this, _uniforms, null);
+    __privateSet(this, _bindGroup, null);
+  }
+  /**
+   * Return the light direction.
+   * @returns {IVector4} The light direction.
+   */
+  get lightDir() {
+    return [...__privateGet(this, _lightDir)];
+  }
+  /**
+   * Set the light direction.
+   * @param {IVector4} lightDir - The light direction.
+   */
+  set lightDir(lightDir) {
+    copy(__privateGet(this, _lightDir), lightDir);
+    __privateSet(this, _uniforms, null);
+    __privateSet(this, _bindGroup, null);
+  }
+  /**
+   * Return the uniform buffer.
+   * @returns {GPUBuffer | null} The uniform buffer.
+   */
+  get uniforms() {
+    let buffer = __privateGet(this, _uniforms);
+    if (!buffer) {
+      const device = Device.instance.device;
+      buffer = device.createBuffer({
+        label: `Uniform buffer for shader ${this.type} ${this.id}`,
+        size: (16 + 16 + 4 + 4) * 4,
+        // Two 4x4 matrices + 4D color + 4D light, 4 bytes each.
+        usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST
+      });
+      const pm = new Float32Array(this.projMatrix);
+      const vm = new Float32Array(this.viewMatrix);
+      const color2 = new Float32Array(__privateGet(this, _color));
+      const lightDir = new Float32Array(__privateGet(this, _lightDir));
+      let offset = 0;
+      device.queue.writeBuffer(buffer, offset, pm);
+      offset += pm.byteLength;
+      device.queue.writeBuffer(buffer, offset, vm);
+      offset += vm.byteLength;
+      device.queue.writeBuffer(buffer, offset, color2);
+      offset += color2.byteLength;
+      device.queue.writeBuffer(buffer, offset, lightDir);
+      __privateSet(this, _uniforms, buffer);
+    }
+    return buffer;
+  }
+  /**
+   * Make the render pipeline.
+   * @param {GPUPrimitiveTopology} topology - The primitive topology.
+   * @returns {GPURenderPipeline} The render pipeline.
+   */
+  makePipeline(topology) {
+    const { device, preferredFormat } = Device.instance;
+    const arrayStride = 12;
+    const pipeline = device.createRenderPipeline({
+      label: `Render pipeline for shader ${this.type}`,
+      layout: "auto",
+      vertex: {
+        module: this.module,
+        entryPoint: "vs",
+        buffers: [
+          {
+            attributes: [
+              {
+                // Position
+                shaderLocation: 0,
+                offset: 0,
+                format: "float32x3"
+              }
+            ],
+            arrayStride,
+            stepMode: "vertex"
+          },
+          {
+            attributes: [
+              {
+                // Normal vector
+                shaderLocation: 1,
+                offset: 0,
+                format: "float32x3"
+              }
+            ],
+            arrayStride,
+            stepMode: "vertex"
+          }
+        ]
+      },
+      fragment: {
+        module: this.module,
+        entryPoint: "fs",
+        targets: [{
+          format: preferredFormat,
+          blend: {
+            color: {
+              srcFactor: "one",
+              dstFactor: "one-minus-src-alpha"
+            },
+            alpha: {
+              srcFactor: "one",
+              dstFactor: "one-minus-src-alpha"
+            }
+          }
+        }]
+      },
+      primitive: {
+        topology
+      },
+      depthStencil: {
+        depthWriteEnabled: true,
+        depthCompare: "less",
+        format: "depth24plus"
+      }
+    });
+    if (!pipeline) {
+      throw new Error("Failed to create pipeline");
+    }
+    return pipeline;
+  }
+  /**
+   * Get the bind group.
+   * @param {GPUPrimitiveTopology} topology - The primitive topology.
+   * @returns {GPUBindGroup} The bind group.
+   */
+  getBindGroup(topology) {
+    let bindGroup = __privateGet(this, _bindGroup);
+    if (!bindGroup) {
+      const pipeline = this.getPipeline(topology);
+      const device = Device.instance.device;
+      const index = 0;
+      const layout = pipeline.getBindGroupLayout(index);
+      layout.label = `Bind group layout ${index} for shader ${this.type}`;
+      bindGroup = device.createBindGroup({
+        label: `Bind group for shader ${this.type}`,
+        layout,
+        entries: [
+          {
+            binding: 0,
+            resource: { buffer: this.uniforms }
+          }
+        ]
+      });
+      __privateSet(this, _bindGroup, bindGroup);
+    }
+    return bindGroup;
+  }
+  /**
+   * Configure the render pass.
+   * @param {GPURenderPassEncoder} pass - The render pass encoder.
+   * @param {GPUPrimitiveTopology} topology - The primitive topology.
+   */
+  configureRenderPass(pass, topology) {
+    pass.setBindGroup(0, this.getBindGroup(topology));
+  }
+};
+_instance2 = new WeakMap();
+_color = new WeakMap();
+_lightDir = new WeakMap();
+_uniforms = new WeakMap();
+_bindGroup = new WeakMap();
+__privateAdd(_PhongShading, _instance2, null);
+_PhongShading.makeState = ({ color: color2, topology }) => {
+  color2 = [color2[0], color2[1], color2[2], color2[3]];
+  const shader = _PhongShading.instance;
+  return new State({
+    name: `${shader.type} state with color: ${color2.join(", ")}, topology: ${topology}`,
+    shader,
+    topology,
+    apply: (() => {
+      shader.color = color2;
+    })
+  });
+};
+let PhongShading = _PhongShading;
+const code = "///////////////////////////////////////////////////////////////////////////////\n//\n//	Copyright (c) 2025, Perry L Miller IV\n//	All rights reserved.\n//	MIT License: https://opensource.org/licenses/mit-license.html\n//\n///////////////////////////////////////////////////////////////////////////////\n\n///////////////////////////////////////////////////////////////////////////////\n//\n//	Shader code that renders a solid color.\n//	https://gist.github.com/ccincotti3/f5bbfca9acd27c0efb9a2d22509b5aca\n//\n///////////////////////////////////////////////////////////////////////////////\n\nstruct Uniforms\n{\n	projMatrix: mat4x4f,\n	viewMatrix: mat4x4f,\n	color: vec4f,\n};\n\n@group ( 0 ) @binding ( 0 ) var<uniform> uniforms : Uniforms;\n\nstruct VertexOut\n{\n	@builtin ( position ) position : vec4f,\n};\n\n@vertex fn vs ( @location ( 0 ) position: vec4f ) -> VertexOut\n{\n	var output : VertexOut;\n	output.position = uniforms.projMatrix * uniforms.viewMatrix * position;\n	return output;\n}\n\n@fragment fn fs ( fragData: VertexOut ) -> @location ( 0 ) vec4f\n{\n	// We assume that the canvas is configured for pre-multiplied alpha.\n	return vec4 ( uniforms.color.rgb * uniforms.color.a, uniforms.color.a );\n}\n";
+const _SolidColor = class _SolidColor extends WithMatrices {
+  /**
+   * Construct the class.
+   * @class
+   * @param {ISolidColorShaderInput} [input] - The input.
+   */
+  constructor(input) {
+    const topology = input == null ? void 0 : input.topology;
+    super({
+      code,
+      topology: topology ?? "triangle-list"
+    });
+    __privateAdd(this, _color2, [0.5, 0.5, 0.5, 1]);
+    __privateAdd(this, _uniforms2, null);
+    __privateAdd(this, _bindGroup2, null);
+  }
+  /**
+   * Destroy this instance.
+   */
+  destroy() {
+    this.reset();
+    super.destroy();
+  }
+  /**
+   * Reset the shader.
+   */
+  reset() {
+    if (__privateGet(this, _uniforms2)) {
+      __privateGet(this, _uniforms2).destroy();
+      __privateSet(this, _uniforms2, null);
+    }
+    __privateSet(this, _bindGroup2, null);
+    super.reset();
+  }
+  /**
+   * Get the singleton instance.
+   * @returns {SolidColor} The singleton instance.
+   */
+  static get instance() {
+    if (!__privateGet(_SolidColor, _instance3)) {
+      __privateSet(_SolidColor, _instance3, new _SolidColor());
+    }
+    return __privateGet(_SolidColor, _instance3);
+  }
+  /**
+   * Destroy the singleton instance.
+   */
+  static destroy() {
+    if (__privateGet(_SolidColor, _instance3)) {
+      __privateGet(_SolidColor, _instance3).destroy();
+      __privateSet(_SolidColor, _instance3, null);
+    }
+  }
+  /**
+   * Return the class name.
+   * @returns {string} The class name.
+   */
+  getClassName() {
+    return "Shaders.SolidColor";
+  }
+  /**
+   * Get the name.
+   * @returns {string} The name of the shader.
+   */
+  get name() {
+    const color2 = this.color.join(", ");
+    return `${this.type} with color [${color2}]`;
+  }
+  /**
+   * Get the view matrix.
+   * @returns {IMatrix44} The view matrix.
+   */
+  get viewMatrix() {
+    return super.viewMatrix;
+  }
+  /**
+   * Set the view matrix. Overload if needed.
+   * @param {IMatrix44} matrix - The view matrix.
+   */
+  set viewMatrix(matrix) {
+    super.viewMatrix = matrix;
+    __privateSet(this, _uniforms2, null);
+    __privateSet(this, _bindGroup2, null);
+  }
+  /**
+   * Return the color.
+   * @returns {IVector4} The color.
+   */
+  get color() {
+    return [...__privateGet(this, _color2)];
+  }
+  /**
+   * Set the color.
+   * @param {IVector4} color - The color.
+   */
+  set color(color2) {
+    copy(__privateGet(this, _color2), color2);
+    __privateSet(this, _uniforms2, null);
+    __privateSet(this, _bindGroup2, null);
+  }
+  /**
+   * Return the uniform buffer.
+   * @returns {GPUBuffer | null} The uniform buffer.
+   */
+  get uniforms() {
+    let buffer = __privateGet(this, _uniforms2);
+    if (!buffer) {
+      const device = Device.instance.device;
+      buffer = device.createBuffer({
+        label: `Uniform buffer for shader ${this.type} ${this.id}`,
+        size: (16 + 16 + 4) * 4,
+        // Two 4x4 matrices + 4D color, 4 bytes each.
+        usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST
+      });
+      const pm = new Float32Array(this.projMatrix);
+      const vm = new Float32Array(this.viewMatrix);
+      const color2 = new Float32Array(__privateGet(this, _color2));
+      let offset = 0;
+      device.queue.writeBuffer(buffer, offset, pm);
+      offset += pm.byteLength;
+      device.queue.writeBuffer(buffer, offset, vm);
+      offset += vm.byteLength;
+      device.queue.writeBuffer(buffer, offset, color2);
+      __privateSet(this, _uniforms2, buffer);
+    }
+    return buffer;
+  }
+  /**
+   * Make the render pipeline.
+   * @param {GPUPrimitiveTopology} topology - The primitive topology.
+   * @returns {GPURenderPipeline} The render pipeline.
+   */
+  makePipeline(topology) {
+    const { device, preferredFormat } = Device.instance;
+    const arrayStride = 12;
+    const pipeline = device.createRenderPipeline({
+      label: `Render pipeline for shader ${this.type}`,
+      layout: "auto",
+      vertex: {
+        module: this.module,
+        entryPoint: "vs",
+        buffers: [
+          {
+            attributes: [
+              {
+                // Position
+                shaderLocation: 0,
+                offset: 0,
+                format: "float32x3"
+              }
+            ],
+            arrayStride,
+            stepMode: "vertex"
+          }
+        ]
+      },
+      fragment: {
+        module: this.module,
+        entryPoint: "fs",
+        targets: [{
+          format: preferredFormat,
+          blend: {
+            color: {
+              srcFactor: "one",
+              dstFactor: "one-minus-src-alpha"
+            },
+            alpha: {
+              srcFactor: "one",
+              dstFactor: "one-minus-src-alpha"
+            }
+          }
+        }]
+      },
+      primitive: {
+        topology
+      },
+      depthStencil: {
+        depthWriteEnabled: true,
+        depthCompare: "less",
+        format: "depth24plus"
+      }
+    });
+    if (!pipeline) {
+      throw new Error("Failed to create pipeline");
+    }
+    return pipeline;
+  }
+  /**
+   * Get the bind group.
+   * @param {GPUPrimitiveTopology} topology - The primitive topology.
+   * @returns {GPUBindGroup} The bind group.
+   */
+  getBindGroup(topology) {
+    let bindGroup = __privateGet(this, _bindGroup2);
+    if (!bindGroup) {
+      const pipeline = this.getPipeline(topology);
+      const device = Device.instance.device;
+      const index = 0;
+      const layout = pipeline.getBindGroupLayout(index);
+      layout.label = `Bind group layout ${index} for shader ${this.type}`;
+      bindGroup = device.createBindGroup({
+        label: `Bind group for shader ${this.type}`,
+        layout,
+        entries: [
+          {
+            binding: 0,
+            resource: { buffer: this.uniforms }
+          }
+        ]
+      });
+      __privateSet(this, _bindGroup2, bindGroup);
+    }
+    return bindGroup;
+  }
+  /**
+   * Configure the render pass.
+   * @param {GPURenderPassEncoder} pass - The render pass encoder.
+   * @param {GPUPrimitiveTopology} topology - The primitive topology.
+   */
+  configureRenderPass(pass, topology) {
+    pass.setBindGroup(0, this.getBindGroup(topology));
+  }
+};
+_instance3 = new WeakMap();
+_color2 = new WeakMap();
+_uniforms2 = new WeakMap();
+_bindGroup2 = new WeakMap();
+__privateAdd(_SolidColor, _instance3, null);
+_SolidColor.makeState = ({ color: color2, topology }) => {
+  color2 = [color2[0], color2[1], color2[2], color2[3]];
+  const shader = _SolidColor.instance;
+  return new State({
+    name: `${shader.type} state with color: ${color2.join(", ")}, topology: ${topology}`,
+    shader,
+    topology,
+    apply: (() => {
+      shader.color = color2;
+    })
+  });
+};
+let SolidColor = _SolidColor;
+const makeSolidColorState = ({ color: color2, topology }) => {
   color2 = [color2[0], color2[1], color2[2], color2[3]];
   const shader = SolidColor.instance;
   return new State({
@@ -16251,7 +16275,7 @@ class BuildBoxes extends Multiply {
       const colors = new Float32Array(__privateGet(this, _colors2));
       const primitives = new Indexed({ topology: "line-list", indices });
       const geom = new Geometry({ points, colors, primitives });
-      geom.state = makeSolidColorState$1({ color: [0.5, 0.5, 0.5, 1], topology: "line-list" });
+      geom.state = makeSolidColorState({ color: [0.5, 0.5, 0.5, 1], topology: "line-list" });
       __privateSet(this, _geom, geom);
     }
     return __privateGet(this, _geom);
@@ -16585,6 +16609,16 @@ class Common extends Reader {
       });
       tris.getBoundingBox();
       group.addChild(tris);
+    }
+    {
+      const lines = buildTriangleEdges(tris);
+      if (lines) {
+        lines.state = SolidColor.makeState({
+          color: [0, 0, 0, 1],
+          topology: "line-list"
+        });
+      }
+      group.addChild(lines);
     }
     group.getBoundingBox();
     return group;
@@ -17687,7 +17721,7 @@ class Trackball extends NavBase {
     super();
     __privateAdd(this, _matrix4, null);
     __privateAdd(this, _inverse, null);
-    __privateAdd(this, _mode, "turn_table");
+    __privateAdd(this, _mode, "track_ball");
     __privateAdd(this, _state3, makeDefaultTrackballState());
   }
   /**
@@ -19973,18 +20007,6 @@ let Viewer$1 = (_c = class extends Surface {
     this.clientListeners.notify(this.makeEvent("post_render"));
   }
 }, _mouse = new WeakMap(), _navBase = new WeakMap(), _eventHandlers = new WeakMap(), _keyboardListeners = new WeakMap(), _mouseListeners = new WeakMap(), _clientListeners = new WeakMap(), _branches = new WeakMap(), _keysDown = new WeakMap(), _animations = new WeakMap(), _options = new WeakMap(), _commands = new WeakMap(), _inputToCommand = new WeakMap(), __privateAdd(_c, _commands, makeCommands()), __privateAdd(_c, _inputToCommand, makeInputToCommandMap()), _c);
-const makeSolidColorState = ({ color: color2, topology }) => {
-  color2 = [color2[0], color2[1], color2[2], color2[3]];
-  const shader = PhongShading.instance;
-  return new State({
-    name: `State with ${color2.join(", ")} ${topology}`,
-    shader,
-    topology,
-    apply: (() => {
-      shader.color = color2;
-    })
-  });
-};
 const buildSceneSphere = (sphere) => {
   const root = new Group();
   const node2 = new Sphere({
@@ -19992,14 +20014,14 @@ const buildSceneSphere = (sphere) => {
     radius: sphere.radius,
     numSubdivisions: 4
   });
-  node2.state = makeSolidColorState({
+  node2.state = PhongShading.makeState({
     color: [0.8, 0.2, 0.2, 1],
     topology: "triangle-list"
   });
   root.addChild(node2);
   const lines = buildTriangleEdges(node2);
   if (lines) {
-    lines.state = makeSolidColorState({
+    lines.state = SolidColor.makeState({
       color: [0, 0, 0, 1],
       topology: "line-list"
     });
