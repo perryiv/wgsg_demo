@@ -18508,15 +18508,12 @@ class Trackball extends NavBase {
         return;
       }
       {
-        const yAxis = [0, 1, 0];
-        const origin = [0, 0, 0];
-        transformMat4$1(yAxis, yAxis, this.viewMatrix);
-        transformMat4$1(origin, origin, this.viewMatrix);
-        subtract$1(yAxis, yAxis, origin);
-        normalize$2(yAxis, yAxis);
         const angle2 = (cm[1] - pm[1]) * DEG_TO_RAD * sensitivity[0] * scale2 * fraction;
-        rotateX(yAxis, yAxis, [0, 0, 0], angle2);
-        if (yAxis[1] >= 0) {
+        const globalUp = [0, 0, 0];
+        transformMat4$1(globalUp, this.localUp, this.rotationMatrix);
+        normalize$2(globalUp, globalUp);
+        rotateX(globalUp, globalUp, [0, 0, 0], angle2);
+        if (globalUp[1] >= 0) {
           this.rotateAxisAngle([1, 0, 0], angle2, "global");
         }
       }
@@ -18737,41 +18734,6 @@ class RotateX extends RotateAxisAngle {
   constructor(angle2) {
     super([1, 0, 0], angle2);
   }
-  /**
-   * Execute the command.
-   * @param {IEvent} event The event.
-   */
-  execute(event) {
-    const { viewer } = event;
-    const { navBase } = viewer;
-    const { localUp } = navBase;
-    if ("track_ball" === navBase.rotationMode) {
-      super.execute(event);
-      return;
-    }
-    if ("turn_table" !== navBase.rotationMode) {
-      throw new Error(`Unsupported rotation mode: ${navBase.rotationMode}`);
-    }
-    const originalAngle = this.angle;
-    const numSteps = 10;
-    for (let i = numSteps; i > 0; --i) {
-      const angle2 = originalAngle * (i / numSteps);
-      const yAxis = [...localUp];
-      const origin = [0, 0, 0];
-      transformMat4$1(yAxis, yAxis, navBase.viewMatrix);
-      transformMat4$1(origin, origin, navBase.viewMatrix);
-      subtract$1(yAxis, yAxis, origin);
-      normalize$2(yAxis, yAxis);
-      rotateX(yAxis, yAxis, [0, 0, 0], angle2);
-      if (yAxis[1] < 0) {
-        return;
-      }
-      this.angle = angle2;
-      super.execute(event);
-      this.angle = originalAngle;
-      return;
-    }
-  }
 }
 class RotateY extends RotateAxisAngle {
   /**
@@ -18781,20 +18743,6 @@ class RotateY extends RotateAxisAngle {
    */
   constructor(angle2) {
     super([0, 1, 0], angle2);
-  }
-  /**
-   * Execute the command.
-   * @param {IEvent} event The event.
-   */
-  execute(event) {
-    const { viewer } = event;
-    const { navBase } = viewer;
-    const mode = navBase.rotationMode;
-    if (!mode) {
-      return;
-    }
-    this.space = "turn_table" === mode ? "local" : "global";
-    super.execute(event);
   }
 }
 class RotateZ extends RotateAxisAngle {
@@ -20703,7 +20651,7 @@ function App() {
   );
   const buildTimeStamp = reactExports.useMemo(
     () => {
-      const date = /* @__PURE__ */ new Date(1777610588956);
+      const date = /* @__PURE__ */ new Date(1777614268752);
       const Y = date.getFullYear();
       const M = String(date.getMonth() + 1).padStart(2, "0");
       const D = String(date.getDate()).padStart(2, "0");
@@ -32850,4 +32798,4 @@ clientExports.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ jsxRuntimeExports.jsx(App, {})
   ] }) })
 );
-//# sourceMappingURL=index-BLe-2fdR.js.map
+//# sourceMappingURL=index-CcXR4r_Q.js.map
