@@ -8,7 +8,7 @@ var __accessCheck = (obj, member, msg) => member.has(obj) || __typeError("Cannot
 var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
-var _min, _max, _p0, _p1, _point, _normal, _c2, _r, _a, _id, _b, _instance, _isInitializing, _device, _preferredFormat, _values, _buffer, _state, _parents, _flags, _children, _box, _matrix, _topology, _first, _count, _indices, _points, _normals, _colors, _texCoords, _primitives, _box2, _center, _radius, _numSubdivisions, _name, _layer, _bin, _shader, _topology2, _apply, _reset, _code, _module, _data, _device2, _projMatrix, _viewMatrix, _instance2, _color, _twoSided, _lightDir, _uniforms, _bindGroup, _instance3, _color2, _uniforms2, _bindGroup2, _state2, _shapes, _matrix2, _stateGroupMap, _matrix3, _viewMatrixMap, _shader2, _topology3, _projMatrixMap, _pipelines, _bins, _layers, _viewMatrix2, _projMatrix2, _root, _defaultState, _currentState, _info, _states, _shaders, _context, _depthTexture, _clearColor, _renderPassEncoder, _commandEncoder, _geometry, _info2, _wasDirty, _indices2, _points2, _colors2, _geom, _progress, _fov, _aspect, _near, _far, _matrix4, _inverse, _mode, _state3, _fun, _name2, _startTime, _duration, _axis, _angle, _space, _resetRotation, _scaleIn, _scaleOut, _scale, _scale2, _canvas, _context2, _observer, _viewport, _scene, _projection, _handles, _frame, _visitors, _root2, _defaultState2, _clearColor2, _info3, _eventListeners, _mouse, _navBase, _eventHandlers, _keyboardListeners, _mouseListeners, _clientListeners, _branches, _keysDown, _animations, _options, _c, _commands, _inputToCommand;
+var _black, _blue, _gray, _green, _magenta, _orange, _red, _transparent, _white, _yellow, _min, _max, _p0, _p1, _point, _normal, _c2, _r, _a, _id, _b, _instance, _isInitializing, _device, _preferredFormat, _values, _buffer, _state, _shapes, _matrix, _stateGroupMap, _matrix2, _viewMatrixMap, _shader, _topology, _projMatrixMap, _pipelines, _bins, _layers, _viewMatrix, _projMatrix, _state2, _parents, _flags, _children, _box, _matrix3, _topology2, _first, _count, _indices, _points, _normals, _colors, _texCoords, _primitives, _box2, _center, _radius, _numSubdivisions, _name, _layer, _bin, _shader2, _topology3, _apply, _reset, _code, _module, _data, _device2, _projMatrix2, _viewMatrix2, _instance2, _color, _twoSided, _lightDir, _uniforms, _bindGroup, _instance3, _color2, _uniforms2, _bindGroup2, _root, _defaultState, _currentState, _info, _states, _shaders, _context, _depthTexture, _clearColor, _renderPassEncoder, _commandEncoder, _geometry, _info2, _wasDirty, _indices2, _points2, _colors2, _geom, _progress, _fov, _aspect, _near, _far, _matrix4, _inverse, _mode, _localUp, _state3, _fun, _name2, _startTime, _duration, _axis, _angle, _space, _resetRotation, _scaleIn, _scaleOut, _scale, _scale2, _canvas, _context2, _observer, _viewport, _scene, _projection, _handles, _frame, _visitors, _root2, _defaultState2, _clearColor2, _info3, _eventListeners, _mouse, _navBase, _eventHandlers, _keyboardListeners, _mouseListeners, _clientListeners, _branches, _keysDown, _animations, _options, _c, _commands, _inputToCommand;
 function _mergeNamespaces(n, m) {
   for (var i = 0; i < m.length; i++) {
     const e = m[i];
@@ -10797,20 +10797,6 @@ function removeBits(n, bits) {
 function setBits(n, bits, state) {
   return state ? addBits(n, bits) : removeBits(n, bits);
 }
-const preMultiplyColor = (clearColor) => {
-  const c = clearColor;
-  const a = c[3];
-  return [
-    c[0] * a,
-    // Red
-    c[1] * a,
-    // Green
-    c[2] * a,
-    // Blue
-    a
-    // Alpha
-  ];
-};
 const __vite_import_meta_env__ = { "VITE_KEEP_PERFORMANCE_INFO": "true", "VITE_LOG_LEVEL": "2" };
 const BUILD_ENVIRONMENT = __vite_import_meta_env__;
 const IDENTITY_MATRIX = [
@@ -10833,33 +10819,6 @@ const IDENTITY_MATRIX = [
 ];
 const DEG_TO_RAD = Math.PI / 180;
 const KEEP_PERFORMANCE_INFO = "true" === BUILD_ENVIRONMENT.VITE_KEEP_PERFORMANCE_INFO.toLowerCase();
-let prodNextId = 0;
-function prodGetNextId() {
-  return ++prodNextId;
-}
-const getNextId = prodGetNextId;
-function getNumElements(array, dimension) {
-  if (!array) {
-    return 0;
-  }
-  if (array.length < 1) {
-    return 0;
-  }
-  if (0 !== array.length % dimension) {
-    throw new Error(`Array length ${array.length} is not evenly divisible by ${dimension}`);
-  }
-  return array.length / dimension;
-}
-var LogLevel = /* @__PURE__ */ ((LogLevel2) => {
-  LogLevel2[LogLevel2["FATAL"] = 0] = "FATAL";
-  LogLevel2[LogLevel2["ERROR"] = 1] = "ERROR";
-  LogLevel2[LogLevel2["WARN"] = 2] = "WARN";
-  LogLevel2[LogLevel2["INFO"] = 3] = "INFO";
-  LogLevel2[LogLevel2["DEBUG"] = 4] = "DEBUG";
-  LogLevel2[LogLevel2["TRACE"] = 5] = "TRACE";
-  return LogLevel2;
-})(LogLevel || {});
-const BUILD_TIME_LOG_LEVEL = parseInt(BUILD_ENVIRONMENT.VITE_LOG_LEVEL);
 var EPSILON = 1e-6;
 var ARRAY_TYPE = typeof Float32Array !== "undefined" ? Float32Array : Array;
 function create$4() {
@@ -11581,6 +11540,310 @@ const midPoint = (out, a, b) => {
   scale$1(out, out, 0.5);
   return out;
 };
+class Color {
+  /**
+   * Make a random color.
+   * @param {number} low - The lower bound for the color components.
+   * @param {number} high - The upper bound for the color components.
+   * @returns {IVector4} A random color.
+   */
+  static makeRandomColor(low = 0.2, high = 0.8) {
+    const delta = high - low;
+    return [
+      low + delta * Math.random(),
+      low + delta * Math.random(),
+      low + delta * Math.random(),
+      1
+    ];
+  }
+  /**
+   * Get a random color.
+   * @returns {IVector4} A random color.
+   */
+  static get random() {
+    return this.makeRandomColor();
+  }
+  /**
+   * Return the pre-multiplied color.
+   * @param {IVector4} color - The color to pre-multiply.
+   * @returns {IVector4} The pre-multiplied color.
+   */
+  static preMultiply(color2) {
+    const a = color2[3];
+    return [
+      color2[0] * a,
+      color2[1] * a,
+      color2[2] * a,
+      a
+    ];
+  }
+  /**
+   * Return the color as a CSS string.
+   * @param {IVector4} color - The color to convert.
+   * @returns {string} The color as a CSS string.
+   */
+  static toCSS(color2) {
+    const r2 = Math.round(clampNumber(color2[0], 0, 1) * 255);
+    const g = Math.round(clampNumber(color2[1], 0, 1) * 255);
+    const b = Math.round(clampNumber(color2[2], 0, 1) * 255);
+    const a = clampNumber(color2[3], 0, 1);
+    return `rgba(${r2}, ${g}, ${b}, ${a})`;
+  }
+  /**
+   * Return the color as a hex string.
+   * @param {IVector4} color - The color to convert.
+   * @returns {string} The color as a hex string.
+   */
+  static toHex(color2) {
+    const r2 = Math.round(clampNumber(color2[0], 0, 1) * 255);
+    const g = Math.round(clampNumber(color2[1], 0, 1) * 255);
+    const b = Math.round(clampNumber(color2[2], 0, 1) * 255);
+    const a = Math.round(clampNumber(color2[3], 0, 1) * 255);
+    return `#${r2.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}${a.toString(16).padStart(2, "0")}`;
+  }
+  /**
+   * Convert a hex string to a color.
+   * @param {string} hex - The hex string to convert.
+   * @returns {Readonly<IVector4>} The color as an IVector4.
+   */
+  static fromHex(hex) {
+    if (hex.startsWith("#")) {
+      hex = hex.slice(1);
+    } else if (hex.startsWith("0x")) {
+      hex = hex.slice(2);
+    }
+    if (!/^[0-9a-fA-F]+$/.test(hex)) {
+      throw new Error(`Invalid hex color: ${hex}`);
+    }
+    switch (hex.length) {
+      case 3: {
+        const r2 = parseInt(hex[0] + hex[0], 16) / 255;
+        const g = parseInt(hex[1] + hex[1], 16) / 255;
+        const b = parseInt(hex[2] + hex[2], 16) / 255;
+        return [r2, g, b, 1];
+      }
+      case 4: {
+        const r2 = parseInt(hex[0] + hex[0], 16) / 255;
+        const g = parseInt(hex[1] + hex[1], 16) / 255;
+        const b = parseInt(hex[2] + hex[2], 16) / 255;
+        const a = parseInt(hex[3] + hex[3], 16) / 255;
+        return [r2, g, b, a];
+      }
+      case 6: {
+        const r2 = parseInt(hex.slice(0, 2), 16) / 255;
+        const g = parseInt(hex.slice(2, 4), 16) / 255;
+        const b = parseInt(hex.slice(4, 6), 16) / 255;
+        return [r2, g, b, 1];
+      }
+      case 8: {
+        const r2 = parseInt(hex.slice(0, 2), 16) / 255;
+        const g = parseInt(hex.slice(2, 4), 16) / 255;
+        const b = parseInt(hex.slice(4, 6), 16) / 255;
+        const a = parseInt(hex.slice(6, 8), 16) / 255;
+        return [r2, g, b, a];
+      }
+      default: {
+        throw new Error(`Invalid hex color: ${hex}`);
+      }
+    }
+  }
+  /**
+   * Convert a color from RGBA to HSLA.
+   * @param {IVector4} color - The RGBA color to convert.
+   * @returns {IVector4} The color in HSLA format.
+   */
+  static rgba_to_hsla(color2) {
+    const r2 = color2[0];
+    const g = color2[1];
+    const b = color2[2];
+    const a = color2[3];
+    const max = Math.max(r2, g, b);
+    const min = Math.min(r2, g, b);
+    const delta = max - min;
+    let h = 0;
+    let s = 0;
+    const l = (max + min) / 2;
+    if (delta !== 0) {
+      s = delta / (1 - Math.abs(2 * l - 1));
+      switch (max) {
+        case r2:
+          h = (g - b) / delta % 6;
+          break;
+        case g:
+          h = (b - r2) / delta + 2;
+          break;
+        case b:
+          h = (r2 - g) / delta + 4;
+          break;
+      }
+      h *= 60;
+      if (h < 0) {
+        h += 360;
+      }
+    }
+    return [h, s, l, a];
+  }
+  /**
+   * Convert a color from HSLA to RGBA.
+   * @param {IVector4} color - The HSLA color to convert.
+   * @returns {IVector4} The color in RGBA format.
+   */
+  static hsla_to_rgba(color2) {
+    const h = color2[0];
+    const s = color2[1];
+    const l = color2[2];
+    const a = color2[3];
+    const c = (1 - Math.abs(2 * l - 1)) * s;
+    const x = c * (1 - Math.abs(h / 60 % 2 - 1));
+    const m = l - c / 2;
+    let r2 = 0;
+    let g = 0;
+    let b = 0;
+    if (h < 60) {
+      r2 = c;
+      g = x;
+      b = 0;
+    } else if (h < 120) {
+      r2 = x;
+      g = c;
+      b = 0;
+    } else if (h < 180) {
+      r2 = 0;
+      g = c;
+      b = x;
+    } else if (h < 240) {
+      r2 = 0;
+      g = x;
+      b = c;
+    } else if (h < 300) {
+      r2 = x;
+      g = 0;
+      b = c;
+    } else {
+      r2 = c;
+      g = 0;
+      b = x;
+    }
+    return [r2 + m, g + m, b + m, a];
+  }
+  /**
+   * Return the color black.
+   * @returns {IVector4} The color black.
+   */
+  static get black() {
+    return __privateGet(this, _black);
+  }
+  /**
+   * Return the color blue.
+   * @returns {IVector4} The color blue.
+   */
+  static get blue() {
+    return __privateGet(this, _blue);
+  }
+  /**
+   * Return the color gray.
+   * @returns {IVector4} The color gray.
+   */
+  static get gray() {
+    return __privateGet(this, _gray);
+  }
+  /**
+   * Return the color green.
+   * @returns {IVector4} The color green.
+   */
+  static get green() {
+    return __privateGet(this, _green);
+  }
+  /**
+   * Return the color magenta.
+   * @returns {IVector4} The color magenta.
+   */
+  static get magenta() {
+    return __privateGet(this, _magenta);
+  }
+  /**
+   * Return the color orange.
+   * @returns {IVector4} The color orange.
+   */
+  static get orange() {
+    return __privateGet(this, _orange);
+  }
+  /**
+   * Return the color red.
+   * @returns {IVector4} The color red.
+   */
+  static get red() {
+    return __privateGet(this, _red);
+  }
+  /**
+   * Return the color transparent.
+   * @returns {IVector4} The color transparent.
+   */
+  static get transparent() {
+    return __privateGet(this, _transparent);
+  }
+  /**
+   * Return the color white.
+   * @returns {IVector4} The color white.
+   */
+  static get white() {
+    return __privateGet(this, _white);
+  }
+  /**
+   * Return the color yellow.
+   * @returns {IVector4} The color yellow.
+   */
+  static get yellow() {
+    return __privateGet(this, _yellow);
+  }
+}
+_black = new WeakMap();
+_blue = new WeakMap();
+_gray = new WeakMap();
+_green = new WeakMap();
+_magenta = new WeakMap();
+_orange = new WeakMap();
+_red = new WeakMap();
+_transparent = new WeakMap();
+_white = new WeakMap();
+_yellow = new WeakMap();
+__privateAdd(Color, _black, [0, 0, 0, 1]);
+__privateAdd(Color, _blue, [0, 0, 1, 1]);
+__privateAdd(Color, _gray, [0.5, 0.5, 0.5, 1]);
+__privateAdd(Color, _green, [0, 1, 0, 1]);
+__privateAdd(Color, _magenta, [1, 0, 1, 1]);
+__privateAdd(Color, _orange, [1, 0.5, 0, 1]);
+__privateAdd(Color, _red, [1, 0, 0, 1]);
+__privateAdd(Color, _transparent, [0, 0, 0, 0]);
+__privateAdd(Color, _white, [1, 1, 1, 1]);
+__privateAdd(Color, _yellow, [1, 1, 0, 1]);
+let prodNextId = 0;
+function prodGetNextId() {
+  return ++prodNextId;
+}
+const getNextId = prodGetNextId;
+function getNumElements(array, dimension) {
+  if (!array) {
+    return 0;
+  }
+  if (array.length < 1) {
+    return 0;
+  }
+  if (0 !== array.length % dimension) {
+    throw new Error(`Array length ${array.length} is not evenly divisible by ${dimension}`);
+  }
+  return array.length / dimension;
+}
+var LogLevel = /* @__PURE__ */ ((LogLevel2) => {
+  LogLevel2[LogLevel2["FATAL"] = 0] = "FATAL";
+  LogLevel2[LogLevel2["ERROR"] = 1] = "ERROR";
+  LogLevel2[LogLevel2["WARN"] = 2] = "WARN";
+  LogLevel2[LogLevel2["INFO"] = 3] = "INFO";
+  LogLevel2[LogLevel2["DEBUG"] = 4] = "DEBUG";
+  LogLevel2[LogLevel2["TRACE"] = 5] = "TRACE";
+  return LogLevel2;
+})(LogLevel || {});
+const BUILD_TIME_LOG_LEVEL = parseInt(BUILD_ENVIRONMENT.VITE_LOG_LEVEL);
 const _Box = class _Box {
   /**
    * Construct the class.
@@ -12922,7 +13185,7 @@ class Array1 {
         size: values2.byteLength,
         usage
       });
-      device.queue.writeBuffer(buffer2, 0, values2);
+      device.queue.writeBuffer(buffer2, 0, values2.buffer);
       __privateSet(this, _buffer, buffer2);
     }
     return __privateGet(this, _buffer);
@@ -12930,6 +13193,596 @@ class Array1 {
 }
 _values = new WeakMap();
 _buffer = new WeakMap();
+class StateGroup extends Base$1 {
+  /**
+   * Construct the class.
+   * @class
+   * @param {State} state - The state.
+   */
+  constructor(state) {
+    super();
+    __privateAdd(this, _state);
+    __privateAdd(this, _shapes, []);
+    __privateSet(this, _state, state);
+  }
+  /**
+   * Return the class name.
+   * @returns {string} The class name.
+   */
+  getClassName() {
+    return "Render.StateGroup";
+  }
+  /**
+   * Get the state.
+   * @returns {State} The state.
+   */
+  get state() {
+    return __privateGet(this, _state);
+  }
+  /**
+   * Add the shape to the state group.
+   * @param {IRenderGraphInfo} info - The render graph info.
+   * @param {Shape} shape - The shape to add.
+   */
+  addShape(info, shape2) {
+    __privateGet(this, _shapes).push(shape2);
+    info.numShapes++;
+  }
+  /**
+   * Call the given function for each shape.
+   * @param {Function} func - The function to call.
+   */
+  forEachShape(func) {
+    __privateGet(this, _shapes).forEach(func);
+  }
+  /**
+   * Get the number of shapes.
+   * @returns {number} The number of shapes.
+   */
+  get numShapes() {
+    return __privateGet(this, _shapes).length;
+  }
+}
+_state = new WeakMap();
+_shapes = new WeakMap();
+class ViewMatrixGroup extends Base$1 {
+  /**
+   * Construct the class.
+   * @class
+   * @param {IMatrix44} matrix - The view matrix.
+   */
+  constructor(matrix) {
+    super();
+    __privateAdd(this, _matrix, [...IDENTITY_MATRIX]);
+    __privateAdd(this, _stateGroupMap, /* @__PURE__ */ new Map());
+    copy$2(__privateGet(this, _matrix), matrix);
+  }
+  /**
+   * Return the class name.
+   * @returns {string} The class name.
+   */
+  getClassName() {
+    return "Render.ViewMatrixGroup";
+  }
+  /**
+   * Get the matrix.
+   * @returns {IMatrix44} The matrix.
+   */
+  get matrix() {
+    return __privateGet(this, _matrix);
+  }
+  /**
+   * Get the state group. Make it if we have to.
+   * @param {IRenderGraphInfo} info - The render graph info.
+   * @param {State} state - The state.
+   * @returns {StateGroup} The state group.
+   */
+  getStateGroup(info, state) {
+    const { name } = state;
+    let sg = __privateGet(this, _stateGroupMap).get(name);
+    if (!sg) {
+      sg = new StateGroup(state);
+      __privateGet(this, _stateGroupMap).set(name, sg);
+      info.numStateGroups++;
+    }
+    return sg;
+  }
+  /**
+   * Call the given function for each state group.
+   * @param {Function} func - The function to call.
+   */
+  forEachStateGroup(func) {
+    __privateGet(this, _stateGroupMap).forEach(func);
+  }
+  /**
+   * Get the number of shapes.
+   * @returns {number} The number of shapes.
+   */
+  get numStateGroups() {
+    return __privateGet(this, _stateGroupMap).size;
+  }
+}
+_matrix = new WeakMap();
+_stateGroupMap = new WeakMap();
+class ProjMatrixGroup extends Base$1 {
+  /**
+   * Construct the class.
+   * @class
+   * @param {IMatrix44} matrix - The projection matrix.
+   */
+  constructor(matrix) {
+    super();
+    __privateAdd(this, _matrix2, [...IDENTITY_MATRIX]);
+    __privateAdd(this, _viewMatrixMap, /* @__PURE__ */ new Map());
+    copy$2(__privateGet(this, _matrix2), matrix);
+  }
+  /**
+   * Return the class name.
+   * @returns {string} The class name.
+   */
+  getClassName() {
+    return "Render.ProjMatrixGroup";
+  }
+  /**
+   * Get the matrix.
+   * @returns {IMatrix44} The matrix.
+   */
+  get matrix() {
+    return __privateGet(this, _matrix2);
+  }
+  /**
+   * Get the view matrix group. Make it if we have to.
+   * @param {IRenderGraphInfo} info - The render graph info.
+   * @param {IMatrix44} matrix - The view matrix.
+   * @returns {ViewMatrixGroup} The view matrix group.
+   */
+  getViewMatrixGroup(info, matrix) {
+    const name = JSON.stringify(matrix);
+    let mmg = __privateGet(this, _viewMatrixMap).get(name);
+    if (!mmg) {
+      mmg = new ViewMatrixGroup(matrix);
+      __privateGet(this, _viewMatrixMap).set(name, mmg);
+      info.numViewMatrixGroups++;
+    }
+    return mmg;
+  }
+  /**
+   * Call the given function for each view matrix group.
+   * @param {Function} func - The function to call.
+   */
+  forEachViewMatrixGroup(func) {
+    __privateGet(this, _viewMatrixMap).forEach(func);
+  }
+  /**
+   * Get the number of view matrices.
+   * @returns {number} The number of view matrices.
+   */
+  get numViewMatrices() {
+    return __privateGet(this, _viewMatrixMap).size;
+  }
+}
+_matrix2 = new WeakMap();
+_viewMatrixMap = new WeakMap();
+class Pipeline extends Base$1 {
+  /**
+   * Construct the class.
+   * @class
+   * @param {ShaderBase} shader - The pipeline shader.
+   */
+  constructor({ shader, topology }) {
+    super();
+    __privateAdd(this, _shader);
+    __privateAdd(this, _topology);
+    __privateAdd(this, _projMatrixMap, /* @__PURE__ */ new Map());
+    __privateSet(this, _shader, shader);
+    __privateSet(this, _topology, topology);
+  }
+  /**
+   * Return the class name.
+   * @returns {string} The class name.
+   */
+  getClassName() {
+    return "Render.Pipeline";
+  }
+  /**
+   * Get the projection matrix.
+   * @returns {IMatrix44} The projection matrix.
+   */
+  get projMatrix() {
+    return this.shader.projMatrix;
+  }
+  /**
+   * Set the projection matrix.
+   * @param {IMatrix44} matrix - The projection matrix.
+   */
+  set projMatrix(matrix) {
+    this.shader.projMatrix = matrix;
+  }
+  /**
+   * Get the view matrix.
+   * @returns {IMatrix44} The view matrix.
+   */
+  get viewMatrix() {
+    return this.shader.viewMatrix;
+  }
+  /**
+   * Set the view matrix.
+   * @param {IMatrix44} matrix - The view matrix.
+   */
+  set viewMatrix(matrix) {
+    this.shader.viewMatrix = matrix;
+  }
+  /**
+   * Get the projection matrix. Make it if we have to.
+   * @param {IRenderGraphInfo} info - The render graph info.
+   * @param {IMatrix44} matrix - The projection matrix.
+   * @returns {ProjMatrix} The projection matrix.
+   */
+  getProjMatrixGroup(info, matrix) {
+    const name = JSON.stringify(matrix);
+    let pmg = __privateGet(this, _projMatrixMap).get(name);
+    if (!pmg) {
+      pmg = new ProjMatrixGroup(matrix);
+      __privateGet(this, _projMatrixMap).set(name, pmg);
+      info.numProjMatrixGroups++;
+    }
+    return pmg;
+  }
+  /**
+   * Call the given function for each projection matrix.
+   * @param {Function} func - The function to call.
+   */
+  forEachProjMatrixGroup(func) {
+    __privateGet(this, _projMatrixMap).forEach(func);
+  }
+  /**
+   * Get the number of projection matrices.
+   * @returns {number} The number of projection matrices.
+   */
+  get numProjMatrices() {
+    return __privateGet(this, _projMatrixMap).size;
+  }
+  /**
+   * Get the shader.
+   * @returns {ShaderBase} The shader.
+   */
+  get shader() {
+    const shader = __privateGet(this, _shader);
+    if (!shader) {
+      throw new Error("Pipeline has invalid shader");
+    }
+    return shader;
+  }
+  /**
+   * Get the topology.
+   * @returns {GPUPrimitiveTopology} The topology.
+   */
+  get topology() {
+    return __privateGet(this, _topology);
+  }
+  /**
+   * Configure the render pass.
+   * @param {GPURenderPassEncoder} pass - The render pass encoder.
+   */
+  configureRenderPass(pass) {
+    const { shader } = this;
+    if (!shader) {
+      throw new Error(`Pipeline ${this.type} ${this.id} has invalid shader when configuring render pass`);
+    }
+    shader.configureRenderPass(pass, this.topology);
+  }
+}
+_shader = new WeakMap();
+_topology = new WeakMap();
+_projMatrixMap = new WeakMap();
+class Bin extends Base$1 {
+  /**
+   * Construct the class.
+   * @class
+   */
+  constructor() {
+    super();
+    __privateAdd(this, _pipelines, /* @__PURE__ */ new Map());
+  }
+  /**
+   * Return the class name.
+   * @returns {string} The class name.
+   */
+  getClassName() {
+    return "Render.Bin";
+  }
+  /**
+   * Get the pipeline. Make it if we have to.
+   * @param {IRenderGraphInfo} info - The render graph info.
+   * @param {State} state - The state.
+   * @returns {Pipeline} The pipeline.
+   */
+  getPipeline(info, state) {
+    const { shader, topology } = state;
+    if (!shader) {
+      throw new Error(`State '${state.name}' has invalid shader when getting pipeline`);
+    }
+    const name = `${shader.name}, ${topology}`;
+    let pipeline = __privateGet(this, _pipelines).get(name);
+    if (!pipeline) {
+      pipeline = new Pipeline({ shader, topology });
+      __privateGet(this, _pipelines).set(name, pipeline);
+      info.numPipelines++;
+    }
+    return pipeline;
+  }
+  /**
+   * Call the given function for each pipeline.
+   * @param {Function} func - The function to call.
+   */
+  forEachPipeline(func) {
+    __privateGet(this, _pipelines).forEach(func);
+  }
+  /**
+   * Get the number of pipelines.
+   * @returns {number} The number of pipelines.
+   */
+  get numPipelines() {
+    return __privateGet(this, _pipelines).size;
+  }
+}
+_pipelines = new WeakMap();
+const makeRenderGraphInfo = () => {
+  return {
+    numLayers: 0,
+    numBins: 0,
+    numPipelines: 0,
+    numProjMatrixGroups: 0,
+    numViewMatrixGroups: 0,
+    numStateGroups: 0,
+    numShapes: 0,
+    numTriangles: 0,
+    numLines: 0
+  };
+};
+const resetRenderGraphInfo = (info) => {
+  info.numLayers = 0;
+  info.numBins = 0;
+  info.numPipelines = 0;
+  info.numProjMatrixGroups = 0;
+  info.numViewMatrixGroups = 0;
+  info.numStateGroups = 0;
+  info.numShapes = 0;
+  info.numTriangles = 0;
+  info.numLines = 0;
+};
+class Layer extends Base$1 {
+  /**
+   * Construct the class.
+   * @class
+   */
+  constructor() {
+    super();
+    __privateAdd(this, _bins, /* @__PURE__ */ new Map());
+  }
+  /**
+   * Return the class name.
+   * @returns {string} The class name.
+   */
+  getClassName() {
+    return "Render.Layer";
+  }
+  /**
+   * Get the bin. Make it if we have to.
+   * @param {IRenderGraphInfo} info - The render graph info.
+   * @param {number} id - The bin ID.
+   * @returns {Bin} The bin.
+   */
+  getBin(info, id) {
+    let bin = __privateGet(this, _bins).get(id);
+    if (!bin) {
+      bin = new Bin();
+      __privateGet(this, _bins).set(id, bin);
+      info.numBins++;
+    }
+    return bin;
+  }
+  /**
+   * Call the given function for each bin in numerical order.
+   * @param {Function} func - The function to call.
+   */
+  forEachBin(func) {
+    const bins = Array.from(__privateGet(this, _bins).entries());
+    bins.sort((a, b) => {
+      return a[0] - b[0];
+    });
+    bins.forEach(([index, bin]) => {
+      func(bin, index);
+    });
+  }
+  /**
+   * Get the number of bins.
+   * @returns {number} The number of bins.
+   */
+  get numBins() {
+    return __privateGet(this, _bins).size;
+  }
+}
+_bins = new WeakMap();
+class Root extends Base$1 {
+  /**
+   * Construct the class.
+   * @class
+   */
+  constructor() {
+    super();
+    __privateAdd(this, _layers, /* @__PURE__ */ new Map());
+  }
+  /**
+   * Return the class name.
+   * @returns {string} The class name.
+   */
+  getClassName() {
+    return "Render.Root";
+  }
+  /**
+   * Get the layer. Make it if we have to.
+   * @param {IRenderGraphInfo} info - The render graph info.
+   * @param {number} index - The layer index.
+   * @returns {Layer} The layer.
+   */
+  getLayer(info, index) {
+    let layer = __privateGet(this, _layers).get(index);
+    if (!layer) {
+      layer = new Layer();
+      __privateGet(this, _layers).set(index, layer);
+      info.numLayers++;
+    }
+    return layer;
+  }
+  /**
+   * Call the given function for each layer in numerical order.
+   * @param {Function} func - The function to call.
+   */
+  forEachLayer(func) {
+    const layers = Array.from(__privateGet(this, _layers).entries());
+    layers.sort((a, b) => {
+      return a[0] - b[0];
+    });
+    layers.forEach(([index, layer]) => {
+      func(layer, index);
+    });
+  }
+  /**
+   * Get the number of layers.
+   * @returns {number} The number of layers.
+   */
+  get numLayers() {
+    return __privateGet(this, _layers).size;
+  }
+  /** 
+   * Clear the layers.
+   * @returns {void}
+   */
+  clear() {
+    __privateGet(this, _layers).clear();
+  }
+}
+_layers = new WeakMap();
+class Visitor extends Base$1 {
+  /**
+   * Construct the class.
+   * @class
+   */
+  constructor() {
+    super();
+  }
+  /**
+   * Visit the group.
+   * @param {Group} group - The group to visit.
+   */
+  visitChildren(group) {
+    group.forEachChild((child) => {
+      child.accept(this);
+    });
+  }
+  /**
+   * Visit the group.
+   * @param {Group} group - The group to visit.
+   */
+  visitGroup(group) {
+    this.visitChildren(group);
+  }
+  /**
+   * Visit the transform.
+   * @param {Transform} tr - The transform to visit.
+   */
+  visitTransform(tr) {
+    this.visitChildren(tr);
+  }
+  /**
+   * Visit the projection.
+   * @param {Projection} proj - The projection to visit.
+   */
+  visitProjection(proj) {
+    this.visitChildren(proj);
+  }
+  /**
+   * Visit the geometry.
+   * @param {Geometry} geom - The geometry to visit.
+   */
+  visitGeometry(geom) {
+  }
+  /**
+   * Visit the shape.
+   * @param {Shape} shape - The shape to visit.
+   */
+  visitShape(shape2) {
+  }
+  /**
+   * Visit the node.
+   * @param {Node} node - The node to visit.
+   */
+  visitNode(node2) {
+  }
+}
+class Multiply extends Visitor {
+  // Has to be a copy.
+  /**
+   * Construct the class.
+   * @class
+   */
+  constructor() {
+    super();
+    __privateAdd(this, _viewMatrix, makeIdentity());
+    // Has to be a copy.
+    __privateAdd(this, _projMatrix, makeIdentity());
+  }
+  /**
+   * Return the view matrix.
+   * @returns {IMatrix44} The view matrix.
+   */
+  get viewMatrix() {
+    return __privateGet(this, _viewMatrix);
+  }
+  /**
+   * Return the projection matrix.
+   * @returns {IMatrix44} The projection matrix.
+   */
+  get projMatrix() {
+    return __privateGet(this, _projMatrix);
+  }
+  /**
+   * Set the projection matrix.
+   * @param {IMatrix44} matrix - The projection matrix.
+   */
+  set projMatrix(matrix) {
+    if (!matrix) {
+      throw new Error("Invalid projection matrix");
+    }
+    if (16 !== matrix.length) {
+      throw new Error("Projection matrix must have 16 elements");
+    }
+    copy$2(__privateGet(this, _projMatrix), matrix);
+  }
+  /**
+   * Visit the transform.
+   * @param {Transform} tr - The transform to visit.
+   */
+  visitTransform(tr) {
+    const original = [...__privateGet(this, _viewMatrix)];
+    multiply$1(__privateGet(this, _viewMatrix), original, tr.matrix);
+    super.visitTransform(tr);
+    copy$2(__privateGet(this, _viewMatrix), original);
+  }
+  /**
+   * Visit the projection.
+   * @param {Projection} proj - The projection to visit.
+   */
+  visitProjection(proj) {
+    const original = [...__privateGet(this, _projMatrix)];
+    this.projMatrix = proj.matrix;
+    super.visitProjection(proj);
+    this.projMatrix = original;
+  }
+}
+_viewMatrix = new WeakMap();
+_projMatrix = new WeakMap();
 var Flags = /* @__PURE__ */ ((Flags2) => {
   Flags2[Flags2["ADDS_TO_BOUNDS"] = 1] = "ADDS_TO_BOUNDS";
   Flags2[Flags2["CLIPPED"] = 2] = "CLIPPED";
@@ -12948,13 +13801,13 @@ class Node extends Base$1 {
    */
   constructor(input) {
     super();
-    __privateAdd(this, _state, null);
+    __privateAdd(this, _state2, null);
     __privateAdd(this, _parents, /* @__PURE__ */ new Map());
     __privateAdd(this, _flags, 16 | 8 | 1 | 2 | 4);
     if (input) {
       const { state, flags } = input;
       if (state) {
-        __privateSet(this, _state, state);
+        __privateSet(this, _state2, state);
       }
       if (flags && flags > 0) {
         __privateSet(this, _flags, flags);
@@ -12966,14 +13819,14 @@ class Node extends Base$1 {
    * @returns {State | null} State for this shape.
    */
   get state() {
-    return __privateGet(this, _state);
+    return __privateGet(this, _state2);
   }
   /**
    * Set the state.
    * @param {State | null} state - State for this shape.
    */
   set state(state) {
-    __privateSet(this, _state, state);
+    __privateSet(this, _state2, state);
   }
   /**
    * Add a parent. This is for the Group class. Do not use it directly.
@@ -13134,7 +13987,7 @@ class Node extends Base$1 {
     return new Sphere$1(center, radius);
   }
 }
-_state = new WeakMap();
+_state2 = new WeakMap();
 _parents = new WeakMap();
 _flags = new WeakMap();
 class Group extends Node {
@@ -13300,7 +14153,7 @@ class Transform extends Group {
    */
   constructor(matrix) {
     super();
-    __privateAdd(this, _matrix, [...IDENTITY_MATRIX]);
+    __privateAdd(this, _matrix3, [...IDENTITY_MATRIX]);
     if (matrix) {
       this.matrix = matrix;
     }
@@ -13324,7 +14177,7 @@ class Transform extends Group {
    * @returns {IMatrix44} The transformation matrix.
    */
   get matrix() {
-    return __privateGet(this, _matrix);
+    return __privateGet(this, _matrix3);
   }
   /**
    * Set the matrix.
@@ -13335,7 +14188,7 @@ class Transform extends Group {
     if (16 !== length2) {
       throw new Error(`Invalid array length ${length2} for transformation matrix, should be 16`);
     }
-    copy$2(__privateGet(this, _matrix), matrix);
+    copy$2(__privateGet(this, _matrix3), matrix);
     this.dirtyBounds();
   }
   /**
@@ -13343,7 +14196,7 @@ class Transform extends Group {
    * @param {IVector3} v - The translation vector.
    */
   translate(v) {
-    translate(__privateGet(this, _matrix), __privateGet(this, _matrix), v);
+    translate(__privateGet(this, _matrix3), __privateGet(this, _matrix3), v);
     this.dirtyBounds();
   }
   /**
@@ -13352,7 +14205,7 @@ class Transform extends Group {
    * @param {IVector3} axis - The rotation axis.
    */
   rotate(angle2, axis) {
-    rotate(__privateGet(this, _matrix), __privateGet(this, _matrix), angle2, axis);
+    rotate(__privateGet(this, _matrix3), __privateGet(this, _matrix3), angle2, axis);
     this.dirtyBounds();
   }
   /**
@@ -13360,7 +14213,7 @@ class Transform extends Group {
    * @returns {boolean} True if the matrix is valid, otherwise false.
    */
   get valid() {
-    return isValidMatrix(__privateGet(this, _matrix));
+    return isValidMatrix(__privateGet(this, _matrix3));
   }
   /**
    * Calculate the bounding box of this node.
@@ -13371,10 +14224,10 @@ class Transform extends Group {
     if (false === answer.valid) {
       return answer;
     }
-    return Box.transform(answer, __privateGet(this, _matrix));
+    return Box.transform(answer, __privateGet(this, _matrix3));
   }
 }
-_matrix = new WeakMap();
+_matrix3 = new WeakMap();
 class Base extends Base$1 {
   /**
    * Construct the class.
@@ -13384,9 +14237,9 @@ class Base extends Base$1 {
    */
   constructor(input) {
     super();
-    __privateAdd(this, _topology, "point-list");
+    __privateAdd(this, _topology2, "point-list");
     if (input == null ? void 0 : input.topology) {
-      __privateSet(this, _topology, input.topology);
+      __privateSet(this, _topology2, input.topology);
     }
   }
   /**
@@ -13399,17 +14252,17 @@ class Base extends Base$1 {
    * @returns {GPUPrimitiveTopology} The topology.
    */
   get topology() {
-    return __privateGet(this, _topology);
+    return __privateGet(this, _topology2);
   }
   /**
    * Set the topology.
    * @param {GPUPrimitiveTopology} topology The topology.
    */
   set topology(topology) {
-    __privateSet(this, _topology, topology);
+    __privateSet(this, _topology2, topology);
   }
 }
-_topology = new WeakMap();
+_topology2 = new WeakMap();
 class Arrays extends Base {
   /**
    * Construct the class.
@@ -14055,8 +14908,8 @@ class State extends Base$1 {
     __privateAdd(this, _name, null);
     __privateAdd(this, _layer, 0);
     __privateAdd(this, _bin, 0);
-    __privateAdd(this, _shader, null);
-    __privateAdd(this, _topology2, "triangle-list");
+    __privateAdd(this, _shader2, null);
+    __privateAdd(this, _topology3, "triangle-list");
     __privateAdd(this, _apply, defaultApplyFunction);
     __privateAdd(this, _reset, defaultResetFunction);
     const { name, layer, bin, shader, topology, apply, reset } = input ?? {};
@@ -14070,10 +14923,10 @@ class State extends Base$1 {
       __privateSet(this, _bin, bin);
     }
     if (shader) {
-      __privateSet(this, _shader, shader);
+      __privateSet(this, _shader2, shader);
     }
     if (topology) {
-      __privateSet(this, _topology2, topology);
+      __privateSet(this, _topology3, topology);
     }
     if (apply) {
       __privateSet(this, _apply, apply);
@@ -14136,14 +14989,14 @@ class State extends Base$1 {
    * @returns {ShaderBase | null} The shader object, or null if not set.
    */
   get shader() {
-    return __privateGet(this, _shader);
+    return __privateGet(this, _shader2);
   }
   /**
    * Set the shader.
    * @param {ShaderBase | null} shader - The shader object, or null.
    */
   set shader(shader) {
-    __privateSet(this, _shader, shader);
+    __privateSet(this, _shader2, shader);
   }
   /**
    * Get the state name.
@@ -14199,14 +15052,14 @@ class State extends Base$1 {
    * @returns {GPUPrimitiveTopology} The topology.
    */
   get topology() {
-    return __privateGet(this, _topology2);
+    return __privateGet(this, _topology3);
   }
   /**
    * Set the topology.
    * @param {GPUPrimitiveTopology} topology - The new topology.
    */
   set topology(topology) {
-    __privateSet(this, _topology2, topology);
+    __privateSet(this, _topology3, topology);
   }
   /**
    * Configure the render pass.
@@ -14223,8 +15076,8 @@ class State extends Base$1 {
 _name = new WeakMap();
 _layer = new WeakMap();
 _bin = new WeakMap();
-_shader = new WeakMap();
-_topology2 = new WeakMap();
+_shader2 = new WeakMap();
+_topology3 = new WeakMap();
 _apply = new WeakMap();
 _reset = new WeakMap();
 class ShaderBase extends Base$1 {
@@ -14322,8 +15175,8 @@ class WithMatrices extends ShaderBase {
    */
   constructor(input) {
     super(input);
-    __privateAdd(this, _projMatrix, [...IDENTITY_MATRIX]);
-    __privateAdd(this, _viewMatrix, [...IDENTITY_MATRIX]);
+    __privateAdd(this, _projMatrix2, [...IDENTITY_MATRIX]);
+    __privateAdd(this, _viewMatrix2, [...IDENTITY_MATRIX]);
   }
   /**
    * Destroy this instance.
@@ -14343,32 +15196,32 @@ class WithMatrices extends ShaderBase {
    * @returns {IMatrix44} The projection matrix.
    */
   get projMatrix() {
-    return __privateGet(this, _projMatrix);
+    return __privateGet(this, _projMatrix2);
   }
   /**
    * Set the projection matrix.
    * @param {IMatrix44} matrix - The projection matrix.
    */
   set projMatrix(matrix) {
-    copy$2(__privateGet(this, _projMatrix), matrix);
+    copy$2(__privateGet(this, _projMatrix2), matrix);
   }
   /**
    * Get the view matrix.
    * @returns {IMatrix44} The view matrix.
    */
   get viewMatrix() {
-    return __privateGet(this, _viewMatrix);
+    return __privateGet(this, _viewMatrix2);
   }
   /**
    * Set the view matrix.
    * @param {IMatrix44} matrix - The view matrix.
    */
   set viewMatrix(matrix) {
-    copy$2(__privateGet(this, _viewMatrix), matrix);
+    copy$2(__privateGet(this, _viewMatrix2), matrix);
   }
 }
-_projMatrix = new WeakMap();
-_viewMatrix = new WeakMap();
+_projMatrix2 = new WeakMap();
+_viewMatrix2 = new WeakMap();
 const code$1 = "///////////////////////////////////////////////////////////////////////////////\n//\n//	Copyright (c) 2025, Perry L Miller IV\n//	All rights reserved.\n//	MIT License: https://opensource.org/licenses/mit-license.html\n//\n///////////////////////////////////////////////////////////////////////////////\n\n///////////////////////////////////////////////////////////////////////////////\n//\n//	Shader code that renders with Phong shading.\n//	https://gist.github.com/ccincotti3/f5bbfca9acd27c0efb9a2d22509b5aca\n//\n///////////////////////////////////////////////////////////////////////////////\n\nstruct Uniforms\n{\n	projMatrix: mat4x4f,\n	viewMatrix: mat4x4f,\n	color: vec4f,\n	lightDir: vec3f,\n};\n\n@group ( 0 ) @binding ( 0 ) var<uniform> uniforms : Uniforms;\n\nstruct VertexOut\n{\n	@builtin ( position ) position : vec4f,\n	@location ( 0 ) normal : vec3f,\n};\n\n@group ( 0 ) @binding ( 1 ) var<uniform> twoSided : u32;\n\n@vertex fn vs ( @location ( 0 ) position: vec4f, @location ( 1 ) normal: vec3f ) -> VertexOut\n{\n	// The answer.\n	var answer : VertexOut;\n\n	// Transform the position to view space.\n	answer.position = uniforms.projMatrix * uniforms.viewMatrix * position;\n\n	// Transform the normal to view space. We ignore the translation.\n	answer.normal = normalize ( ( uniforms.viewMatrix * vec4f ( normal, 0.0 ) ).xyz );\n\n	// Return the answer.\n	return answer;\n}\n\n@fragment fn fs ( fragData: VertexOut ) -> @location ( 0 ) vec4f\n{\n	// Make sure the normal vector is unit length.\n	let normal = normalize ( fragData.normal );\n\n	// Calculate the diffuse lighting factor.\n	let dotProduct = dot ( normal, -uniforms.lightDir );\n	let diffuse = select ( max ( dotProduct, 0.0 ), abs ( dotProduct ), twoSided != 0u );\n\n	// Calculate the color, assuming that the canvas is configured\n	// for pre-multiplied alpha.\n	return vec4 ( uniforms.color.rgb * diffuse * uniforms.color.a, uniforms.color.a );\n}\n";
 const _PhongShading = class _PhongShading extends WithMatrices {
   /**
@@ -14382,7 +15235,7 @@ const _PhongShading = class _PhongShading extends WithMatrices {
       code: code$1,
       topology: topology ?? "triangle-list"
     });
-    __privateAdd(this, _color, [0.5, 0.5, 0.5, 1]);
+    __privateAdd(this, _color, [...Color.gray]);
     __privateAdd(this, _twoSided, false);
     __privateAdd(this, _lightDir, [0, 0, -1, 0]);
     __privateAdd(this, _uniforms, null);
@@ -14685,7 +15538,7 @@ const _SolidColor = class _SolidColor extends WithMatrices {
       code,
       topology: topology ?? "triangle-list"
     });
-    __privateAdd(this, _color2, [0.5, 0.5, 0.5, 1]);
+    __privateAdd(this, _color2, [...Color.gray]);
     __privateAdd(this, _uniforms2, null);
     __privateAdd(this, _bindGroup2, null);
   }
@@ -14914,608 +15767,6 @@ _SolidColor.makeState = ({ color: color2, topology }) => {
   });
 };
 let SolidColor = _SolidColor;
-const makeSolidColorState = ({ color: color2, topology }) => {
-  color2 = [color2[0], color2[1], color2[2], color2[3]];
-  const shader = SolidColor.instance;
-  return new State({
-    name: `State with ${color2.join(", ")} ${topology}`,
-    shader,
-    topology,
-    apply: (() => {
-      shader.color = color2;
-    })
-  });
-};
-class StateGroup extends Base$1 {
-  /**
-   * Construct the class.
-   * @class
-   * @param {State} state - The state.
-   */
-  constructor(state) {
-    super();
-    __privateAdd(this, _state2);
-    __privateAdd(this, _shapes, []);
-    __privateSet(this, _state2, state);
-  }
-  /**
-   * Return the class name.
-   * @returns {string} The class name.
-   */
-  getClassName() {
-    return "Render.StateGroup";
-  }
-  /**
-   * Get the state.
-   * @returns {State} The state.
-   */
-  get state() {
-    return __privateGet(this, _state2);
-  }
-  /**
-   * Add the shape to the state group.
-   * @param {IRenderGraphInfo} info - The render graph info.
-   * @param {Shape} shape - The shape to add.
-   */
-  addShape(info, shape2) {
-    __privateGet(this, _shapes).push(shape2);
-    info.numShapes++;
-  }
-  /**
-   * Call the given function for each shape.
-   * @param {Function} func - The function to call.
-   */
-  forEachShape(func) {
-    __privateGet(this, _shapes).forEach(func);
-  }
-  /**
-   * Get the number of shapes.
-   * @returns {number} The number of shapes.
-   */
-  get numShapes() {
-    return __privateGet(this, _shapes).length;
-  }
-}
-_state2 = new WeakMap();
-_shapes = new WeakMap();
-class ViewMatrixGroup extends Base$1 {
-  /**
-   * Construct the class.
-   * @class
-   * @param {IMatrix44} matrix - The view matrix.
-   */
-  constructor(matrix) {
-    super();
-    __privateAdd(this, _matrix2, [...IDENTITY_MATRIX]);
-    __privateAdd(this, _stateGroupMap, /* @__PURE__ */ new Map());
-    copy$2(__privateGet(this, _matrix2), matrix);
-  }
-  /**
-   * Return the class name.
-   * @returns {string} The class name.
-   */
-  getClassName() {
-    return "Render.ViewMatrixGroup";
-  }
-  /**
-   * Get the matrix.
-   * @returns {IMatrix44} The matrix.
-   */
-  get matrix() {
-    return __privateGet(this, _matrix2);
-  }
-  /**
-   * Get the state group. Make it if we have to.
-   * @param {IRenderGraphInfo} info - The render graph info.
-   * @param {State} state - The state.
-   * @returns {StateGroup} The state group.
-   */
-  getStateGroup(info, state) {
-    const { name } = state;
-    let sg = __privateGet(this, _stateGroupMap).get(name);
-    if (!sg) {
-      sg = new StateGroup(state);
-      __privateGet(this, _stateGroupMap).set(name, sg);
-      info.numStateGroups++;
-    }
-    return sg;
-  }
-  /**
-   * Call the given function for each state group.
-   * @param {Function} func - The function to call.
-   */
-  forEachStateGroup(func) {
-    __privateGet(this, _stateGroupMap).forEach(func);
-  }
-  /**
-   * Get the number of shapes.
-   * @returns {number} The number of shapes.
-   */
-  get numStateGroups() {
-    return __privateGet(this, _stateGroupMap).size;
-  }
-}
-_matrix2 = new WeakMap();
-_stateGroupMap = new WeakMap();
-class ProjMatrixGroup extends Base$1 {
-  /**
-   * Construct the class.
-   * @class
-   * @param {IMatrix44} matrix - The projection matrix.
-   */
-  constructor(matrix) {
-    super();
-    __privateAdd(this, _matrix3, [...IDENTITY_MATRIX]);
-    __privateAdd(this, _viewMatrixMap, /* @__PURE__ */ new Map());
-    copy$2(__privateGet(this, _matrix3), matrix);
-  }
-  /**
-   * Return the class name.
-   * @returns {string} The class name.
-   */
-  getClassName() {
-    return "Render.ProjMatrixGroup";
-  }
-  /**
-   * Get the matrix.
-   * @returns {IMatrix44} The matrix.
-   */
-  get matrix() {
-    return __privateGet(this, _matrix3);
-  }
-  /**
-   * Get the view matrix group. Make it if we have to.
-   * @param {IRenderGraphInfo} info - The render graph info.
-   * @param {IMatrix44} matrix - The view matrix.
-   * @returns {ViewMatrixGroup} The view matrix group.
-   */
-  getViewMatrixGroup(info, matrix) {
-    const name = JSON.stringify(matrix);
-    let mmg = __privateGet(this, _viewMatrixMap).get(name);
-    if (!mmg) {
-      mmg = new ViewMatrixGroup(matrix);
-      __privateGet(this, _viewMatrixMap).set(name, mmg);
-      info.numViewMatrixGroups++;
-    }
-    return mmg;
-  }
-  /**
-   * Call the given function for each view matrix group.
-   * @param {Function} func - The function to call.
-   */
-  forEachViewMatrixGroup(func) {
-    __privateGet(this, _viewMatrixMap).forEach(func);
-  }
-  /**
-   * Get the number of view matrices.
-   * @returns {number} The number of view matrices.
-   */
-  get numViewMatrices() {
-    return __privateGet(this, _viewMatrixMap).size;
-  }
-}
-_matrix3 = new WeakMap();
-_viewMatrixMap = new WeakMap();
-class Pipeline extends Base$1 {
-  /**
-   * Construct the class.
-   * @class
-   * @param {ShaderBase} shader - The pipeline shader.
-   */
-  constructor({ shader, topology }) {
-    super();
-    __privateAdd(this, _shader2);
-    __privateAdd(this, _topology3);
-    __privateAdd(this, _projMatrixMap, /* @__PURE__ */ new Map());
-    __privateSet(this, _shader2, shader);
-    __privateSet(this, _topology3, topology);
-  }
-  /**
-   * Return the class name.
-   * @returns {string} The class name.
-   */
-  getClassName() {
-    return "Render.Pipeline";
-  }
-  /**
-   * Get the projection matrix.
-   * @returns {IMatrix44} The projection matrix.
-   */
-  get projMatrix() {
-    return this.shader.projMatrix;
-  }
-  /**
-   * Set the projection matrix.
-   * @param {IMatrix44} matrix - The projection matrix.
-   */
-  set projMatrix(matrix) {
-    this.shader.projMatrix = matrix;
-  }
-  /**
-   * Get the view matrix.
-   * @returns {IMatrix44} The view matrix.
-   */
-  get viewMatrix() {
-    return this.shader.viewMatrix;
-  }
-  /**
-   * Set the view matrix.
-   * @param {IMatrix44} matrix - The view matrix.
-   */
-  set viewMatrix(matrix) {
-    this.shader.viewMatrix = matrix;
-  }
-  /**
-   * Get the projection matrix. Make it if we have to.
-   * @param {IRenderGraphInfo} info - The render graph info.
-   * @param {IMatrix44} matrix - The projection matrix.
-   * @returns {ProjMatrix} The projection matrix.
-   */
-  getProjMatrixGroup(info, matrix) {
-    const name = JSON.stringify(matrix);
-    let pmg = __privateGet(this, _projMatrixMap).get(name);
-    if (!pmg) {
-      pmg = new ProjMatrixGroup(matrix);
-      __privateGet(this, _projMatrixMap).set(name, pmg);
-      info.numProjMatrixGroups++;
-    }
-    return pmg;
-  }
-  /**
-   * Call the given function for each projection matrix.
-   * @param {Function} func - The function to call.
-   */
-  forEachProjMatrixGroup(func) {
-    __privateGet(this, _projMatrixMap).forEach(func);
-  }
-  /**
-   * Get the number of projection matrices.
-   * @returns {number} The number of projection matrices.
-   */
-  get numProjMatrices() {
-    return __privateGet(this, _projMatrixMap).size;
-  }
-  /**
-   * Get the shader.
-   * @returns {ShaderBase} The shader.
-   */
-  get shader() {
-    const shader = __privateGet(this, _shader2);
-    if (!shader) {
-      throw new Error("Pipeline has invalid shader");
-    }
-    return shader;
-  }
-  /**
-   * Get the topology.
-   * @returns {GPUPrimitiveTopology} The topology.
-   */
-  get topology() {
-    return __privateGet(this, _topology3);
-  }
-  /**
-   * Configure the render pass.
-   * @param {GPURenderPassEncoder} pass - The render pass encoder.
-   */
-  configureRenderPass(pass) {
-    const { shader } = this;
-    if (!shader) {
-      throw new Error(`Pipeline ${this.type} ${this.id} has invalid shader when configuring render pass`);
-    }
-    shader.configureRenderPass(pass, this.topology);
-  }
-}
-_shader2 = new WeakMap();
-_topology3 = new WeakMap();
-_projMatrixMap = new WeakMap();
-class Bin extends Base$1 {
-  /**
-   * Construct the class.
-   * @class
-   */
-  constructor() {
-    super();
-    __privateAdd(this, _pipelines, /* @__PURE__ */ new Map());
-  }
-  /**
-   * Return the class name.
-   * @returns {string} The class name.
-   */
-  getClassName() {
-    return "Render.Bin";
-  }
-  /**
-   * Get the pipeline. Make it if we have to.
-   * @param {IRenderGraphInfo} info - The render graph info.
-   * @param {State} state - The state.
-   * @returns {Pipeline} The pipeline.
-   */
-  getPipeline(info, state) {
-    const { shader, topology } = state;
-    if (!shader) {
-      throw new Error(`State '${state.name}' has invalid shader when getting pipeline`);
-    }
-    const name = `${shader.name}, ${topology}`;
-    let pipeline = __privateGet(this, _pipelines).get(name);
-    if (!pipeline) {
-      pipeline = new Pipeline({ shader, topology });
-      __privateGet(this, _pipelines).set(name, pipeline);
-      info.numPipelines++;
-    }
-    return pipeline;
-  }
-  /**
-   * Call the given function for each pipeline.
-   * @param {Function} func - The function to call.
-   */
-  forEachPipeline(func) {
-    __privateGet(this, _pipelines).forEach(func);
-  }
-  /**
-   * Get the number of pipelines.
-   * @returns {number} The number of pipelines.
-   */
-  get numPipelines() {
-    return __privateGet(this, _pipelines).size;
-  }
-}
-_pipelines = new WeakMap();
-const makeRenderGraphInfo = () => {
-  return {
-    numLayers: 0,
-    numBins: 0,
-    numPipelines: 0,
-    numProjMatrixGroups: 0,
-    numViewMatrixGroups: 0,
-    numStateGroups: 0,
-    numShapes: 0,
-    numTriangles: 0,
-    numLines: 0
-  };
-};
-const resetRenderGraphInfo = (info) => {
-  info.numLayers = 0;
-  info.numBins = 0;
-  info.numPipelines = 0;
-  info.numProjMatrixGroups = 0;
-  info.numViewMatrixGroups = 0;
-  info.numStateGroups = 0;
-  info.numShapes = 0;
-  info.numTriangles = 0;
-  info.numLines = 0;
-};
-class Layer extends Base$1 {
-  /**
-   * Construct the class.
-   * @class
-   */
-  constructor() {
-    super();
-    __privateAdd(this, _bins, /* @__PURE__ */ new Map());
-  }
-  /**
-   * Return the class name.
-   * @returns {string} The class name.
-   */
-  getClassName() {
-    return "Render.Layer";
-  }
-  /**
-   * Get the bin. Make it if we have to.
-   * @param {IRenderGraphInfo} info - The render graph info.
-   * @param {number} id - The bin ID.
-   * @returns {Bin} The bin.
-   */
-  getBin(info, id) {
-    let bin = __privateGet(this, _bins).get(id);
-    if (!bin) {
-      bin = new Bin();
-      __privateGet(this, _bins).set(id, bin);
-      info.numBins++;
-    }
-    return bin;
-  }
-  /**
-   * Call the given function for each bin in numerical order.
-   * @param {Function} func - The function to call.
-   */
-  forEachBin(func) {
-    const bins = Array.from(__privateGet(this, _bins).entries());
-    bins.sort((a, b) => {
-      return a[0] - b[0];
-    });
-    bins.forEach(([index, bin]) => {
-      func(bin, index);
-    });
-  }
-  /**
-   * Get the number of bins.
-   * @returns {number} The number of bins.
-   */
-  get numBins() {
-    return __privateGet(this, _bins).size;
-  }
-}
-_bins = new WeakMap();
-class Root extends Base$1 {
-  /**
-   * Construct the class.
-   * @class
-   */
-  constructor() {
-    super();
-    __privateAdd(this, _layers, /* @__PURE__ */ new Map());
-  }
-  /**
-   * Return the class name.
-   * @returns {string} The class name.
-   */
-  getClassName() {
-    return "Render.Root";
-  }
-  /**
-   * Get the layer. Make it if we have to.
-   * @param {IRenderGraphInfo} info - The render graph info.
-   * @param {number} index - The layer index.
-   * @returns {Layer} The layer.
-   */
-  getLayer(info, index) {
-    let layer = __privateGet(this, _layers).get(index);
-    if (!layer) {
-      layer = new Layer();
-      __privateGet(this, _layers).set(index, layer);
-      info.numLayers++;
-    }
-    return layer;
-  }
-  /**
-   * Call the given function for each layer in numerical order.
-   * @param {Function} func - The function to call.
-   */
-  forEachLayer(func) {
-    const layers = Array.from(__privateGet(this, _layers).entries());
-    layers.sort((a, b) => {
-      return a[0] - b[0];
-    });
-    layers.forEach(([index, layer]) => {
-      func(layer, index);
-    });
-  }
-  /**
-   * Get the number of layers.
-   * @returns {number} The number of layers.
-   */
-  get numLayers() {
-    return __privateGet(this, _layers).size;
-  }
-  /** 
-   * Clear the layers.
-   * @returns {void}
-   */
-  clear() {
-    __privateGet(this, _layers).clear();
-  }
-}
-_layers = new WeakMap();
-class Visitor extends Base$1 {
-  /**
-   * Construct the class.
-   * @class
-   */
-  constructor() {
-    super();
-  }
-  /**
-   * Visit the group.
-   * @param {Group} group - The group to visit.
-   */
-  visitChildren(group) {
-    group.forEachChild((child) => {
-      child.accept(this);
-    });
-  }
-  /**
-   * Visit the group.
-   * @param {Group} group - The group to visit.
-   */
-  visitGroup(group) {
-    this.visitChildren(group);
-  }
-  /**
-   * Visit the transform.
-   * @param {Transform} tr - The transform to visit.
-   */
-  visitTransform(tr) {
-    this.visitChildren(tr);
-  }
-  /**
-   * Visit the projection.
-   * @param {Projection} proj - The projection to visit.
-   */
-  visitProjection(proj) {
-    this.visitChildren(proj);
-  }
-  /**
-   * Visit the geometry.
-   * @param {Geometry} geom - The geometry to visit.
-   */
-  visitGeometry(geom) {
-  }
-  /**
-   * Visit the shape.
-   * @param {Shape} shape - The shape to visit.
-   */
-  visitShape(shape2) {
-  }
-  /**
-   * Visit the node.
-   * @param {Node} node - The node to visit.
-   */
-  visitNode(node2) {
-  }
-}
-class Multiply extends Visitor {
-  // Has to be a copy.
-  /**
-   * Construct the class.
-   * @class
-   */
-  constructor() {
-    super();
-    __privateAdd(this, _viewMatrix2, makeIdentity());
-    // Has to be a copy.
-    __privateAdd(this, _projMatrix2, makeIdentity());
-  }
-  /**
-   * Return the view matrix.
-   * @returns {IMatrix44} The view matrix.
-   */
-  get viewMatrix() {
-    return __privateGet(this, _viewMatrix2);
-  }
-  /**
-   * Return the projection matrix.
-   * @returns {IMatrix44} The projection matrix.
-   */
-  get projMatrix() {
-    return __privateGet(this, _projMatrix2);
-  }
-  /**
-   * Set the projection matrix.
-   * @param {IMatrix44} matrix - The projection matrix.
-   */
-  set projMatrix(matrix) {
-    if (!matrix) {
-      throw new Error("Invalid projection matrix");
-    }
-    if (16 !== matrix.length) {
-      throw new Error("Projection matrix must have 16 elements");
-    }
-    copy$2(__privateGet(this, _projMatrix2), matrix);
-  }
-  /**
-   * Visit the transform.
-   * @param {Transform} tr - The transform to visit.
-   */
-  visitTransform(tr) {
-    const original = [...__privateGet(this, _viewMatrix2)];
-    multiply$1(__privateGet(this, _viewMatrix2), original, tr.matrix);
-    super.visitTransform(tr);
-    copy$2(__privateGet(this, _viewMatrix2), original);
-  }
-  /**
-   * Visit the projection.
-   * @param {Projection} proj - The projection to visit.
-   */
-  visitProjection(proj) {
-    const original = [...__privateGet(this, _projMatrix2)];
-    this.projMatrix = proj.matrix;
-    super.visitProjection(proj);
-    this.projMatrix = original;
-  }
-}
-_viewMatrix2 = new WeakMap();
-_projMatrix2 = new WeakMap();
 const makeDefaultState = () => {
   return new State({
     name: "Cull visitor default state",
@@ -15808,8 +16059,7 @@ class Draw extends Visitor {
     super();
     __privateAdd(this, _context);
     __privateAdd(this, _depthTexture, null);
-    __privateAdd(this, _clearColor, [0.5, 0.5, 0.5, 1]);
-    // Grey.
+    __privateAdd(this, _clearColor, [...Color.gray]);
     __privateAdd(this, _renderPassEncoder, null);
     __privateAdd(this, _commandEncoder, null);
     __privateAdd(this, _geometry, null);
@@ -15909,7 +16159,7 @@ class Draw extends Visitor {
    * @returns {IVector4} The pre-multiplied clear color.
    */
   get preMultipliedClearColor() {
-    return preMultiplyColor(__privateGet(this, _clearColor));
+    return Color.preMultiply(__privateGet(this, _clearColor));
   }
   /**
    * Get or make the depth texture.
@@ -16302,7 +16552,10 @@ class BuildBoxes extends Multiply {
       const colors = new Float32Array(__privateGet(this, _colors2));
       const primitives = new Indexed({ topology: "line-list", indices });
       const geom = new Geometry({ points, colors, primitives });
-      geom.state = makeSolidColorState({ color: [0.5, 0.5, 0.5, 1], topology: "line-list" });
+      geom.state = SolidColor.makeState({
+        color: [...Color.gray],
+        topology: "line-list"
+      });
       __privateSet(this, _geom, geom);
     }
     return __privateGet(this, _geom);
@@ -16383,7 +16636,7 @@ class BuildBoxes extends Multiply {
       urf[1],
       urf[2]
     );
-    const c = [0.5, 0.5, 0.5, 1];
+    const c = [...Color.gray];
     const state = node2.state;
     if (state) {
       const shader = state.shader;
@@ -16619,12 +16872,7 @@ class Common extends Reader {
     {
       const topology = "triangle-list";
       tris.primitives = new Indexed({ topology, indices });
-      const color2 = [
-        clampNumber(Math.random(), 0.2, 0.8),
-        clampNumber(Math.random(), 0.2, 0.8),
-        clampNumber(Math.random(), 0.2, 0.8),
-        1
-      ];
+      const color2 = Color.makeRandomColor(0.2, 0.8);
       tris.state = PhongShading.makeState({ color: color2, twoSided: true, topology });
       tris.getBoundingBox();
       group.addChild(tris);
@@ -17274,7 +17522,7 @@ class TextReader extends Common {
       let facetCount = 0;
       let loopCount = 0;
       const scene = new Group();
-      const innerStep = (results, parser) => {
+      const innerStep = (results) => {
         ++rowCount;
         if (!results) {
           throw new Error(`Row ${rowCount} has no data`);
@@ -17407,7 +17655,7 @@ class TextReader extends Common {
       };
       const step = (results, parser) => {
         try {
-          innerStep(results, parser);
+          innerStep(results);
         } catch (error) {
           parser.abort();
           reject(
@@ -17731,6 +17979,7 @@ class Trackball extends NavBase {
     __privateAdd(this, _matrix4, null);
     __privateAdd(this, _inverse, null);
     __privateAdd(this, _mode, "track_ball");
+    __privateAdd(this, _localUp, [0, 1, 0]);
     __privateAdd(this, _state3, makeDefaultTrackballState());
   }
   /**
@@ -17790,6 +18039,17 @@ class Trackball extends NavBase {
     return ivm;
   }
   /**
+   * Get the rotation part of the view matrix.
+   * @returns {IMatrix44} The rotation part of the view matrix.
+   */
+  get rotationMatrix() {
+    const rotationMatrix = [...this.viewMatrix];
+    rotationMatrix[12] = 0;
+    rotationMatrix[13] = 0;
+    rotationMatrix[14] = 0;
+    return rotationMatrix;
+  }
+  /**
    * Get the rotation mode.
    * @returns {IRotationMode} The rotation mode.
    */
@@ -17801,7 +18061,38 @@ class Trackball extends NavBase {
    * @param {IRotationMode} mode - The rotation mode.
    */
   set mode(mode) {
+    if (mode === __privateGet(this, _mode)) {
+      return;
+    }
     __privateSet(this, _mode, mode);
+    if ("turn_table" !== mode) {
+      return;
+    }
+    const rm = this.rotationMatrix;
+    const rotateVector = (v) => {
+      const answer = [0, 0, 0];
+      transformMat4$1(answer, v, rm);
+      return answer;
+    };
+    const px = [1, 0, 0];
+    const py = [0, 1, 0];
+    const pz = [0, 0, 1];
+    const nx = [-1, 0, 0];
+    const ny = [0, -1, 0];
+    const nz = [0, 0, -1];
+    const yAxis = [0, 1, 0];
+    const dotProducts = [
+      { dot: dot(rotateVector(px), yAxis), axis: px },
+      { dot: dot(rotateVector(py), yAxis), axis: py },
+      { dot: dot(rotateVector(pz), yAxis), axis: pz },
+      { dot: dot(rotateVector(nx), yAxis), axis: nx },
+      { dot: dot(rotateVector(ny), yAxis), axis: ny },
+      { dot: dot(rotateVector(nz), yAxis), axis: nz }
+    ];
+    dotProducts.sort((a, b) => {
+      return b.dot - a.dot;
+    });
+    this.localUp = dotProducts[0].axis;
   }
   /**
    * Get the rotation mode. This is part of the INavigator interface.
@@ -17809,6 +18100,27 @@ class Trackball extends NavBase {
    */
   get rotationMode() {
     return this.mode;
+  }
+  /**
+   * Set the rotation mode. This is part of the INavigator interface.
+   * @param {IRotationMode} mode - The rotation mode.
+   */
+  set rotationMode(mode) {
+    this.mode = mode;
+  }
+  /**
+   * Get the local up vector.
+   * @returns {IVector3} The local up vector.
+   */
+  get localUp() {
+    return __privateGet(this, _localUp);
+  }
+  /**
+   * Set the local up vector.
+   * @param {IVector3} value - The local up vector.
+   */
+  set localUp(value) {
+    copy$1(__privateGet(this, _localUp), value);
   }
   /**
    * Get the center point.
@@ -17873,7 +18185,7 @@ class Trackball extends NavBase {
    * @param {ICoordinateSystem} space - The rotation space.
    */
   rotateAxisAngle(axis, radians, space) {
-    axis = normalizeVec3(axis);
+    axis = normalizeVec3([...axis]);
     let dr = [0, 0, 0, 1];
     setAxisAngle(dr, axis, radians);
     dr = normalizeQuat(dr);
@@ -18210,7 +18522,7 @@ class Trackball extends NavBase {
       }
       {
         const angle2 = (cm[0] - pm[0]) * DEG_TO_RAD * sensitivity[1] * scale2 * fraction;
-        this.rotateAxisAngle([0, 1, 0], angle2, "local");
+        this.rotateAxisAngle(this.localUp, angle2, "local");
       }
     };
     oneStep(0);
@@ -18220,6 +18532,7 @@ class Trackball extends NavBase {
 _matrix4 = new WeakMap();
 _inverse = new WeakMap();
 _mode = new WeakMap();
+_localUp = new WeakMap();
 _state3 = new WeakMap();
 const _Animation = class _Animation extends Base$1 {
   /**
@@ -18431,6 +18744,7 @@ class RotateX extends RotateAxisAngle {
   execute(event) {
     const { viewer } = event;
     const { navBase } = viewer;
+    const { localUp } = navBase;
     if ("track_ball" === navBase.rotationMode) {
       super.execute(event);
       return;
@@ -18442,7 +18756,7 @@ class RotateX extends RotateAxisAngle {
     const numSteps = 10;
     for (let i = numSteps; i > 0; --i) {
       const angle2 = originalAngle * (i / numSteps);
-      const yAxis = [0, 1, 0];
+      const yAxis = [...localUp];
       const origin = [0, 0, 0];
       transformMat4$1(yAxis, yAxis, navBase.viewMatrix);
       transformMat4$1(origin, origin, navBase.viewMatrix);
@@ -18491,6 +18805,43 @@ class RotateZ extends RotateAxisAngle {
    */
   constructor(angle2) {
     super([0, 0, 1], angle2);
+  }
+}
+class ToggleRotationMode extends Command {
+  /**
+   * Construct the class.
+   * @class
+   */
+  constructor() {
+    super();
+  }
+  /**
+   * Get the class name.
+   * @returns {string} The class name.
+   */
+  getClassName() {
+    return "Viewers.Commands.ToggleRotationMode";
+  }
+  /**
+   * Execute the command.
+   * @param {IEvent} event The event.
+   */
+  execute(event) {
+    const { viewer } = event;
+    const { navBase } = viewer;
+    switch (navBase.rotationMode) {
+      case "track_ball": {
+        navBase.rotationMode = "turn_table";
+        break;
+      }
+      case "turn_table": {
+        navBase.rotationMode = "track_ball";
+        break;
+      }
+      default: {
+        throw new Error(`Unsupported rotation mode: ${navBase.rotationMode}`);
+      }
+    }
   }
 }
 class ViewSphere extends Command {
@@ -18657,6 +19008,7 @@ function makeCommands() {
     ["rotate_py_small", new RotateY(DEG_TO_RAD * 5)],
     ["rotate_pz_large", new RotateZ(DEG_TO_RAD * 45)],
     ["rotate_pz_small", new RotateZ(DEG_TO_RAD * 5)],
+    ["toggle_rotation_mode", new ToggleRotationMode()],
     ["view_sphere_fit", new ViewSphere(false)],
     ["view_sphere_reset", new ViewSphere(true)]
   ]);
@@ -18677,6 +19029,7 @@ function makeInputToCommandMap() {
   const sr = "ShiftRight";
   const sp = "Space";
   const kf = "KeyF";
+  const kt = "KeyT";
   return new Map([
     makeTuple("mouse_rotate_large", "mouse_drag", [0], []),
     makeTuple("mouse_rotate_small", "mouse_drag", [0], [sl]),
@@ -18698,6 +19051,7 @@ function makeInputToCommandMap() {
     makeTuple("rotate_py_large", "key_down", [], [ar]),
     makeTuple("rotate_py_small", "key_down", [], [sl, ar]),
     makeTuple("rotate_py_small", "key_down", [], [sr, ar]),
+    makeTuple("toggle_rotation_mode", "key_down", [], [kt]),
     makeTuple("view_sphere_fit", "key_down", [], [kf]),
     makeTuple("view_sphere_reset", "key_down", [], [sp])
   ]);
@@ -18721,8 +19075,7 @@ class Surface extends Base$1 {
     __privateAdd(this, _visitors, null);
     __privateAdd(this, _root2, new Root());
     __privateAdd(this, _defaultState2, null);
-    __privateAdd(this, _clearColor2, [0, 0, 0, 0]);
-    // Transparent black.
+    __privateAdd(this, _clearColor2, [...Color.transparent]);
     __privateAdd(this, _info3, makeRenderGraphInfo());
     if (!canvas) {
       throw new Error("Invalid canvas when constructing a surface");
@@ -19780,6 +20133,10 @@ let Viewer$1 = (_c = class extends Surface {
    * @returns {(ICommand | null)} The command or null if there is none.
    */
   getCommand(event) {
+    const { keysDown, buttonsDown } = event;
+    if (keysDown.size <= 0 && buttonsDown.size <= 0) {
+      return null;
+    }
     const input = this.makeCommandMapKey(event);
     const name = __privateGet(_c, _inputToCommand).get(input);
     if (!name) {
@@ -20025,13 +20382,14 @@ const buildSceneSphere = (sphere) => {
   });
   node2.state = PhongShading.makeState({
     color: [0.8, 0.2, 0.2, 1],
+    twoSided: false,
     topology: "triangle-list"
   });
   root.addChild(node2);
   const lines = buildTriangleEdges(node2);
   if (lines) {
     lines.state = SolidColor.makeState({
-      color: [0, 0, 0, 1],
+      color: [...Color.black],
       topology: "line-list"
     });
   }
