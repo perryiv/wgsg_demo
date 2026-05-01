@@ -20133,10 +20133,6 @@ let Viewer$1 = (_c = class extends Surface {
    * @returns {(ICommand | null)} The command or null if there is none.
    */
   getCommand(event) {
-    const { keysDown, buttonsDown } = event;
-    if (keysDown.size <= 0 && buttonsDown.size <= 0) {
-      return null;
-    }
     const input = this.makeCommandMapKey(event);
     const name = __privateGet(_c, _inputToCommand).get(input);
     if (!name) {
