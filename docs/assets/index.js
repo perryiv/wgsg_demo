@@ -20701,6 +20701,19 @@ function App() {
     },
     [palette]
   );
+  const buildTimeStamp = reactExports.useMemo(
+    () => {
+      const date = /* @__PURE__ */ new Date(1777608693694);
+      const Y = date.getFullYear();
+      const M = String(date.getMonth() + 1).padStart(2, "0");
+      const D = String(date.getDate()).padStart(2, "0");
+      const h = String(date.getHours()).padStart(2, "0");
+      const m = String(date.getMinutes()).padStart(2, "0");
+      const s = String(date.getSeconds()).padStart(2, "0");
+      return `${Y}-${M}-${D} ${h}:${m}:${s}`;
+    },
+    []
+  );
   const getRenderGraphInfo = reactExports.useCallback(
     () => {
       const viewer = viewers.get(VIEWER_NAME);
@@ -20860,6 +20873,19 @@ function App() {
                   value: showStats,
                   children: "Render stats"
                 }
+              ),
+              verticalSpace(),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "div",
+                {
+                  style: {
+                    display: "flex",
+                    width: "100%",
+                    justifyContent: "center",
+                    fontSize: "14px"
+                  },
+                  children: buildTimeStamp
+                }
               )
             ]
           }
@@ -20867,6 +20893,7 @@ function App() {
       }
     );
   }, [
+    buildTimeStamp,
     handleAllowAnimations,
     handleShowStats,
     handleSimulateDeviceLost,
