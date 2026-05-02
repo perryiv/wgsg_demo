@@ -8,7 +8,7 @@ var __accessCheck = (obj, member, msg) => member.has(obj) || __typeError("Cannot
 var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
-var _black, _blue, _gray, _green, _magenta, _orange, _red, _transparent, _white, _yellow, _min, _max, _p0, _p1, _point, _normal, _c2, _r, _a, _id, _b, _instance, _isInitializing, _device, _preferredFormat, _values, _buffer, _state, _shapes, _matrix, _stateGroupMap, _matrix2, _viewMatrixMap, _shader, _topology, _projMatrixMap, _pipelines, _bins, _layers, _viewMatrix, _projMatrix, _state2, _parents, _flags, _children, _box, _matrix3, _topology2, _first, _count, _indices, _points, _normals, _colors, _texCoords, _primitives, _box2, _center, _radius, _numSubdivisions, _name, _layer, _bin, _shader2, _topology3, _apply, _reset, _code, _module, _data, _device2, _projMatrix2, _viewMatrix2, _instance2, _color, _twoSided, _lightDir, _uniforms, _bindGroup, _instance3, _color2, _uniforms2, _bindGroup2, _root, _defaultState, _currentState, _info, _states, _shaders, _context, _depthTexture, _clearColor, _renderPassEncoder, _commandEncoder, _geometry, _info2, _wasDirty, _indices2, _points2, _colors2, _geom, _progress, _fov, _aspect, _near, _far, _matrix4, _inverse, _mode, _localUp, _state3, _fun, _name2, _startTime, _duration, _axis, _angle, _space, _resetRotation, _scaleIn, _scaleOut, _scale, _scale2, _canvas, _context2, _observer, _viewport, _scene, _projection, _handles, _frame, _visitors, _root2, _defaultState2, _clearColor2, _info3, _eventListeners, _mouse, _navBase, _eventHandlers, _keyboardListeners, _mouseListeners, _clientListeners, _branches, _keysDown, _animations, _options, _c, _commands, _inputToCommand;
+var _black, _blue, _gray, _green, _magenta, _orange, _red, _transparent, _white, _yellow, _min, _max, _p0, _p1, _point, _normal, _c2, _r, _a, _id, _b, _instance, _isInitializing, _device, _preferredFormat, _values, _buffer, _state, _shapes, _matrix, _stateGroupMap, _matrix2, _viewMatrixMap, _shader, _topology, _projMatrixMap, _pipelines, _bins, _layers, _viewMatrix, _projMatrix, _state2, _parents, _flags, _children, _box, _matrix3, _topology2, _first, _count, _indices, _points, _normals, _colors, _texCoords, _primitives, _box2, _center, _radius, _numSubdivisions, _name, _layer, _bin, _shader2, _topology3, _apply, _reset, _code, _module, _data, _device2, _projMatrix2, _viewMatrix2, _instance2, _color, _twoSided, _lightDir, _uniforms, _bindGroup, _instance3, _color2, _uniforms2, _bindGroup2, _root, _defaultState, _currentState, _info, _states, _shaders, _context, _depthTexture, _clearColor, _renderPassEncoder, _commandEncoder, _geometry, _info2, _wasDirty, _indices2, _points2, _colors2, _geom, _progress, _color3, _point1, _point2, _point3, _edge1, _edge2, _fov, _aspect, _near, _far, _matrix4, _inverse, _mode, _localUp, _state3, _fun, _name2, _startTime, _duration, _axis, _angle, _space, _resetRotation, _scaleIn, _scaleOut, _scale, _scale2, _canvas, _context2, _observer, _viewport, _scene, _projection, _handles, _frame, _visitors, _root2, _defaultState2, _clearColor2, _info3, _eventListeners, _mouse, _navBase, _eventHandlers, _keyboardListeners, _mouseListeners, _clientListeners, _branches, _keysDown, _animations, _options, _c, _commands, _inputToCommand;
 function _mergeNamespaces(n, m) {
   for (var i = 0; i < m.length; i++) {
     const e = m[i];
@@ -16812,6 +16812,30 @@ class Common extends Reader {
    */
   constructor() {
     super();
+    // The default color is random in a developer build and gray in production.
+    // If the file has color as described in the "Materialise Magics software"
+    // then it will be reset. See: https://en.wikipedia.org/wiki/STL_(file_format)
+    __privateAdd(this, _color3, [0.5, 0.5, 0.5, 1]);
+    // These are allocated once here for speed in case they are needed below.
+    __privateAdd(this, _point1, [0, 0, 0]);
+    __privateAdd(this, _point2, [0, 0, 0]);
+    __privateAdd(this, _point3, [0, 0, 0]);
+    __privateAdd(this, _edge1, [0, 0, 0]);
+    __privateAdd(this, _edge2, [0, 0, 0]);
+  }
+  /**
+   * Get the color.
+   * @returns {IVector4} The color.
+   */
+  get color() {
+    return __privateGet(this, _color3);
+  }
+  /**
+   * Set the color.
+   * @param {IVector4} color The color to set.
+   */
+  set color(color2) {
+    copy$1(__privateGet(this, _color3), color2);
   }
   /**
    * Return a progress callback function. Make one if needed.
@@ -16867,12 +16891,18 @@ class Common extends Reader {
     if (points.length !== normals.length) {
       throw new Error(`Number of normals, ${normals.length}, is not equal to the number of points, ${points.length}`);
     }
+    if (0 !== indices.length % 3) {
+      throw new Error(`Number of indices, ${indices.length}, is not evenly divisible by 3`);
+    }
+    if (indices.length * 3 !== points.length) {
+      throw new Error(`Number of point coordinates, ${points.length}, is not three times the number of indices, ${indices.length}`);
+    }
     const group = new Group();
     const tris = new Geometry({ points, normals });
     {
       const topology = "triangle-list";
       tris.primitives = new Indexed({ topology, indices });
-      const color2 = Color.makeRandomColor(0.2, 0.8);
+      const color2 = this.color;
       tris.state = PhongShading.makeState({ color: color2, twoSided: true, topology });
       tris.getBoundingBox();
       group.addChild(tris);
@@ -16880,7 +16910,50 @@ class Common extends Reader {
     group.getBoundingBox();
     return group;
   }
+  /**
+   * Set the normal vector from the cross product of the triangle edges.
+   * @param {IVector3} normal The normal vector to set.
+   * @param {Float32Array} points The array of point coordinates.
+   * @param {number} pointCount The number of points in the points array.
+   */
+  setNormalFromCrossProduct(normal, points, pointCount) {
+    const end = pointCount;
+    if (end < 9 || 0 !== end % 9) {
+      throw new Error("Not enough points to calculate normal vector");
+    }
+    const point1 = __privateGet(this, _point1);
+    const point2 = __privateGet(this, _point2);
+    const point3 = __privateGet(this, _point3);
+    const edge1 = __privateGet(this, _edge1);
+    const edge2 = __privateGet(this, _edge2);
+    point1[0] = points[end - 9];
+    point1[1] = points[end - 8];
+    point1[2] = points[end - 7];
+    point2[0] = points[end - 6];
+    point2[1] = points[end - 5];
+    point2[2] = points[end - 4];
+    point3[0] = points[end - 3];
+    point3[1] = points[end - 2];
+    point3[2] = points[end - 1];
+    edge1[0] = point2[0] - point1[0];
+    edge1[1] = point2[1] - point1[1];
+    edge1[2] = point2[2] - point1[2];
+    edge2[0] = point3[0] - point1[0];
+    edge2[1] = point3[1] - point1[1];
+    edge2[2] = point3[2] - point1[2];
+    cross(normal, edge1, edge2);
+  }
 }
+_color3 = new WeakMap();
+_point1 = new WeakMap();
+_point2 = new WeakMap();
+_point3 = new WeakMap();
+_edge1 = new WeakMap();
+_edge2 = new WeakMap();
+const STL_HEADER_LENGTH = 80;
+const STL_TRIANGLE_COUNT_LENGTH = 4;
+const STL_START_OF_DATA = STL_HEADER_LENGTH + STL_TRIANGLE_COUNT_LENGTH;
+const STL_RECORD_LENGTH = 50;
 class BinaryReader extends Common {
   /**
    * Construct the class.
@@ -16897,14 +16970,55 @@ class BinaryReader extends Common {
     return "IO.Readers.STL.BinaryReader";
   }
   /**
+   * Get the color data, if any.
+   * @param {File} file The file to read.
+   * @returns {Promise<IVector4|null>} A promise that resolves to the color data, or null if there is none.
+   */
+  async getColorData(file) {
+    const header = await file.slice(0, STL_HEADER_LENGTH).text();
+    let index = header.indexOf("COLOR=");
+    if (-1 === index) {
+      return null;
+    }
+    index += 6;
+    const data = await file.slice(index, index + 12).arrayBuffer();
+    const view = new DataView(data);
+    const color2 = [
+      view.getUint8(0) / 255,
+      view.getUint8(1) / 255,
+      view.getUint8(2) / 255,
+      view.getUint8(3) / 255
+    ];
+    return color2;
+  }
+  /**
    * Read the file and return a promise that resolves to the scene node.
    * @param {File} file The file to read.
    * @returns {Promise<SceneNode>} A promise that resolves to the scene node.
    */
   read(file) {
     return new Promise((resolve, reject) => {
-      const recordSize = 50;
-      const offset = 84;
+      this.getColorData(file).then((color2) => {
+        this.color = color2 ?? this.color;
+        this.internalRead(file).then((scene) => {
+          resolve(scene);
+        }).catch((error) => {
+          reject(new Error(`Error reading STL file: ${error}`));
+        });
+      }).catch((error) => {
+        reject(new Error(`Error trying to read color information from STL file: ${error}`));
+      });
+    });
+  }
+  /**
+   * Read the file and return a promise that resolves to the scene node.
+   * @param {File} file The file to read.
+   * @returns {Promise<SceneNode>} A promise that resolves to the scene node.
+   */
+  internalRead(file) {
+    return new Promise((resolve, reject) => {
+      const recordSize = STL_RECORD_LENGTH;
+      const offset = STL_START_OF_DATA;
       const dataSize = file.size - offset;
       {
         if (dataSize < 0) {
@@ -17015,6 +17129,9 @@ class BinaryReader extends Common {
             points[pointCount++] = p3x;
             points[pointCount++] = p3y;
             points[pointCount++] = p3z;
+            if (0 === normal[0] && 0 === normal[1] && 0 === normal[2]) {
+              this.setNormalFromCrossProduct(normal, points, pointCount);
+            }
             normals[normalCount++] = normal[0];
             normals[normalCount++] = normal[1];
             normals[normalCount++] = normal[2];
@@ -17568,16 +17685,6 @@ class TextReader extends Common {
             normal[0] = parseFloat(parts[2]);
             normal[1] = parseFloat(parts[3]);
             normal[2] = parseFloat(parts[4]);
-            normalize$2(normal, normal);
-            normals[normalCount++] = normal[0];
-            normals[normalCount++] = normal[1];
-            normals[normalCount++] = normal[2];
-            normals[normalCount++] = normal[0];
-            normals[normalCount++] = normal[1];
-            normals[normalCount++] = normal[2];
-            normals[normalCount++] = normal[0];
-            normals[normalCount++] = normal[1];
-            normals[normalCount++] = normal[2];
             break;
           }
           case "outer": {
@@ -17617,6 +17724,19 @@ class TextReader extends Common {
             if (0 !== loopCount) {
               throw new Error(`Keyword 'endloop' on line ${rowCount} not balanced with 'outer'`);
             }
+            if (0 === normal[0] && 0 === normal[1] && 0 === normal[2]) {
+              this.setNormalFromCrossProduct(normal, points, pointCount);
+            }
+            normalize$2(normal, normal);
+            normals[normalCount++] = normal[0];
+            normals[normalCount++] = normal[1];
+            normals[normalCount++] = normal[2];
+            normals[normalCount++] = normal[0];
+            normals[normalCount++] = normal[1];
+            normals[normalCount++] = normal[2];
+            normals[normalCount++] = normal[0];
+            normals[normalCount++] = normal[1];
+            normals[normalCount++] = normal[2];
             break;
           }
           case "endfacet": {
@@ -20651,7 +20771,7 @@ function App() {
   );
   const buildTimeStamp = reactExports.useMemo(
     () => {
-      const date = /* @__PURE__ */ new Date(1777615733360);
+      const date = /* @__PURE__ */ new Date(1777684567466);
       const Y = date.getFullYear();
       const M = String(date.getMonth() + 1).padStart(2, "0");
       const D = String(date.getDate()).padStart(2, "0");
@@ -32798,4 +32918,4 @@ clientExports.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ jsxRuntimeExports.jsx(App, {})
   ] }) })
 );
-//# sourceMappingURL=index-JXrg3fVh.js.map
+//# sourceMappingURL=index-DEvAI1Dw.js.map
