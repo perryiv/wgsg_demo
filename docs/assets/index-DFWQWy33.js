@@ -8,7 +8,7 @@ var __accessCheck = (obj, member, msg) => member.has(obj) || __typeError("Cannot
 var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
-var _black, _blue, _gray, _green, _magenta, _orange, _red, _transparent, _white, _yellow, _min, _max, _p0, _p1, _point, _normal, _c2, _r, _a, _id, _b, _instance, _isInitializing, _device, _preferredFormat, _values, _buffer, _state, _shapes, _matrix, _stateGroupMap, _matrix2, _viewMatrixMap, _shader, _topology, _projMatrixMap, _pipelines, _bins, _layers, _viewMatrix, _projMatrix, _state2, _parents, _flags, _children, _box, _matrix3, _topology2, _first, _count, _indices, _points, _normals, _colors, _texCoords, _primitives, _box2, _center, _radius, _numSubdivisions, _name, _layer, _bin, _shader2, _topology3, _apply, _reset, _code, _module, _data, _device2, _projMatrix2, _viewMatrix2, _instance2, _color, _twoSided, _lightDir, _uniforms, _bindGroup, _instance3, _color2, _uniforms2, _bindGroup2, _root, _defaultState, _currentState, _info, _states, _shaders, _context, _depthTexture, _clearColor, _renderPassEncoder, _commandEncoder, _geometry, _info2, _wasDirty, _indices2, _points2, _colors2, _geom, _progress, _color3, _point1, _point2, _point3, _edge1, _edge2, _fov, _aspect, _near, _far, _matrix4, _inverse, _mode, _localUp, _state3, _fun, _name2, _startTime, _duration, _axis, _angle, _space, _resetRotation, _scaleIn, _scaleOut, _scale, _scale2, _canvas, _context2, _observer, _viewport, _scene, _projection, _handles, _frame, _visitors, _root2, _defaultState2, _clearColor2, _info3, _eventListeners, _mouse, _navBase, _eventHandlers, _keyboardListeners, _mouseListeners, _clientListeners, _branches, _keysDown, _animations, _options, _c, _commands, _inputToCommand;
+var _black, _blue, _gray, _green, _magenta, _orange, _red, _transparent, _white, _yellow, _min, _max, _p0, _p1, _point, _normal, _c2, _r, _a, _id, _b, _instance, _isInitializing, _device, _preferredFormat, _values, _buffer, _state, _shapes, _matrix, _stateGroupMap, _matrix2, _viewMatrixMap, _shader, _topology, _projMatrixMap, _pipelines, _bins, _layers, _viewMatrix, _projMatrix, _state2, _parents, _flags, _children, _sphere, _matrix3, _topology2, _first, _count, _indices, _points, _normals, _colors, _texCoords, _primitives, _box, _center, _radius, _numSubdivisions, _name, _layer, _bin, _shader2, _topology3, _apply, _reset, _code, _module, _data, _device2, _projMatrix2, _viewMatrix2, _instance2, _color, _twoSided, _lightDir, _uniforms, _bindGroup, _instance3, _color2, _uniforms2, _bindGroup2, _root, _defaultState, _currentState, _info, _states, _shaders, _context, _depthTexture, _clearColor, _renderPassEncoder, _commandEncoder, _geometry, _info2, _wasDirty, _indices2, _points2, _colors2, _geom, _boxes, _progress, _color3, _point1, _point2, _point3, _edge1, _edge2, _fov, _aspect, _near, _far, _matrix4, _inverse, _mode, _localUp, _state3, _fun, _name2, _startTime, _duration, _axis, _angle, _space, _resetRotation, _scaleIn, _scaleOut, _scale, _scale2, _canvas, _context2, _observer, _viewport, _scene, _projection, _handles, _frame, _visitors, _root2, _defaultState2, _clearColor2, _info3, _eventListeners, _mouse, _navBase, _eventHandlers, _keyboardListeners, _mouseListeners, _clientListeners, _branches, _keysDown, _animations, _options, _c, _commands, _inputToCommand;
 function _mergeNamespaces(n, m) {
   for (var i = 0; i < m.length; i++) {
     const e = m[i];
@@ -12759,24 +12759,23 @@ let Sphere$1 = (_a = class {
   }
   /**
    * Transform the sphere by a matrix.
-   * @param {Sphere} out - The output sphere.
+   * @param {Sphere} sphere - The input sphere.
    * @param {IMatrix44} m - The transformation matrix.
-   * @param {Sphere} a - The input sphere.
    * @returns {Sphere} The transformed sphere.
    */
-  static transform(out, m, a) {
-    const center = [...out.center];
-    transformMat4$1(center, a.center, m);
-    out.center = center;
-    out.radius = a.radius;
-    return out;
+  static transform(sphere, m) {
+    const center = [0, 0, 0];
+    transformMat4$1(center, sphere.center, m);
+    return new _a(center, sphere.radius);
   }
   /**
    * Transform the sphere by a matrix in place.
    * @param {IMatrix44} m - The transformation matrix.
    */
   transform(m) {
-    _a.transform(this, m, this);
+    const sphere = _a.transform(this, m);
+    this.center = sphere.center;
+    this.radius = sphere.radius;
   }
   /**
    * Grow the sphere to include a point.
@@ -13978,13 +13977,8 @@ class Node extends Base$1 {
    * Get the bounding sphere of this node.
    * @returns {Sphere} The bounding sphere of this node.
    */
-  getBoundingSphere() {
-    const box = this.getBoundingBox();
-    if (false === box.valid) {
-      return new Sphere$1();
-    }
-    const { center, radius } = box;
-    return new Sphere$1(center, radius);
+  get bounds() {
+    return this.getBoundingSphere();
   }
 }
 _state2 = new WeakMap();
@@ -13998,7 +13992,7 @@ class Group extends Node {
   constructor() {
     super();
     __privateAdd(this, _children, []);
-    __privateAdd(this, _box, new Box());
+    __privateAdd(this, _sphere, new Sphere$1());
   }
   /**
    * Return the class name.
@@ -14015,35 +14009,35 @@ class Group extends Node {
     visitor.visitGroup(this);
   }
   /**
-   * Get the bounding box of this node.
-   * @returns {Box} The bounding box of this node.
+   * Get the bounding sphere of this node.
+   * @returns {Sphere} The bounding sphere of this node.
    */
-  getBoundingBox() {
-    if (true === __privateGet(this, _box).valid) {
-      return __privateGet(this, _box);
+  getBoundingSphere() {
+    if (true === __privateGet(this, _sphere).valid) {
+      return __privateGet(this, _sphere);
     }
-    const answer = this.calculateBoundingBox();
+    const answer = this.calculateBoundingSphere();
     if (false === answer.valid) {
       return answer;
     }
-    __privateSet(this, _box, answer);
+    __privateSet(this, _sphere, answer);
     return answer;
   }
   /**
-   * Calculate the bounding box of this node.
-   * @returns {Box} The bounding box of this node.
+   * Calculate the bounding sphere of this node.
+   * @returns {Sphere} The bounding sphere of this node.
    */
-  calculateBoundingBox() {
-    const answer = new Box();
+  calculateBoundingSphere() {
+    const answer = new Sphere$1();
     this.forEachChild((child) => {
       if (false === hasBits(child.flags, Flags.ADDS_TO_BOUNDS)) {
         return;
       }
-      const box = child.getBoundingBox();
-      if (false === box.valid) {
+      const { bounds } = child;
+      if (false === bounds.valid) {
         return;
       }
-      answer.growByBox(box);
+      answer.growBySphere(bounds);
     });
     return answer;
   }
@@ -14051,7 +14045,7 @@ class Group extends Node {
    * Dirty the bounds of this node.
    */
   dirtyBounds() {
-    __privateSet(this, _box, new Box());
+    __privateSet(this, _sphere, new Sphere$1());
     this.forEachParent((parent) => {
       parent.dirtyBounds();
     });
@@ -14144,7 +14138,7 @@ class Group extends Node {
   }
 }
 _children = new WeakMap();
-_box = new WeakMap();
+_sphere = new WeakMap();
 class Transform extends Group {
   /**
    * Construct the class.
@@ -14216,15 +14210,15 @@ class Transform extends Group {
     return isValidMatrix(__privateGet(this, _matrix3));
   }
   /**
-   * Calculate the bounding box of this node.
-   * @returns {Box} The bounding box of this node.
+   * Calculate the bounding sphere of this node.
+   * @returns {Sphere} The bounding sphere of this node.
    */
-  calculateBoundingBox() {
-    const answer = super.calculateBoundingBox();
-    if (false === answer.valid) {
-      return answer;
+  calculateBoundingSphere() {
+    const sphere = super.calculateBoundingSphere();
+    if (false === sphere.valid) {
+      return sphere;
     }
-    return Box.transform(answer, __privateGet(this, _matrix3));
+    return Sphere$1.transform(sphere, __privateGet(this, _matrix3));
   }
 }
 _matrix3 = new WeakMap();
@@ -14460,6 +14454,25 @@ class Shape extends Node {
     super(input);
   }
   /**
+   * Get the bounding box of this node.
+   * @returns {Box} The bounding box of this node.
+   */
+  get box() {
+    return this.getBoundingBox();
+  }
+  /**
+   * Get the bounding sphere of this node.
+   * @returns {Sphere} The bounding sphere of this node.
+   */
+  getBoundingSphere() {
+    const { box } = this;
+    if (false === box.valid) {
+      return new Sphere$1();
+    }
+    const { center, radius } = box;
+    return new Sphere$1(center, radius);
+  }
+  /**
    * Traverse this node.
    * @param {INodeTraverseCallback} cb - Callback function.
    */
@@ -14480,7 +14493,7 @@ class Geometry extends Shape {
     __privateAdd(this, _colors, null);
     __privateAdd(this, _texCoords, null);
     __privateAdd(this, _primitives, null);
-    __privateAdd(this, _box2, new Box());
+    __privateAdd(this, _box, new Box());
     const { points, normals, colors, texCoords, primitives } = input ?? {};
     if (points) {
       this.points = points;
@@ -14517,14 +14530,14 @@ class Geometry extends Shape {
    * @returns {Box} The bounding box of this node.
    */
   getBoundingBox() {
-    if (true === __privateGet(this, _box2).valid) {
-      return __privateGet(this, _box2);
+    if (true === __privateGet(this, _box).valid) {
+      return __privateGet(this, _box);
     }
     const answer = this.calculateBoundingBox();
     if (false === answer.valid) {
       return answer;
     }
-    __privateSet(this, _box2, answer);
+    __privateSet(this, _box, answer);
     return answer;
   }
   /**
@@ -14557,7 +14570,7 @@ class Geometry extends Shape {
    * Dirty the bounds of this node.
    */
   dirtyBounds() {
-    __privateSet(this, _box2, new Box());
+    __privateSet(this, _box, new Box());
     this.forEachParent((parent) => {
       parent.dirtyBounds();
     });
@@ -14718,7 +14731,7 @@ _normals = new WeakMap();
 _colors = new WeakMap();
 _texCoords = new WeakMap();
 _primitives = new WeakMap();
-_box2 = new WeakMap();
+_box = new WeakMap();
 class Sphere extends Geometry {
   /**
    * Construct the class.
@@ -16524,6 +16537,7 @@ class BuildBoxes extends Multiply {
     __privateAdd(this, _points2, []);
     __privateAdd(this, _colors2, []);
     __privateAdd(this, _geom, null);
+    __privateAdd(this, _boxes, /* @__PURE__ */ new Map());
   }
   /**
    * Return the class name.
@@ -16540,6 +16554,7 @@ class BuildBoxes extends Multiply {
     __privateSet(this, _points2, []);
     __privateSet(this, _colors2, []);
     __privateSet(this, _geom, null);
+    __privateGet(this, _boxes).clear();
   }
   /**
    * Get the built geometry.
@@ -16562,11 +16577,11 @@ class BuildBoxes extends Multiply {
   }
   /**
    * Add the box.
-   * @param {SceneNode} node - The scene node.
+   * @param {Box} box - The box to add.
+   * @param {State | null} state - The state of the corresponding shape.
    * @param {IMatrix44} [viewMatrix] - The view matrix.
    */
-  addBox(node2, viewMatrix) {
-    const box = node2.getBoundingBox();
+  addBox(box, state, viewMatrix) {
     if (false === box.valid) {
       return;
     }
@@ -16637,9 +16652,8 @@ class BuildBoxes extends Multiply {
       urf[2]
     );
     const c = [...Color.gray];
-    const state = node2.state;
     if (state) {
-      const shader = state.shader;
+      const { shader } = state;
       if (shader instanceof SolidColor) {
         copy(c, shader.color);
       }
@@ -16680,34 +16694,54 @@ class BuildBoxes extends Multiply {
     );
   }
   /**
-   * Visit the node.
-   * @param {Geometry} geom - The geometry node.
+   * Make a box that holds all the boxes of the child nodes.
+   * @param {Group} group - The group to get the box for.
+   * @returns {Box} The box holding the group's children's boxes.
    */
-  visitGeometry(geom) {
-    this.addBox(geom, this.viewMatrix);
-    super.visitGeometry(geom);
+  makeGroupBox(group) {
+    const box = new Box();
+    group.forEachChild((child) => {
+      const cb = __privateGet(this, _boxes).get(child.id);
+      if (cb) {
+        box.growByBox(cb);
+      }
+    });
+    return box;
+  }
+  /**
+   * Visit the node.
+   * @param {Shape} shape - The shape node.
+   */
+  visitGeometry(shape2) {
+    super.visitShape(shape2);
+    this.addBox(shape2.box, shape2.state, this.viewMatrix);
   }
   /**
    * Visit the node.
    * @param {Group} group - The group node.
    */
   visitGroup(group) {
-    this.addBox(group, this.viewMatrix);
     super.visitGroup(group);
+    const box = this.makeGroupBox(group);
+    __privateGet(this, _boxes).set(group.id, box);
+    this.addBox(box, group.state, this.viewMatrix);
   }
   /**
    * Visit the node.
    * @param {Transform} tr - The transform node.
    */
   visitTransform(tr) {
-    this.addBox(tr, IDENTITY_MATRIX);
     super.visitTransform(tr);
+    const box = this.makeGroupBox(tr);
+    __privateGet(this, _boxes).set(tr.id, box);
+    this.addBox(box, tr.state, IDENTITY_MATRIX);
   }
 }
 _indices2 = new WeakMap();
 _points2 = new WeakMap();
 _colors2 = new WeakMap();
 _geom = new WeakMap();
+_boxes = new WeakMap();
 const buildBoundingBoxes = (scene) => {
   const visitor = new BuildBoxes();
   scene.accept(visitor);
@@ -16904,10 +16938,10 @@ class Common extends Reader {
       tris.primitives = new Indexed({ topology, indices });
       const color2 = this.color;
       tris.state = PhongShading.makeState({ color: color2, twoSided: true, topology });
-      tris.getBoundingBox();
+      void tris.box;
       group.addChild(tris);
     }
-    group.getBoundingBox();
+    void group.bounds;
     return group;
   }
   /**
@@ -17164,7 +17198,7 @@ class BinaryReader extends Common {
               indexCount
             ));
             onProgress(numTriangles, numTriangles);
-            scene.getBoundingBox();
+            void scene.bounds;
             resolve(scene);
           }
         };
@@ -17910,6 +17944,10 @@ class Projection extends Base$1 {
     super();
   }
 }
+const MIN_NEAR_DISTANCE = 0.01;
+const MAX_FAR_DISTANCE = 1e4;
+const DEFAULT_NEAR_DISTANCE = MIN_NEAR_DISTANCE;
+const DEFAULT_FAR_DISTANCE = MAX_FAR_DISTANCE;
 class Perspective extends Projection {
   /**
    * Construct the class.
@@ -17920,8 +17958,8 @@ class Perspective extends Projection {
     super();
     __privateAdd(this, _fov, 45);
     __privateAdd(this, _aspect, 1);
-    __privateAdd(this, _near, 0.01);
-    __privateAdd(this, _far, 1e4);
+    __privateAdd(this, _near, DEFAULT_NEAR_DISTANCE);
+    __privateAdd(this, _far, DEFAULT_FAR_DISTANCE);
     if (input) {
       this.setFrom(input);
     }
@@ -17974,10 +18012,10 @@ class Perspective extends Projection {
     if (far <= near) {
       throw new Error(`Invalid distances when setting perspective projection members, near: ${near}, far: ${far}`);
     }
-    __privateSet(this, _fov, fov);
-    __privateSet(this, _aspect, aspect);
-    __privateSet(this, _near, near);
-    __privateSet(this, _far, far);
+    this.fov = fov;
+    this.aspect = aspect;
+    this.near = near;
+    this.far = far;
   }
   /**
    * Return the projection matrix.
@@ -17994,6 +18032,26 @@ class Perspective extends Projection {
     const answer = [...IDENTITY_MATRIX];
     perspective(answer, fov, aspect, near, far);
     return answer;
+  }
+  /**
+   * Update the projection's near and far distances.
+   * @param {Sphere} sphere - The bounding sphere to use when updating the distances.
+   */
+  updateNearFar(sphere) {
+    if (false === sphere.valid) {
+      return;
+    }
+    const cz = sphere.center[2] * -1;
+    const r2 = sphere.radius;
+    const minZ = (cz - r2) * 0.5;
+    const maxZ = (cz + r2) * 1.5;
+    const near = Math.max(minZ, MIN_NEAR_DISTANCE);
+    const far = Math.min(maxZ, MAX_FAR_DISTANCE);
+    if (near <= 0 || far <= 0 || near >= far) {
+      return;
+    }
+    this.near = near;
+    this.far = far;
   }
   /**
    * Get the field-of-view.
@@ -18044,7 +18102,7 @@ class Perspective extends Projection {
     if (false === isPositiveFiniteNumber(near)) {
       throw new Error(`Given near distance '${near}' is not a positive finite number`);
     }
-    __privateSet(this, _near, near);
+    __privateSet(this, _near, near >= MIN_NEAR_DISTANCE ? near : MIN_NEAR_DISTANCE);
   }
   /**
    * Get the far distance.
@@ -18061,7 +18119,7 @@ class Perspective extends Projection {
     if (false === isPositiveFiniteNumber(far)) {
       throw new Error(`Given far distance '${far}' is not a positive finite number`);
     }
-    __privateSet(this, _far, far);
+    __privateSet(this, _far, far <= MAX_FAR_DISTANCE ? far : MAX_FAR_DISTANCE);
   }
   /**
    * Let the projection know about the new viewport.
@@ -19555,6 +19613,7 @@ class Surface extends Base$1 {
     }
     const uv = this.updateVisitor;
     uv.update(scene);
+    this.projection.updateNearFar(scene.bounds);
   }
   /**
    * Cull the scene using the view frustum, generating the render-graph.
@@ -20143,7 +20202,7 @@ let Viewer$1 = (_c = class extends Surface {
    */
   viewAll(options) {
     var _a2;
-    const sphere = (_a2 = this.modelScene) == null ? void 0 : _a2.getBoundingSphere();
+    const sphere = (_a2 = this.modelScene) == null ? void 0 : _a2.bounds;
     if (sphere) {
       const resetRotation = options == null ? void 0 : options.resetRotation;
       const animate = options == null ? void 0 : options.animate;
@@ -20581,7 +20640,7 @@ function Viewer({ style: style2 }) {
         console.warn(`No viewer found with name: ${VIEWER_NAME}`);
         return;
       }
-      model.getBoundingBox();
+      void model.bounds;
       viewer.modelScene = model;
       viewer.viewAll({ animate: false });
       viewer.requestRender();
@@ -20771,7 +20830,7 @@ function App() {
   );
   const buildTimeStamp = reactExports.useMemo(
     () => {
-      const date = /* @__PURE__ */ new Date(1777684567466);
+      const date = /* @__PURE__ */ new Date(1777959771472);
       const Y = date.getFullYear();
       const M = String(date.getMonth() + 1).padStart(2, "0");
       const D = String(date.getDate()).padStart(2, "0");
@@ -32918,4 +32977,4 @@ clientExports.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ jsxRuntimeExports.jsx(App, {})
   ] }) })
 );
-//# sourceMappingURL=index-DEvAI1Dw.js.map
+//# sourceMappingURL=index-DFWQWy33.js.map
