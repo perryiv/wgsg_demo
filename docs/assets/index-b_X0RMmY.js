@@ -6740,7 +6740,7 @@ function getSvgIconUtilityClass(slot) {
   return generateUtilityClass("MuiSvgIcon", slot);
 }
 generateUtilityClasses("MuiSvgIcon", ["root", "colorPrimary", "colorSecondary", "colorAction", "colorError", "colorDisabled", "fontSizeInherit", "fontSizeSmall", "fontSizeMedium", "fontSizeLarge"]);
-const useUtilityClasses$a = (ownerState) => {
+const useUtilityClasses$b = (ownerState) => {
   const {
     color: color2,
     fontSize,
@@ -6885,7 +6885,7 @@ const SvgIcon = /* @__PURE__ */ reactExports.forwardRef(function SvgIcon2(inProp
   if (!inheritViewBox) {
     more.viewBox = viewBox;
   }
-  const classes = useUtilityClasses$a(ownerState);
+  const classes = useUtilityClasses$b(ownerState);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(SvgIconRoot, {
     as: component,
     className: clsx(classes.root, className),
@@ -7342,7 +7342,7 @@ function getPaperUtilityClass(slot) {
   return generateUtilityClass("MuiPaper", slot);
 }
 generateUtilityClasses("MuiPaper", ["root", "rounded", "outlined", "elevation", "elevation0", "elevation1", "elevation2", "elevation3", "elevation4", "elevation5", "elevation6", "elevation7", "elevation8", "elevation9", "elevation10", "elevation11", "elevation12", "elevation13", "elevation14", "elevation15", "elevation16", "elevation17", "elevation18", "elevation19", "elevation20", "elevation21", "elevation22", "elevation23", "elevation24"]);
-const useUtilityClasses$9 = (ownerState) => {
+const useUtilityClasses$a = (ownerState) => {
   const {
     square,
     elevation,
@@ -7415,7 +7415,7 @@ const Paper = /* @__PURE__ */ reactExports.forwardRef(function Paper2(inProps, r
     square,
     variant
   };
-  const classes = useUtilityClasses$9(ownerState);
+  const classes = useUtilityClasses$a(ownerState);
   return /* @__PURE__ */ jsxRuntimeExports.jsx(PaperRoot, {
     as: component,
     ownerState,
@@ -7876,7 +7876,7 @@ function getButtonBaseUtilityClass(slot) {
   return generateUtilityClass("MuiButtonBase", slot);
 }
 const buttonBaseClasses = generateUtilityClasses("MuiButtonBase", ["root", "disabled", "focusVisible"]);
-const useUtilityClasses$8 = (ownerState) => {
+const useUtilityClasses$9 = (ownerState) => {
   const {
     disabled,
     focusVisible,
@@ -8093,7 +8093,7 @@ const ButtonBase = /* @__PURE__ */ reactExports.forwardRef(function ButtonBase2(
     tabIndex,
     focusVisible
   };
-  const classes = useUtilityClasses$8(ownerState);
+  const classes = useUtilityClasses$9(ownerState);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(ButtonBaseRoot, {
     as: ComponentProp,
     className: clsx(classes.root, className),
@@ -8187,7 +8187,7 @@ const rotateAnimation = typeof circularRotateKeyframe !== "string" ? css`
 const dashAnimation = typeof circularDashKeyframe !== "string" ? css`
         animation: ${circularDashKeyframe} 1.4s ease-in-out infinite;
       ` : null;
-const useUtilityClasses$7 = (ownerState) => {
+const useUtilityClasses$8 = (ownerState) => {
   const {
     classes,
     variant,
@@ -8310,7 +8310,7 @@ const CircularProgress = /* @__PURE__ */ reactExports.forwardRef(function Circul
     value,
     variant
   };
-  const classes = useUtilityClasses$7(ownerState);
+  const classes = useUtilityClasses$8(ownerState);
   const circleStyle = {};
   const rootStyle = {};
   const rootProps = {};
@@ -8367,7 +8367,7 @@ const v6Colors = {
   textDisabled: true
 };
 const extendSxProp = internal_createExtendSxProp();
-const useUtilityClasses$6 = (ownerState) => {
+const useUtilityClasses$7 = (ownerState) => {
   const {
     align,
     gutterBottom,
@@ -8510,7 +8510,7 @@ const Typography = /* @__PURE__ */ reactExports.forwardRef(function Typography2(
     variantMapping
   };
   const Component = component || (paragraph ? "p" : variantMapping[variant] || defaultVariantMapping[variant]) || "span";
-  const classes = useUtilityClasses$6(ownerState);
+  const classes = useUtilityClasses$7(ownerState);
   return /* @__PURE__ */ jsxRuntimeExports.jsx(TypographyRoot, {
     as: Component,
     ref,
@@ -8550,7 +8550,7 @@ function getButtonUtilityClass(slot) {
 const buttonClasses = generateUtilityClasses("MuiButton", ["root", "text", "textInherit", "textPrimary", "textSecondary", "textSuccess", "textError", "textInfo", "textWarning", "outlined", "outlinedInherit", "outlinedPrimary", "outlinedSecondary", "outlinedSuccess", "outlinedError", "outlinedInfo", "outlinedWarning", "contained", "containedInherit", "containedPrimary", "containedSecondary", "containedSuccess", "containedError", "containedInfo", "containedWarning", "disableElevation", "focusVisible", "disabled", "colorInherit", "colorPrimary", "colorSecondary", "colorSuccess", "colorError", "colorInfo", "colorWarning", "textSizeSmall", "textSizeMedium", "textSizeLarge", "outlinedSizeSmall", "outlinedSizeMedium", "outlinedSizeLarge", "containedSizeSmall", "containedSizeMedium", "containedSizeLarge", "sizeMedium", "sizeSmall", "sizeLarge", "fullWidth", "startIcon", "endIcon", "icon", "iconSizeSmall", "iconSizeMedium", "iconSizeLarge", "loading", "loadingWrapper", "loadingIconPlaceholder", "loadingIndicator", "loadingPositionCenter", "loadingPositionStart", "loadingPositionEnd"]);
 const ButtonGroupContext = /* @__PURE__ */ reactExports.createContext({});
 const ButtonGroupButtonContext = /* @__PURE__ */ reactExports.createContext(void 0);
-const useUtilityClasses$5 = (ownerState) => {
+const useUtilityClasses$6 = (ownerState) => {
   const {
     color: color2,
     disableElevation,
@@ -9052,7 +9052,7 @@ const Button$1 = /* @__PURE__ */ reactExports.forwardRef(function Button2(inProp
     type,
     variant
   };
-  const classes = useUtilityClasses$5(ownerState);
+  const classes = useUtilityClasses$6(ownerState);
   const startIcon = (startIconProp || loading && loadingPosition === "start") && /* @__PURE__ */ jsxRuntimeExports.jsx(ButtonStartIcon, {
     className: classes.startIcon,
     ownerState,
@@ -9097,6 +9097,49 @@ const Button$1 = /* @__PURE__ */ reactExports.forwardRef(function Button2(inProp
     ...other,
     classes,
     children: [startIcon, loadingPosition !== "end" && loader, children, loadingPosition === "end" && loader, endIcon]
+  });
+});
+function getCardUtilityClass(slot) {
+  return generateUtilityClass("MuiCard", slot);
+}
+generateUtilityClasses("MuiCard", ["root"]);
+const useUtilityClasses$5 = (ownerState) => {
+  const {
+    classes
+  } = ownerState;
+  const slots = {
+    root: ["root"]
+  };
+  return composeClasses(slots, getCardUtilityClass, classes);
+};
+const CardRoot = styled(Paper, {
+  name: "MuiCard",
+  slot: "Root",
+  overridesResolver: (props, styles2) => styles2.root
+})({
+  overflow: "hidden"
+});
+const Card = /* @__PURE__ */ reactExports.forwardRef(function Card2(inProps, ref) {
+  const props = useDefaultProps({
+    props: inProps,
+    name: "MuiCard"
+  });
+  const {
+    className,
+    raised = false,
+    ...other
+  } = props;
+  const ownerState = {
+    ...props,
+    raised
+  };
+  const classes = useUtilityClasses$5(ownerState);
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(CardRoot, {
+    className: clsx(classes.root, className),
+    elevation: raised ? 8 : void 0,
+    ref,
+    ownerState,
+    ...other
   });
 });
 function getSwitchBaseUtilityClass(slot) {
@@ -10819,6 +10862,10 @@ const IDENTITY_MATRIX = [
 ];
 const DEG_TO_RAD = Math.PI / 180;
 const KEEP_PERFORMANCE_INFO = "true" === BUILD_ENVIRONMENT.VITE_KEEP_PERFORMANCE_INFO.toLowerCase();
+const MIN_NEAR_DISTANCE = 0.01;
+const MAX_FAR_DISTANCE = 1e4;
+const DEFAULT_NEAR_DISTANCE = MIN_NEAR_DISTANCE;
+const DEFAULT_FAR_DISTANCE = MAX_FAR_DISTANCE;
 var EPSILON = 1e-6;
 var ARRAY_TYPE = typeof Float32Array !== "undefined" ? Float32Array : Array;
 function create$4() {
@@ -13044,9 +13091,18 @@ const _Device = class _Device extends Base$1 {
    * Check for WebGPU support.
    * @returns {boolean} True if WebGPU is supported, false otherwise.
    */
-  static get supported() {
+  static async isSupported() {
     const { gpu } = globalThis.navigator;
-    return !!gpu;
+    if (!gpu) {
+      return false;
+    }
+    try {
+      const adapter = await gpu.requestAdapter();
+      return !!adapter;
+    } catch (error) {
+      console.error("Error while checking for WebGPU support:", error);
+      return false;
+    }
   }
   /**
    * Is the device valid?
@@ -17944,10 +18000,6 @@ class Projection extends Base$1 {
     super();
   }
 }
-const MIN_NEAR_DISTANCE = 0.01;
-const MAX_FAR_DISTANCE = 1e4;
-const DEFAULT_NEAR_DISTANCE = MIN_NEAR_DISTANCE;
-const DEFAULT_FAR_DISTANCE = MAX_FAR_DISTANCE;
 class Perspective extends Projection {
   /**
    * Construct the class.
@@ -20580,6 +20632,7 @@ function Viewer({ style: style2 }) {
   const getViewer = useViewerStore((state) => state.getViewer);
   const setViewer = useViewerStore((state) => state.setViewer);
   const [progress, setProgress] = reactExports.useState(0);
+  const [supported, setSupported] = reactExports.useState(null);
   const buildTestScene = reactExports.useCallback(
     () => {
       const group = new Group();
@@ -20714,6 +20767,17 @@ function Viewer({ style: style2 }) {
     setViewer
   ]);
   const handleMount = reactExports.useCallback(async () => {
+    if (null === supported) {
+      if (false === await Device.isSupported()) {
+        console.warn("WebGPU is not supported in this browser");
+        setSupported(false);
+        return;
+      }
+      setSupported(true);
+    }
+    if (false === supported) {
+      return;
+    }
     if (true === isMounting.current) {
       console.log("We are still handling the previous mount");
       return;
@@ -20725,8 +20789,8 @@ function Viewer({ style: style2 }) {
     isMounting.current = false;
   }, [
     getOrCreateViewer,
-    // id,
-    initDevice
+    initDevice,
+    supported
   ]);
   reactExports.useEffect(
     () => {
@@ -20793,6 +20857,60 @@ function Viewer({ style: style2 }) {
       }
     );
   }, []);
+  const renderNotSupported = reactExports.useCallback(
+    () => {
+      if (true === supported) {
+        return null;
+      }
+      return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        Card,
+        {
+          style: {
+            position: "absolute",
+            top: "33%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            padding: "20px",
+            textAlign: "center"
+          },
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "h1",
+              {
+                style: {
+                  transform: "rotate(90deg)"
+                },
+                children: ":-("
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "WebGPU is not supported in this browser" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "You can check browser support " }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "a",
+              {
+                href: "https://github.com/gpuweb/gpuweb/wiki/Implementation-Status",
+                target: "_blank",
+                rel: "noopener noreferrer",
+                children: "here"
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: " and " }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "a",
+              {
+                href: "https://caniuse.com/webgpu",
+                target: "_blank",
+                rel: "noopener noreferrer",
+                children: "here"
+              }
+            )
+          ]
+        }
+      );
+    },
+    [supported]
+  );
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(
       "canvas",
@@ -20803,6 +20921,7 @@ function Viewer({ style: style2 }) {
         onDrop: handleDroppedFiles
       }
     ),
+    renderNotSupported(),
     renderProgressBar(progress)
   ] });
 }
@@ -20830,7 +20949,7 @@ function App() {
   );
   const buildTimeStamp = reactExports.useMemo(
     () => {
-      const date = /* @__PURE__ */ new Date(1778004782465);
+      const date = /* @__PURE__ */ new Date(1778040756681);
       const Y = date.getFullYear();
       const M = String(date.getMonth() + 1).padStart(2, "0");
       const D = String(date.getDate()).padStart(2, "0");
@@ -32977,4 +33096,4 @@ clientExports.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ jsxRuntimeExports.jsx(App, {})
   ] }) })
 );
-//# sourceMappingURL=index-BQ-eoQ1b.js.map
+//# sourceMappingURL=index-b_X0RMmY.js.map
