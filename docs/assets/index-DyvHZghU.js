@@ -8,7 +8,7 @@ var __accessCheck = (obj, member, msg) => member.has(obj) || __typeError("Cannot
 var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
-var _black, _blue, _gray, _green, _magenta, _orange, _red, _transparent, _white, _yellow, _min, _max, _p0, _p1, _point, _normal, _c2, _r, _a, _id, _b, _instance, _isInitializing, _device, _preferredFormat, _values, _buffer, _state, _shapes, _matrix, _stateGroupMap, _matrix2, _viewMatrixMap, _shader, _topology, _projMatrixMap, _pipelines, _bins, _layers, _viewMatrix, _projMatrix, _state2, _parents, _flags, _children, _sphere, _matrix3, _topology2, _first, _count, _indices, _points, _normals, _colors, _texCoords, _primitives, _box, _center, _radius, _numSubdivisions, _name, _layer, _bin, _shader2, _topology3, _apply, _reset, _code, _module, _data, _device2, _projMatrix2, _viewMatrix2, _instance2, _color, _twoSided, _lightDir, _uniforms, _bindGroup, _instance3, _color2, _uniforms2, _bindGroup2, _root, _defaultState, _currentState, _info, _states, _shaders, _context, _depthTexture, _clearColor, _renderPassEncoder, _commandEncoder, _geometry, _info2, _wasDirty, _indices2, _points2, _colors2, _geom, _boxes, _progress, _color3, _point1, _point2, _point3, _edge1, _edge2, _fov, _aspect, _near, _far, _matrix4, _inverse, _mode, _localUp, _state3, _fun, _name2, _startTime, _duration, _axis, _angle, _space, _resetRotation, _scaleIn, _scaleOut, _scale, _scale2, _canvas, _context2, _observer, _viewport, _scene, _projection, _handles, _frame, _visitors, _root2, _defaultState2, _clearColor2, _info3, _eventListeners, _mouse, _navBase, _eventHandlers, _keyboardListeners, _mouseListeners, _clientListeners, _branches, _keysDown, _animations, _options, _c, _commands, _inputToCommand;
+var _black, _blue, _gray, _green, _magenta, _orange, _red, _transparent, _white, _yellow, _min, _max, _p0, _p1, _point, _normal, _c2, _r, _a, _id, _b, _instance, _isInitializing, _device, _preferredFormat, _values, _buffer, _state, _shapes, _matrix, _stateGroupMap, _matrix2, _viewMatrixMap, _shader, _topology, _projMatrixMap, _pipelines, _bins, _layers, _viewMatrix, _projMatrix, _state2, _parents, _flags, _userData, _children, _sphere, _matrix3, _topology2, _first, _count, _indices, _points, _normals, _colors, _texCoords, _primitives, _box, _center, _radius, _numSubdivisions, _name, _layer, _bin, _shader2, _topology3, _apply, _reset, _code, _module, _data, _device2, _projMatrix2, _viewMatrix2, _instance2, _color, _twoSided, _lightDir, _uniforms, _bindGroup, _instance3, _color2, _uniforms2, _bindGroup2, _root, _defaultState, _currentState, _info, _states, _shaders, _context, _depthTexture, _clearColor, _renderPassEncoder, _commandEncoder, _geometry, _info2, _wasDirty, _indices2, _points2, _colors2, _geom, _boxes, _progress, _color3, _point1, _point2, _point3, _edge1, _edge2, _fov, _aspect, _near, _far, _matrix4, _inverse, _mode, _localUp, _state3, _fun, _name2, _startTime, _duration, _axis, _angle, _space, _resetRotation, _scaleIn, _scaleOut, _scale, _scale2, _canvas, _context2, _observer, _viewport, _scene, _projection, _handles, _frame, _visitors, _root2, _defaultState2, _clearColor2, _info3, _eventListeners, _mouse, _navBase, _eventHandlers, _keyboardListeners, _mouseListeners, _clientListeners, _branches, _keysDown, _animations, _options, _c, _commands, _inputToCommand;
 function _mergeNamespaces(n, m) {
   for (var i = 0; i < m.length; i++) {
     const e = m[i];
@@ -10646,9 +10646,28 @@ const useViewerStore = create$5()((set, get) => ({
     });
   },
   clearViewers: () => {
-    set(() => ({
-      viewers: /* @__PURE__ */ new Map()
-    }));
+    set(() => {
+      return {
+        viewers: /* @__PURE__ */ new Map()
+      };
+    });
+  }
+}));
+const useViewerState = create$5()((set, get) => ({
+  boxesVisible: false,
+  getBoundingBoxesVisible: () => {
+    const store = get();
+    return store.boxesVisible;
+  },
+  setBoundingBoxesVisible: (visible) => {
+    const store = get();
+    if (visible !== store.boxesVisible) {
+      set(() => {
+        return {
+          boxesVisible: visible
+        };
+      });
+    }
   }
 }));
 const makeKey = (p0, p1) => {
@@ -10862,10 +10881,10 @@ const IDENTITY_MATRIX = [
 ];
 const DEG_TO_RAD = Math.PI / 180;
 const KEEP_PERFORMANCE_INFO = "true" === BUILD_ENVIRONMENT.VITE_KEEP_PERFORMANCE_INFO.toLowerCase();
-const MIN_NEAR_DISTANCE = 0.01;
-const MAX_FAR_DISTANCE = 1e4;
-const DEFAULT_NEAR_DISTANCE = MIN_NEAR_DISTANCE;
-const DEFAULT_FAR_DISTANCE = MAX_FAR_DISTANCE;
+const MIN_NEAR_DISTANCE = 1e-3;
+const MAX_FAR_DISTANCE = 1e6;
+const DEFAULT_NEAR_DISTANCE = 0.01;
+const DEFAULT_FAR_DISTANCE = 1e4;
 var EPSILON = 1e-6;
 var ARRAY_TYPE = typeof Float32Array !== "undefined" ? Float32Array : Array;
 function create$4() {
@@ -13859,6 +13878,7 @@ class Node extends Base$1 {
     __privateAdd(this, _state2, null);
     __privateAdd(this, _parents, /* @__PURE__ */ new Map());
     __privateAdd(this, _flags, 16 | 8 | 1 | 2 | 4);
+    __privateAdd(this, _userData, null);
     if (input) {
       const { state, flags } = input;
       if (state) {
@@ -13882,6 +13902,20 @@ class Node extends Base$1 {
    */
   set state(state) {
     __privateSet(this, _state2, state);
+  }
+  /**
+   * Get the user data.
+   * @returns {unknown} The user data.
+   */
+  get userData() {
+    return __privateGet(this, _userData);
+  }
+  /**
+   * Set the user data.
+   * @param {unknown} data - The new user data.
+   */
+  set userData(data) {
+    __privateSet(this, _userData, data);
   }
   /**
    * Add a parent. This is for the Group class. Do not use it directly.
@@ -14040,6 +14074,7 @@ class Node extends Base$1 {
 _state2 = new WeakMap();
 _parents = new WeakMap();
 _flags = new WeakMap();
+_userData = new WeakMap();
 class Group extends Node {
   /**
    * Construct the class.
@@ -14098,6 +14133,34 @@ class Group extends Node {
     return answer;
   }
   /**
+   * Find the index of the child that matched the given predicate.
+   * @param {IGroupPredicate} predicate - The function that tests each child node.
+   * @returns {number} The index of the child node that matches the predicate or -1.
+   */
+  findChild(predicate) {
+    const children = __privateGet(this, _children);
+    const numChildren = children.length;
+    for (let i = 0; i < numChildren; ++i) {
+      if (predicate(children[i], i)) {
+        return i;
+      }
+    }
+    return -1;
+  }
+  /**
+   * Find the index of the child.
+   * @param {ChildType | null | undefined} child - The child node to find.
+   * @returns {number} The index of the child node or -1.
+   */
+  indexOf(child) {
+    if (!child) {
+      return -1;
+    }
+    return this.findChild((current) => {
+      return current === child;
+    });
+  }
+  /**
    * Dirty the bounds of this node.
    */
   dirtyBounds() {
@@ -14141,7 +14204,7 @@ class Group extends Node {
   }
   /**
    * Add a child node.
-   * @param {Node | null | undefined} node - The node to add to the group.
+   * @param {ChildType | null | undefined} node - The node to add to the group.
    */
   addChild(node2) {
     if (!node2) {
@@ -20629,77 +20692,107 @@ function Viewer({ style: style2 }) {
   const [id] = reactExports.useState(getNextId());
   const canvas = reactExports.useRef(null);
   const isMounting = reactExports.useRef(false);
-  const getViewer = useViewerStore((state) => state.getViewer);
-  const setViewer = useViewerStore((state) => state.setViewer);
+  const [boxesScene, setBoxesScene] = reactExports.useState(null);
   const [progress, setProgress] = reactExports.useState(0);
   const [supported, setSupported] = reactExports.useState(null);
+  const { getViewer, setViewer } = useViewerStore((state) => state);
+  const { getBoundingBoxesVisible } = useViewerState((state) => state);
+  const viewer = getViewer(VIEWER_NAME);
+  const boundingBoxesVisible = getBoundingBoxesVisible();
   const buildTestScene = reactExports.useCallback(
     () => {
-      const group = new Group();
-      const spheres = buildSceneSpheres();
-      group.addChild(spheres);
-      const boxes = buildBoundingBoxes(spheres);
-      boxes.addsToBounds = false;
-      group.addChild(boxes);
-      return group;
+      return buildSceneSpheres();
     },
     []
   );
+  reactExports.useEffect(() => {
+    if (!viewer) {
+      return;
+    }
+    if (false === boundingBoxesVisible) {
+      if (!boxesScene) {
+        return;
+      }
+      const extraScene = viewer.extraScene;
+      extraScene.removeChild(extraScene.indexOf(boxesScene));
+      setBoxesScene(null);
+      viewer.requestRender();
+      return;
+    }
+    if (boxesScene) {
+      return;
+    }
+    const modelScene = viewer.modelScene;
+    if (!modelScene) {
+      return;
+    }
+    const boxes = buildBoundingBoxes(modelScene);
+    boxes.addsToBounds = false;
+    viewer.extraScene.addChild(boxes);
+    setBoxesScene(boxes);
+    viewer.requestRender();
+  }, [
+    boxesScene,
+    boundingBoxesVisible,
+    viewer
+  ]);
   const handleDragOver = reactExports.useCallback((event) => {
     event.preventDefault();
     event.stopPropagation();
   }, []);
-  const handleFileRead = reactExports.useCallback(
-    async (file) => {
-      const ext = (file.name.split(".").pop() ?? "").toLowerCase();
-      const factory2 = getReader(ext);
-      if (!factory2) {
-        console.warn(`No reader found for file extension: ${ext}`);
-        return;
-      }
-      const reader = factory2();
-      if (!reader) {
-        console.warn(`Failed to create reader for file extension: ${ext}`);
-        return;
-      }
-      reader.progress = throttle(
-        (value, total) => {
-          if (value < 0 || total <= 0 || value > total) {
-            return true;
-          }
-          let fraction = value / total;
-          if (fraction >= 1) {
-            fraction = 0;
-          }
-          setProgress(fraction);
+  const handleFileRead = reactExports.useCallback(async (file) => {
+    const ext = (file.name.split(".").pop() ?? "").toLowerCase();
+    const factory2 = getReader(ext);
+    if (!factory2) {
+      console.warn(`No reader found for file extension: ${ext}`);
+      return;
+    }
+    const reader = factory2();
+    if (!reader) {
+      console.warn(`Failed to create reader for file extension: ${ext}`);
+      return;
+    }
+    reader.progress = throttle(
+      (value, total) => {
+        if (value < 0 || total <= 0 || value > total) {
           return true;
-        },
-        200
-      );
-      let model = null;
-      try {
-        model = await reader.read(file);
-      } catch (error) {
-        console.error(`Error reading file ${file.name}:`, error);
-        return;
-      }
-      setProgress(0);
-      if (!model) {
-        console.warn(`Reader returned null model for file: ${file.name}`);
-        return;
-      }
-      const viewer = getViewer(VIEWER_NAME);
-      if (!viewer) {
-        console.warn(`No viewer found with name: ${VIEWER_NAME}`);
-        return;
-      }
-      void model.bounds;
-      viewer.modelScene = model;
-      viewer.viewAll({ animate: false });
-      viewer.requestRender();
-    },
-    [getViewer]
-  );
+        }
+        let fraction = value / total;
+        if (fraction >= 1) {
+          fraction = 0;
+        }
+        setProgress(fraction);
+        return true;
+      },
+      200
+    );
+    let model = null;
+    try {
+      model = await reader.read(file);
+    } catch (error) {
+      console.error(`Error reading file ${file.name}:`, error);
+      return;
+    }
+    setProgress(0);
+    if (!model) {
+      console.warn(`Reader returned null model for file: ${file.name}`);
+      return;
+    }
+    if (!viewer) {
+      console.warn(`No viewer found with name: ${VIEWER_NAME}`);
+      return;
+    }
+    void model.bounds;
+    viewer.modelScene = model;
+    const extraScene = viewer.extraScene;
+    extraScene.removeChild(extraScene.indexOf(boxesScene));
+    setBoxesScene(null);
+    viewer.viewAll({ animate: false });
+    viewer.requestRender();
+  }, [
+    boxesScene,
+    viewer
+  ]);
   const handleDroppedFiles = reactExports.useCallback((event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -20714,7 +20807,6 @@ function Viewer({ style: style2 }) {
   }, [handleFileRead]);
   const handleNewDevice = reactExports.useCallback(
     () => {
-      const viewer = getViewer(VIEWER_NAME);
       if (!viewer) {
         return;
       }
@@ -20727,7 +20819,7 @@ function Viewer({ style: style2 }) {
       visitor.handle(scene);
       viewer.requestRender();
     },
-    [getViewer]
+    [viewer]
   );
   const initDevice = reactExports.useCallback(
     async () => {
@@ -20752,19 +20844,19 @@ function Viewer({ style: style2 }) {
     if (!canvas.current) {
       throw new Error("Invalid canvas element");
     }
-    let viewer = getViewer(VIEWER_NAME);
-    if (!viewer) {
-      viewer = new Viewer$1({ canvas: canvas.current });
-      setViewer(VIEWER_NAME, viewer);
-      console.log(`Internal viewer ${viewer.id} created`);
-      viewer.modelScene = buildTestScene();
-      viewer.viewAll({ animate: false });
+    if (viewer) {
+      return viewer;
     }
-    return viewer;
+    const newViewer = new Viewer$1({ canvas: canvas.current });
+    setViewer(VIEWER_NAME, newViewer);
+    console.log(`Internal viewer ${newViewer.id} created`);
+    newViewer.modelScene = buildTestScene();
+    newViewer.viewAll({ animate: false });
+    return newViewer;
   }, [
     buildTestScene,
-    getViewer,
-    setViewer
+    setViewer,
+    viewer
   ]);
   const handleMount = reactExports.useCallback(async () => {
     if (null === supported) {
@@ -20784,8 +20876,7 @@ function Viewer({ style: style2 }) {
     }
     isMounting.current = true;
     await initDevice();
-    const viewer = getOrCreateViewer();
-    viewer.requestRender();
+    getOrCreateViewer().requestRender();
     isMounting.current = false;
   }, [
     getOrCreateViewer,
@@ -20859,7 +20950,7 @@ function Viewer({ style: style2 }) {
   }, []);
   const renderNotSupported = reactExports.useCallback(
     () => {
-      if (true === supported) {
+      if (false !== supported) {
         return null;
       }
       return /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -20937,9 +21028,11 @@ const defaultRenderGraphInfo = {
   numLines: 0
 };
 function App() {
-  const viewers = useViewerStore((state) => state.viewers);
+  const { getViewer } = useViewerStore((state) => state);
   const [count, setCount] = reactExports.useState(0);
   const [showStats, setShowStats] = reactExports.useState(false);
+  const { getBoundingBoxesVisible, setBoundingBoxesVisible } = useViewerState((state) => state);
+  const viewer = getViewer(VIEWER_NAME);
   const { palette } = useTheme();
   const panelBackground = reactExports.useMemo(
     () => {
@@ -20949,7 +21042,7 @@ function App() {
   );
   const buildTimeStamp = reactExports.useMemo(
     () => {
-      const date = /* @__PURE__ */ new Date(1778040756681);
+      const date = /* @__PURE__ */ new Date(1778360920190);
       const Y = date.getFullYear();
       const M = String(date.getMonth() + 1).padStart(2, "0");
       const D = String(date.getDate()).padStart(2, "0");
@@ -20962,14 +21055,12 @@ function App() {
   );
   const getRenderGraphInfo = reactExports.useCallback(
     () => {
-      const viewer = viewers.get(VIEWER_NAME);
       return viewer ? viewer.cullVisitor.renderGraphInfo : defaultRenderGraphInfo;
     },
-    [viewers]
+    [viewer]
   );
   const handleAllowAnimations = reactExports.useCallback(
     () => {
-      const viewer = viewers.get(VIEWER_NAME);
       if (viewer) {
         const { animations } = viewer.options;
         animations.allow = !animations.allow;
@@ -20977,52 +21068,50 @@ function App() {
         console.log(`Allow animations: ${animations.allow}`);
       }
     },
-    [count, viewers]
+    [count, viewer]
   );
   const handleTrackballMode = reactExports.useCallback(
     () => {
-      const viewer = viewers.get(VIEWER_NAME);
-      if (viewer) {
-        const { navBase: trackball } = viewer;
-        if (trackball instanceof Trackball) {
-          trackball.mode = "track_ball";
-          setCount(count + 1);
-        }
+      if (!viewer) {
+        return;
+      }
+      const { navBase: trackball } = viewer;
+      if (trackball instanceof Trackball) {
+        trackball.mode = "track_ball";
+        setCount(count + 1);
       }
     },
-    [count, viewers]
+    [count, viewer]
   );
   const handleTurntableMode = reactExports.useCallback(
     () => {
-      const viewer = viewers.get(VIEWER_NAME);
-      if (viewer) {
-        const { navBase: trackball } = viewer;
-        if (trackball instanceof Trackball) {
-          trackball.mode = "turn_table";
-          setCount(count + 1);
-        }
+      if (!viewer) {
+        return;
+      }
+      const { navBase: trackball } = viewer;
+      if (trackball instanceof Trackball) {
+        trackball.mode = "turn_table";
+        setCount(count + 1);
       }
     },
-    [count, viewers]
+    [count, viewer]
   );
   const handleViewerRender = reactExports.useCallback(
     () => {
-      const viewer = viewers.get(VIEWER_NAME);
       if (viewer) {
         viewer.requestRender();
       }
     },
-    [viewers]
+    [viewer]
   );
   const handleViewerReset = reactExports.useCallback(
     () => {
-      const viewer = viewers.get(VIEWER_NAME);
       if (viewer) {
         viewer.viewAll({ resetRotation: true });
         viewer.requestRender();
       }
     },
-    [viewers]
+    [viewer]
   );
   const handleSimulateDeviceLost = reactExports.useCallback(
     () => {
@@ -21038,9 +21127,15 @@ function App() {
     },
     []
   );
+  const handleShowBoundingBoxes = reactExports.useCallback(() => {
+    const current = getBoundingBoxesVisible();
+    setBoundingBoxesVisible(!current);
+  }, [
+    getBoundingBoxesVisible,
+    setBoundingBoxesVisible
+  ]);
   reactExports.useEffect(
     () => {
-      const viewer = viewers.get(VIEWER_NAME);
       if (viewer) {
         viewer.clientListeners.add("post_render", () => {
           setCount((current) => {
@@ -21051,7 +21146,7 @@ function App() {
       return (() => {
       });
     },
-    [viewers]
+    [viewer]
   );
   const verticalSpace = reactExports.useCallback(
     (height2) => {
@@ -21061,7 +21156,6 @@ function App() {
     []
   );
   const renderPanel1 = reactExports.useCallback(() => {
-    const viewer = viewers.get(VIEWER_NAME);
     if (!viewer) {
       return null;
     }
@@ -21120,6 +21214,14 @@ function App() {
                   children: "Render stats"
                 }
               ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                Button,
+                {
+                  onClick: handleShowBoundingBoxes,
+                  value: getBoundingBoxesVisible(),
+                  children: "Bounding boxes"
+                }
+              ),
               verticalSpace(),
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "div",
@@ -21140,7 +21242,9 @@ function App() {
     );
   }, [
     buildTimeStamp,
+    getBoundingBoxesVisible,
     handleAllowAnimations,
+    handleShowBoundingBoxes,
     handleShowStats,
     handleSimulateDeviceLost,
     handleTrackballMode,
@@ -21150,10 +21254,9 @@ function App() {
     panelBackground,
     showStats,
     verticalSpace,
-    viewers
+    viewer
   ]);
   const renderPanel2 = reactExports.useCallback(() => {
-    const viewer = viewers.get(VIEWER_NAME);
     if (!viewer) {
       return null;
     }
@@ -21217,7 +21320,7 @@ Lines: ${intF.format(rgi.numLines)}`;
     getRenderGraphInfo,
     panelBackground,
     showStats,
-    viewers
+    viewer
   ]);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(
     "div",
@@ -33096,4 +33199,4 @@ clientExports.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ jsxRuntimeExports.jsx(App, {})
   ] }) })
 );
-//# sourceMappingURL=index-b_X0RMmY.js.map
+//# sourceMappingURL=index-DyvHZghU.js.map
