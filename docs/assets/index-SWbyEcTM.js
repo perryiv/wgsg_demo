@@ -6740,7 +6740,7 @@ function getSvgIconUtilityClass(slot) {
   return generateUtilityClass("MuiSvgIcon", slot);
 }
 generateUtilityClasses("MuiSvgIcon", ["root", "colorPrimary", "colorSecondary", "colorAction", "colorError", "colorDisabled", "fontSizeInherit", "fontSizeSmall", "fontSizeMedium", "fontSizeLarge"]);
-const useUtilityClasses$b = (ownerState) => {
+const useUtilityClasses$c = (ownerState) => {
   const {
     color: color2,
     fontSize,
@@ -6885,7 +6885,7 @@ const SvgIcon = /* @__PURE__ */ reactExports.forwardRef(function SvgIcon2(inProp
   if (!inheritViewBox) {
     more.viewBox = viewBox;
   }
-  const classes = useUtilityClasses$b(ownerState);
+  const classes = useUtilityClasses$c(ownerState);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(SvgIconRoot, {
     as: component,
     className: clsx(classes.root, className),
@@ -7342,7 +7342,7 @@ function getPaperUtilityClass(slot) {
   return generateUtilityClass("MuiPaper", slot);
 }
 generateUtilityClasses("MuiPaper", ["root", "rounded", "outlined", "elevation", "elevation0", "elevation1", "elevation2", "elevation3", "elevation4", "elevation5", "elevation6", "elevation7", "elevation8", "elevation9", "elevation10", "elevation11", "elevation12", "elevation13", "elevation14", "elevation15", "elevation16", "elevation17", "elevation18", "elevation19", "elevation20", "elevation21", "elevation22", "elevation23", "elevation24"]);
-const useUtilityClasses$a = (ownerState) => {
+const useUtilityClasses$b = (ownerState) => {
   const {
     square,
     elevation,
@@ -7415,7 +7415,7 @@ const Paper = /* @__PURE__ */ reactExports.forwardRef(function Paper2(inProps, r
     square,
     variant
   };
-  const classes = useUtilityClasses$a(ownerState);
+  const classes = useUtilityClasses$b(ownerState);
   return /* @__PURE__ */ jsxRuntimeExports.jsx(PaperRoot, {
     as: component,
     ownerState,
@@ -7876,7 +7876,7 @@ function getButtonBaseUtilityClass(slot) {
   return generateUtilityClass("MuiButtonBase", slot);
 }
 const buttonBaseClasses = generateUtilityClasses("MuiButtonBase", ["root", "disabled", "focusVisible"]);
-const useUtilityClasses$9 = (ownerState) => {
+const useUtilityClasses$a = (ownerState) => {
   const {
     disabled,
     focusVisible,
@@ -8093,7 +8093,7 @@ const ButtonBase = /* @__PURE__ */ reactExports.forwardRef(function ButtonBase2(
     tabIndex,
     focusVisible
   };
-  const classes = useUtilityClasses$9(ownerState);
+  const classes = useUtilityClasses$a(ownerState);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(ButtonBaseRoot, {
     as: ComponentProp,
     className: clsx(classes.root, className),
@@ -8187,7 +8187,7 @@ const rotateAnimation = typeof circularRotateKeyframe !== "string" ? css`
 const dashAnimation = typeof circularDashKeyframe !== "string" ? css`
         animation: ${circularDashKeyframe} 1.4s ease-in-out infinite;
       ` : null;
-const useUtilityClasses$8 = (ownerState) => {
+const useUtilityClasses$9 = (ownerState) => {
   const {
     classes,
     variant,
@@ -8310,7 +8310,7 @@ const CircularProgress = /* @__PURE__ */ reactExports.forwardRef(function Circul
     value,
     variant
   };
-  const classes = useUtilityClasses$8(ownerState);
+  const classes = useUtilityClasses$9(ownerState);
   const circleStyle = {};
   const rootStyle = {};
   const rootProps = {};
@@ -8349,6 +8349,220 @@ const CircularProgress = /* @__PURE__ */ reactExports.forwardRef(function Circul
         strokeWidth: thickness
       })
     })
+  });
+});
+function getIconButtonUtilityClass(slot) {
+  return generateUtilityClass("MuiIconButton", slot);
+}
+const iconButtonClasses = generateUtilityClasses("MuiIconButton", ["root", "disabled", "colorInherit", "colorPrimary", "colorSecondary", "colorError", "colorInfo", "colorSuccess", "colorWarning", "edgeStart", "edgeEnd", "sizeSmall", "sizeMedium", "sizeLarge", "loading", "loadingIndicator", "loadingWrapper"]);
+const useUtilityClasses$8 = (ownerState) => {
+  const {
+    classes,
+    disabled,
+    color: color2,
+    edge,
+    size,
+    loading
+  } = ownerState;
+  const slots = {
+    root: ["root", loading && "loading", disabled && "disabled", color2 !== "default" && `color${capitalize(color2)}`, edge && `edge${capitalize(edge)}`, `size${capitalize(size)}`],
+    loadingIndicator: ["loadingIndicator"],
+    loadingWrapper: ["loadingWrapper"]
+  };
+  return composeClasses(slots, getIconButtonUtilityClass, classes);
+};
+const IconButtonRoot = styled(ButtonBase, {
+  name: "MuiIconButton",
+  slot: "Root",
+  overridesResolver: (props, styles2) => {
+    const {
+      ownerState
+    } = props;
+    return [styles2.root, ownerState.loading && styles2.loading, ownerState.color !== "default" && styles2[`color${capitalize(ownerState.color)}`], ownerState.edge && styles2[`edge${capitalize(ownerState.edge)}`], styles2[`size${capitalize(ownerState.size)}`]];
+  }
+})(memoTheme(({
+  theme: theme2
+}) => ({
+  textAlign: "center",
+  flex: "0 0 auto",
+  fontSize: theme2.typography.pxToRem(24),
+  padding: 8,
+  borderRadius: "50%",
+  color: (theme2.vars || theme2).palette.action.active,
+  transition: theme2.transitions.create("background-color", {
+    duration: theme2.transitions.duration.shortest
+  }),
+  variants: [{
+    props: (props) => !props.disableRipple,
+    style: {
+      "--IconButton-hoverBg": theme2.vars ? `rgba(${theme2.vars.palette.action.activeChannel} / ${theme2.vars.palette.action.hoverOpacity})` : alpha(theme2.palette.action.active, theme2.palette.action.hoverOpacity),
+      "&:hover": {
+        backgroundColor: "var(--IconButton-hoverBg)",
+        // Reset on touch devices, it doesn't add specificity
+        "@media (hover: none)": {
+          backgroundColor: "transparent"
+        }
+      }
+    }
+  }, {
+    props: {
+      edge: "start"
+    },
+    style: {
+      marginLeft: -12
+    }
+  }, {
+    props: {
+      edge: "start",
+      size: "small"
+    },
+    style: {
+      marginLeft: -3
+    }
+  }, {
+    props: {
+      edge: "end"
+    },
+    style: {
+      marginRight: -12
+    }
+  }, {
+    props: {
+      edge: "end",
+      size: "small"
+    },
+    style: {
+      marginRight: -3
+    }
+  }]
+})), memoTheme(({
+  theme: theme2
+}) => ({
+  variants: [{
+    props: {
+      color: "inherit"
+    },
+    style: {
+      color: "inherit"
+    }
+  }, ...Object.entries(theme2.palette).filter(createSimplePaletteValueFilter()).map(([color2]) => ({
+    props: {
+      color: color2
+    },
+    style: {
+      color: (theme2.vars || theme2).palette[color2].main
+    }
+  })), ...Object.entries(theme2.palette).filter(createSimplePaletteValueFilter()).map(([color2]) => ({
+    props: {
+      color: color2
+    },
+    style: {
+      "--IconButton-hoverBg": theme2.vars ? `rgba(${(theme2.vars || theme2).palette[color2].mainChannel} / ${theme2.vars.palette.action.hoverOpacity})` : alpha((theme2.vars || theme2).palette[color2].main, theme2.palette.action.hoverOpacity)
+    }
+  })), {
+    props: {
+      size: "small"
+    },
+    style: {
+      padding: 5,
+      fontSize: theme2.typography.pxToRem(18)
+    }
+  }, {
+    props: {
+      size: "large"
+    },
+    style: {
+      padding: 12,
+      fontSize: theme2.typography.pxToRem(28)
+    }
+  }],
+  [`&.${iconButtonClasses.disabled}`]: {
+    backgroundColor: "transparent",
+    color: (theme2.vars || theme2).palette.action.disabled
+  },
+  [`&.${iconButtonClasses.loading}`]: {
+    color: "transparent"
+  }
+})));
+const IconButtonLoadingIndicator = styled("span", {
+  name: "MuiIconButton",
+  slot: "LoadingIndicator",
+  overridesResolver: (props, styles2) => styles2.loadingIndicator
+})(({
+  theme: theme2
+}) => ({
+  display: "none",
+  position: "absolute",
+  visibility: "visible",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  color: (theme2.vars || theme2).palette.action.disabled,
+  variants: [{
+    props: {
+      loading: true
+    },
+    style: {
+      display: "flex"
+    }
+  }]
+}));
+const IconButton = /* @__PURE__ */ reactExports.forwardRef(function IconButton2(inProps, ref) {
+  const props = useDefaultProps({
+    props: inProps,
+    name: "MuiIconButton"
+  });
+  const {
+    edge = false,
+    children,
+    className,
+    color: color2 = "default",
+    disabled = false,
+    disableFocusRipple = false,
+    size = "medium",
+    id: idProp,
+    loading = null,
+    loadingIndicator: loadingIndicatorProp,
+    ...other
+  } = props;
+  const loadingId = useId(idProp);
+  const loadingIndicator = loadingIndicatorProp ?? /* @__PURE__ */ jsxRuntimeExports.jsx(CircularProgress, {
+    "aria-labelledby": loadingId,
+    color: "inherit",
+    size: 16
+  });
+  const ownerState = {
+    ...props,
+    edge,
+    color: color2,
+    disabled,
+    disableFocusRipple,
+    loading,
+    loadingIndicator,
+    size
+  };
+  const classes = useUtilityClasses$8(ownerState);
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(IconButtonRoot, {
+    id: loading ? loadingId : idProp,
+    className: clsx(classes.root, className),
+    centerRipple: true,
+    focusRipple: !disableFocusRipple,
+    disabled: disabled || loading,
+    ref,
+    ...other,
+    ownerState,
+    children: [typeof loading === "boolean" && // use plain HTML span to minimize the runtime overhead
+    /* @__PURE__ */ jsxRuntimeExports.jsx("span", {
+      className: classes.loadingWrapper,
+      style: {
+        display: "contents"
+      },
+      children: /* @__PURE__ */ jsxRuntimeExports.jsx(IconButtonLoadingIndicator, {
+        className: classes.loadingIndicator,
+        ownerState,
+        children: loading && loadingIndicator
+      })
+    }), children]
   });
 });
 function getTypographyUtilityClass(slot) {
@@ -20769,6 +20983,9 @@ const buildSceneSpheres = () => {
   }
   return root;
 };
+const CloseIcon = createSvgIcon(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
+  d: "M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+}), "Close");
 const VIEWER_NAME = "main_viewer";
 const handleNewDevice = (viewer) => {
   viewer.handleNewDevice();
@@ -20789,7 +21006,7 @@ function Viewer({ style: style2 }) {
   const { getViewer, setViewer } = useViewerStore((state) => state);
   const canvas = reactExports.useRef(null);
   const isMounting = reactExports.useRef(false);
-  const loader = reactExports.useRef({ reader: null });
+  const loader = reactExports.useRef(null);
   const viewer = getViewer(VIEWER_NAME);
   const boundingBoxesVisible = getBoundingBoxesVisible();
   const buildTestScene = reactExports.useCallback(
@@ -20847,7 +21064,7 @@ function Viewer({ style: style2 }) {
     }
     reader.progress = throttle(
       (value, total) => {
-        if (reader !== loader.current.reader) {
+        if (reader !== loader.current) {
           return false;
         }
         if (value < 0 || total <= 0 || value > total) {
@@ -20863,7 +21080,7 @@ function Viewer({ style: style2 }) {
       200
     );
     let model = null;
-    loader.current = { reader };
+    loader.current = reader;
     try {
       model = await reader.read(file);
     } catch (error) {
@@ -20901,13 +21118,20 @@ function Viewer({ style: style2 }) {
     if (files.length <= 0) {
       return;
     }
-    loader.current = { reader: null };
+    loader.current = null;
     const file = files[0];
     console.log("Dropped file name:", file.name);
     void handleFileRead(file);
   }, [
     handleFileRead
   ]);
+  const handleProgressBarClose = reactExports.useCallback(
+    () => {
+      loader.current = null;
+      setProgress(0);
+    },
+    []
+  );
   const getOrCreateViewer = reactExports.useCallback(() => {
     if (!canvas.current) {
       throw new Error("Invalid canvas element");
@@ -21031,11 +21255,29 @@ function Viewer({ style: style2 }) {
                 " %"
               ]
             }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            IconButton,
+            {
+              size: "small",
+              onClick: handleProgressBarClose,
+              children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                CloseIcon,
+                {
+                  style: {
+                    fontSize: "small"
+                  },
+                  sx: {
+                    color: "error.main"
+                  }
+                }
+              )
+            }
           )
         ]
       }
     );
-  }, []);
+  }, [handleProgressBarClose]);
   const renderNotSupported = reactExports.useCallback(
     () => {
       if (false !== supported) {
@@ -21130,7 +21372,7 @@ function App() {
   );
   const buildTimeStamp = reactExports.useMemo(
     () => {
-      const date = /* @__PURE__ */ new Date(1778394522653);
+      const date = /* @__PURE__ */ new Date(1778397195775);
       const Y = date.getFullYear();
       const M = String(date.getMonth() + 1).padStart(2, "0");
       const D = String(date.getDate()).padStart(2, "0");
@@ -33287,4 +33529,4 @@ clientExports.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ jsxRuntimeExports.jsx(App, {})
   ] }) })
 );
-//# sourceMappingURL=index-hB0kGiu8.js.map
+//# sourceMappingURL=index-SWbyEcTM.js.map
