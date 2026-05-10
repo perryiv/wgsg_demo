@@ -8,7 +8,7 @@ var __accessCheck = (obj, member, msg) => member.has(obj) || __typeError("Cannot
 var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
-var _black, _blue, _gray, _green, _magenta, _orange, _red, _transparent, _white, _yellow, _min, _max, _p0, _p1, _point, _normal, _c2, _r, _a, _id, _b, _instance, _isInitializing, _device, _preferredFormat, _values, _buffer, _state, _shapes, _matrix, _stateGroupMap, _matrix2, _viewMatrixMap, _shader, _topology, _projMatrixMap, _pipelines, _bins, _layers, _viewMatrix, _projMatrix, _state2, _parents, _flags, _userData, _children, _sphere, _matrix3, _topology2, _first, _count, _indices, _points, _normals, _colors, _texCoords, _primitives, _box, _center, _radius, _numSubdivisions, _name, _layer, _bin, _shader2, _topology3, _apply, _reset, _code, _module, _data, _device2, _projMatrix2, _viewMatrix2, _instance2, _color, _twoSided, _lightDir, _uniforms, _bindGroup, _instance3, _color2, _uniforms2, _bindGroup2, _root, _defaultState, _currentState, _info, _states, _shaders, _context, _depthTexture, _clearColor, _renderPassEncoder, _commandEncoder, _geometry, _info2, _wasDirty, _indices2, _points2, _colors2, _geom, _boxes, _progress, _color3, _point1, _point2, _point3, _edge1, _edge2, _fov, _aspect, _near, _far, _matrix4, _inverse, _mode, _localUp, _state3, _fun, _name2, _startTime, _duration, _axis, _angle, _space, _resetRotation, _scaleIn, _scaleOut, _scale, _scale2, _canvas, _context2, _observer, _viewport, _scene, _projection, _handles, _frame, _visitors, _root2, _defaultState2, _clearColor2, _info3, _eventListeners, _mouse, _navBase, _eventHandlers, _keyboardListeners, _mouseListeners, _clientListeners, _branches, _keysDown, _animations, _options, _c, _commands, _inputToCommand;
+var _black, _blue, _gray, _green, _magenta, _orange, _red, _transparent, _white, _yellow, _min, _max, _p0, _p1, _point, _normal, _c2, _r, _a, _id, _b, _instance, _isInitializing, _device, _preferredFormat, _values, _buffer, _state, _shapes, _matrix, _stateGroupMap, _matrix2, _viewMatrixMap, _shader, _topology, _projMatrixMap, _pipelines, _bins, _layers, _viewMatrix, _projMatrix, _state2, _parents, _flags, _userData, _children, _sphere, _matrix3, _topology2, _first, _count, _indices, _points, _normals, _colors, _texCoords, _primitives, _box, _center, _radius, _numSubdivisions, _name, _layer, _bin, _shader2, _topology3, _apply, _reset, _code, _module, _data, _device2, _projMatrix2, _viewMatrix2, _instance2, _color, _twoSided, _lightDir, _uniforms, _bindGroup, _instance3, _color2, _uniforms2, _bindGroup2, _root, _defaultState, _currentState, _info, _states, _shaders, _context, _depthTexture, _clearColor, _renderPassEncoder, _commandEncoder, _geometry, _info2, _device3, _wasDirty, _indices2, _points2, _colors2, _geom, _boxes, _progress, _color3, _point1, _point2, _point3, _edge1, _edge2, _near, _far, _onUpdateNearFar, _fov, _aspect, _matrix4, _inverse, _mode, _localUp, _state3, _fun, _name2, _startTime, _duration, _axis, _angle, _space, _resetRotation, _scaleIn, _scaleOut, _scale, _scale2, _canvas, _context2, _observer, _viewport, _scene, _projection, _handles, _frame, _visitors, _root2, _defaultState2, _clearColor2, _info3, _eventListeners, _mouse, _navBase, _eventHandlers, _keyboardListeners, _mouseListeners, _clientListeners, _branches, _keysDown, _animations, _options, _c, _commands, _inputToCommand;
 function _mergeNamespaces(n, m) {
   for (var i = 0; i < m.length; i++) {
     const e = m[i];
@@ -10883,7 +10883,8 @@ const DEG_TO_RAD = Math.PI / 180;
 const KEEP_PERFORMANCE_INFO = "true" === BUILD_ENVIRONMENT.VITE_KEEP_PERFORMANCE_INFO.toLowerCase();
 const MIN_NEAR_DISTANCE = 1e-3;
 const MAX_FAR_DISTANCE = 1e6;
-const DEFAULT_NEAR_DISTANCE = 0.01;
+const MAX_FAR_OVER_NEAR_RATIO = 1e4;
+const DEFAULT_NEAR_DISTANCE = 0.1;
 const DEFAULT_FAR_DISTANCE = 1e4;
 var EPSILON = 1e-6;
 var ARRAY_TYPE = typeof Float32Array !== "undefined" ? Float32Array : Array;
@@ -16098,6 +16099,9 @@ _root = new WeakMap();
 _defaultState = new WeakMap();
 _currentState = new WeakMap();
 _info = new WeakMap();
+const makeKeyForType = (base) => {
+  return `${base.type}.${base.id}`;
+};
 class DeviceLost extends Visitor {
   /**
    * Construct the class.
@@ -16117,7 +16121,7 @@ class DeviceLost extends Visitor {
   }
   /**
    * Handle when the device is lost.
-   * @param {Node} scene - The scene node.
+   * @param {SceneNode} scene - The scene node.
    */
   handle(scene) {
     scene.accept(this);
@@ -16152,13 +16156,19 @@ class DeviceLost extends Visitor {
     const states = __privateGet(this, _states);
     const shaders = __privateGet(this, _shaders);
     const state = shape2.state;
-    if (state && false === states.has(state.id)) {
-      states.add(state.id);
-      const shader = state.shader;
-      if (shader && false === shaders.has(shader.id)) {
-        shaders.add(shader.id);
-        shader.reset();
-        console.log(`Reset shader ${shader.id} module after device was lost`);
+    if (state) {
+      const key1 = makeKeyForType(state);
+      if (false === states.has(key1)) {
+        states.add(key1);
+        const shader = state.shader;
+        if (shader) {
+          const key2 = makeKeyForType(shader);
+          if (false === shaders.has(key2)) {
+            shaders.add(key2);
+            shader.reset();
+            console.log(`Reset shader '${key2}' module after device was lost`);
+          }
+        }
       }
     }
     super.visitShape(shape2);
@@ -16196,6 +16206,7 @@ class Draw extends Visitor {
     __privateAdd(this, _commandEncoder, null);
     __privateAdd(this, _geometry, null);
     __privateAdd(this, _info2, null);
+    __privateAdd(this, _device3, null);
     if (!context) {
       throw new Error("Draw visitor context input is invalid");
     }
@@ -16323,6 +16334,12 @@ class Draw extends Visitor {
     if (false === Device.valid) {
       console.warn("Cannot draw because the device is not valid");
       return;
+    }
+    if (null === __privateGet(this, _device3)) {
+      __privateSet(this, _device3, Device.instance.id);
+    }
+    if (__privateGet(this, _device3) !== Device.instance.id) {
+      throw new Error(`Device was ${__privateGet(this, _device3)} but now it is ${Device.instance.id}`);
     }
     const device = Device.instance.device;
     const encoder = device.createCommandEncoder({
@@ -16547,6 +16564,7 @@ _renderPassEncoder = new WeakMap();
 _commandEncoder = new WeakMap();
 _geometry = new WeakMap();
 _info2 = new WeakMap();
+_device3 = new WeakMap();
 class Update extends Visitor {
   /**
    * Construct the class.
@@ -18061,8 +18079,56 @@ class Projection extends Base$1 {
    */
   constructor() {
     super();
+    __privateAdd(this, _near, DEFAULT_NEAR_DISTANCE);
+    __privateAdd(this, _far, DEFAULT_FAR_DISTANCE);
+    __privateAdd(this, _onUpdateNearFar, null);
+  }
+  /**
+   * Get the near distance.
+   * @returns {number} The near distance.
+   */
+  get near() {
+    return __privateGet(this, _near);
+  }
+  /**
+   * Set the near distance.
+   * @param {number} near - The near distance.
+   */
+  set near(near) {
+    __privateSet(this, _near, near);
+  }
+  /**
+   * Get the far distance.
+   * @returns {number} The far distance.
+   */
+  get far() {
+    return __privateGet(this, _far);
+  }
+  /**
+   * Set the far distance.
+   * @param {number} far - The far distance.
+   */
+  set far(far) {
+    __privateSet(this, _far, far);
+  }
+  /**
+   * Get the callback that is called when the near and far distances are updated.
+   * @returns {IUpdateNearFarCallback | null} The callback that is called when the near and far distances are updated.
+   */
+  get onUpdateNearFar() {
+    return __privateGet(this, _onUpdateNearFar);
+  }
+  /**
+   * Set the callback that is called when the near and far distances are updated.
+   * @param {IUpdateNearFarCallback | null} callback - The callback that is called when the near and far distances are updated.
+   */
+  set onUpdateNearFar(callback) {
+    __privateSet(this, _onUpdateNearFar, callback);
   }
 }
+_near = new WeakMap();
+_far = new WeakMap();
+_onUpdateNearFar = new WeakMap();
 class Perspective extends Projection {
   /**
    * Construct the class.
@@ -18073,8 +18139,6 @@ class Perspective extends Projection {
     super();
     __privateAdd(this, _fov, 45);
     __privateAdd(this, _aspect, 1);
-    __privateAdd(this, _near, DEFAULT_NEAR_DISTANCE);
-    __privateAdd(this, _far, DEFAULT_FAR_DISTANCE);
     if (input) {
       this.setFrom(input);
     }
@@ -18096,10 +18160,10 @@ class Perspective extends Projection {
     if (!input) {
       return;
     }
-    const fov = "undefined" !== typeof input.fov ? input.fov : __privateGet(this, _fov);
-    const aspect = "undefined" !== typeof input.aspect ? input.aspect : __privateGet(this, _aspect);
-    const near = "undefined" !== typeof input.near ? input.near : __privateGet(this, _near);
-    const far = "undefined" !== typeof input.far ? input.far : __privateGet(this, _far);
+    const fov = "undefined" !== typeof input.fov ? input.fov : this.fov;
+    const aspect = "undefined" !== typeof input.aspect ? input.aspect : this.aspect;
+    const near = "undefined" !== typeof input.near ? input.near : this.near;
+    const far = "undefined" !== typeof input.far ? input.far : this.far;
     if ("number" !== typeof fov) {
       throw new Error(`Invalid field-of-view: ${fov}`);
     }
@@ -18137,10 +18201,19 @@ class Perspective extends Projection {
    * @returns {IMatrix44} The projection matrix.
    */
   get matrix() {
-    const fov = __privateGet(this, _fov);
-    const aspect = __privateGet(this, _aspect);
-    const near = __privateGet(this, _near);
-    const far = __privateGet(this, _far);
+    const { fov, aspect, near, far } = this;
+    if (false === isPositiveFiniteNumber(fov)) {
+      throw new Error(`Invalid field-of-view: ${fov}`);
+    }
+    if (false === isPositiveFiniteNumber(aspect)) {
+      throw new Error(`Invalid aspect ratio: ${aspect}`);
+    }
+    if (false === isPositiveFiniteNumber(near)) {
+      throw new Error(`Invalid near distance: ${near}`);
+    }
+    if (false === isPositiveFiniteNumber(far)) {
+      throw new Error(`Invalid far distance: ${far}`);
+    }
     if (near >= far) {
       throw new Error(`Invalid distances when making perspective projection matrix, near: ${near}, far: ${far}`);
     }
@@ -18160,8 +18233,16 @@ class Perspective extends Projection {
     const r2 = sphere.radius;
     const minZ = (cz - r2) * 0.5;
     const maxZ = (cz + r2) * 1.5;
-    const near = Math.max(minZ, MIN_NEAR_DISTANCE);
-    const far = Math.min(maxZ, MAX_FAR_DISTANCE);
+    let near = Math.max(minZ, MIN_NEAR_DISTANCE);
+    let far = Math.min(maxZ, MAX_FAR_DISTANCE);
+    if (far / near > MAX_FAR_OVER_NEAR_RATIO) {
+      near = far / MAX_FAR_OVER_NEAR_RATIO;
+    }
+    if (this.onUpdateNearFar) {
+      const { near: n2, far: f2 } = this.onUpdateNearFar({ near, far });
+      near = n2;
+      far = f2;
+    }
     if (near <= 0 || far <= 0 || near >= far) {
       return;
     }
@@ -18207,7 +18288,7 @@ class Perspective extends Projection {
    * @returns {number} The near distance.
    */
   get near() {
-    return __privateGet(this, _near);
+    return super.near;
   }
   /**
    * Set the near distance.
@@ -18217,14 +18298,14 @@ class Perspective extends Projection {
     if (false === isPositiveFiniteNumber(near)) {
       throw new Error(`Given near distance '${near}' is not a positive finite number`);
     }
-    __privateSet(this, _near, near >= MIN_NEAR_DISTANCE ? near : MIN_NEAR_DISTANCE);
+    super.near = near >= MIN_NEAR_DISTANCE ? near : MIN_NEAR_DISTANCE;
   }
   /**
    * Get the far distance.
    * @returns {number} The far distance.
    */
   get far() {
-    return __privateGet(this, _far);
+    return super.far;
   }
   /**
    * Set the far distance.
@@ -18234,7 +18315,7 @@ class Perspective extends Projection {
     if (false === isPositiveFiniteNumber(far)) {
       throw new Error(`Given far distance '${far}' is not a positive finite number`);
     }
-    __privateSet(this, _far, far <= MAX_FAR_DISTANCE ? far : MAX_FAR_DISTANCE);
+    super.far = far <= MAX_FAR_DISTANCE ? far : MAX_FAR_DISTANCE;
   }
   /**
    * Let the projection know about the new viewport.
@@ -18253,8 +18334,6 @@ class Perspective extends Projection {
 }
 _fov = new WeakMap();
 _aspect = new WeakMap();
-_near = new WeakMap();
-_far = new WeakMap();
 function makeDefaultTrackballState() {
   return {
     center: [0, 0, 0],
@@ -20688,6 +20767,16 @@ function requireThrottleit() {
 var throttleitExports = /* @__PURE__ */ requireThrottleit();
 const throttle = /* @__PURE__ */ getDefaultExportFromCjs(throttleitExports);
 const VIEWER_NAME = "main_viewer";
+const handleNewDevice = (viewer) => {
+  viewer.handleNewDevice();
+  const { scene } = viewer;
+  if (!scene) {
+    return;
+  }
+  const visitor = new DeviceLost();
+  visitor.handle(scene);
+  viewer.requestRender();
+};
 function Viewer({ style: style2 }) {
   const [id] = reactExports.useState(getNextId());
   const canvas = reactExports.useRef(null);
@@ -20805,22 +20894,25 @@ function Viewer({ style: style2 }) {
       void handleFileRead(file);
     }
   }, [handleFileRead]);
-  const handleNewDevice = reactExports.useCallback(
-    () => {
-      if (!viewer) {
-        return;
-      }
-      viewer.handleNewDevice();
-      const { scene } = viewer;
-      if (!scene) {
-        return;
-      }
-      const visitor = new DeviceLost();
-      visitor.handle(scene);
-      viewer.requestRender();
-    },
-    [viewer]
-  );
+  const getOrCreateViewer = reactExports.useCallback(() => {
+    if (!canvas.current) {
+      throw new Error("Invalid canvas element");
+    }
+    const existing = getViewer(VIEWER_NAME);
+    if (existing) {
+      return existing;
+    }
+    const newViewer = new Viewer$1({ canvas: canvas.current });
+    setViewer(VIEWER_NAME, newViewer);
+    console.log(`Internal viewer ${newViewer.id} created`);
+    newViewer.modelScene = buildTestScene();
+    newViewer.viewAll({ animate: false });
+    return newViewer;
+  }, [
+    buildTestScene,
+    getViewer,
+    setViewer
+  ]);
   const initDevice = reactExports.useCallback(
     async () => {
       if (true === Device.valid) {
@@ -20835,29 +20927,11 @@ function Viewer({ style: style2 }) {
       void Device.instance.device.lost.then(async () => {
         Device.destroy();
         await initDevice();
-        handleNewDevice();
+        handleNewDevice(getOrCreateViewer());
       });
     },
-    [handleNewDevice]
+    [getOrCreateViewer]
   );
-  const getOrCreateViewer = reactExports.useCallback(() => {
-    if (!canvas.current) {
-      throw new Error("Invalid canvas element");
-    }
-    if (viewer) {
-      return viewer;
-    }
-    const newViewer = new Viewer$1({ canvas: canvas.current });
-    setViewer(VIEWER_NAME, newViewer);
-    console.log(`Internal viewer ${newViewer.id} created`);
-    newViewer.modelScene = buildTestScene();
-    newViewer.viewAll({ animate: false });
-    return newViewer;
-  }, [
-    buildTestScene,
-    setViewer,
-    viewer
-  ]);
   const handleMount = reactExports.useCallback(async () => {
     if (null === supported) {
       if (false === await Device.isSupported()) {
@@ -21042,7 +21116,7 @@ function App() {
   );
   const buildTimeStamp = reactExports.useMemo(
     () => {
-      const date = /* @__PURE__ */ new Date(1778360920190);
+      const date = /* @__PURE__ */ new Date(1778382609577);
       const Y = date.getFullYear();
       const M = String(date.getMonth() + 1).padStart(2, "0");
       const D = String(date.getDate()).padStart(2, "0");
@@ -33199,4 +33273,4 @@ clientExports.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ jsxRuntimeExports.jsx(App, {})
   ] }) })
 );
-//# sourceMappingURL=index-DyvHZghU.js.map
+//# sourceMappingURL=index-CRXngnxB.js.map
