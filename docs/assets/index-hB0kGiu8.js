@@ -11901,6 +11901,17 @@ function getNumElements(array, dimension) {
   }
   return array.length / dimension;
 }
+function throttle(func, delay) {
+  let lastCall = 0;
+  return ((value, total) => {
+    const now = Date.now();
+    if (now - lastCall >= delay) {
+      lastCall = now;
+      return func(value, total);
+    }
+    return true;
+  });
+}
 var LogLevel = /* @__PURE__ */ ((LogLevel2) => {
   LogLevel2[LogLevel2["FATAL"] = 0] = "FATAL";
   LogLevel2[LogLevel2["ERROR"] = 1] = "ERROR";
@@ -16933,6 +16944,16 @@ const buildTriangleEdges = (geom) => {
   const answer = new Geometry({ points, primitives: [lineList] });
   return answer;
 };
+class Cancelled extends Error {
+  /**
+   * Construct the class.
+   * @param {string} [message] - An optional message for the error.
+   */
+  constructor(message) {
+    super(message);
+    this.name = "Cancelled";
+  }
+}
 const readers = /* @__PURE__ */ new Map();
 class Reader extends Base$1 {
   /**
@@ -17315,7 +17336,11 @@ class BinaryReader extends Common {
             indices[indexCount] = indexCount++;
             indices[indexCount] = indexCount++;
             indices[indexCount] = indexCount++;
-            onProgress(triangleCount, numTriangles);
+            if (false === onProgress(triangleCount, numTriangles)) {
+              reader.abort();
+              reject(new Cancelled("File reading was cancelled by the progress callback"));
+              return;
+            }
             triangleCount++;
           }
           if (0 !== byteOffset % recordSize) {
@@ -17334,7 +17359,10 @@ class BinaryReader extends Common {
               normalCount,
               indexCount
             ));
-            onProgress(numTriangles, numTriangles);
+            if (false === onProgress(numTriangles, numTriangles)) {
+              reject(new Error("File reading was cancelled by the progress callback"));
+              return;
+            }
             void scene.bounds;
             resolve(scene);
           }
@@ -17810,7 +17838,7 @@ class TextReader extends Common {
       let facetCount = 0;
       let loopCount = 0;
       const scene = new Group();
-      const innerStep = (results) => {
+      const innerStep = (results, parser) => {
         ++rowCount;
         if (!results) {
           throw new Error(`Row ${rowCount} has no data`);
@@ -17829,7 +17857,11 @@ class TextReader extends Common {
         } else {
           throw new Error(`Row ${rowCount} array does not contain one string`);
         }
-        onProgress(byteCount, size);
+        if (false === onProgress(byteCount, size)) {
+          parser.abort();
+          reject(new Cancelled("File reading was cancelled by the progress callback"));
+          return;
+        }
         if (line2.length <= 0) {
           return;
         }
@@ -17946,7 +17978,7 @@ class TextReader extends Common {
       };
       const step = (results, parser) => {
         try {
-          innerStep(results);
+          innerStep(results, parser);
         } catch (error) {
           parser.abort();
           reject(
@@ -17963,7 +17995,10 @@ class TextReader extends Common {
           normalCount,
           indexCount
         ));
-        onProgress(size, size);
+        if (false === onProgress(size, size)) {
+          reject(new Cancelled("File reading was cancelled by the progress callback"));
+          return;
+        }
         resolve(scene);
       };
       const delimiter2 = ";";
@@ -18035,7 +18070,7 @@ class STL extends Common {
         }
       }).catch((error) => {
         reject(
-          error instanceof Error ? error : new Error(String(error))
+          error instanceof Error || error instanceof Cancelled ? error : new Error(String(error))
         );
       });
     });
@@ -20734,38 +20769,6 @@ const buildSceneSpheres = () => {
   }
   return root;
 };
-var throttleit;
-var hasRequiredThrottleit;
-function requireThrottleit() {
-  if (hasRequiredThrottleit) return throttleit;
-  hasRequiredThrottleit = 1;
-  function throttle2(function_, wait) {
-    if (typeof function_ !== "function") {
-      throw new TypeError(`Expected the first argument to be a \`function\`, got \`${typeof function_}\`.`);
-    }
-    let timeoutId;
-    let lastCallTime = 0;
-    return function throttled(...arguments_) {
-      clearTimeout(timeoutId);
-      const now = Date.now();
-      const timeSinceLastCall = now - lastCallTime;
-      const delayForNextCall = wait - timeSinceLastCall;
-      if (delayForNextCall <= 0) {
-        lastCallTime = now;
-        function_.apply(this, arguments_);
-      } else {
-        timeoutId = setTimeout(() => {
-          lastCallTime = Date.now();
-          function_.apply(this, arguments_);
-        }, delayForNextCall);
-      }
-    };
-  }
-  throttleit = throttle2;
-  return throttleit;
-}
-var throttleitExports = /* @__PURE__ */ requireThrottleit();
-const throttle = /* @__PURE__ */ getDefaultExportFromCjs(throttleitExports);
 const VIEWER_NAME = "main_viewer";
 const handleNewDevice = (viewer) => {
   viewer.handleNewDevice();
@@ -20778,14 +20781,15 @@ const handleNewDevice = (viewer) => {
   viewer.requestRender();
 };
 function Viewer({ style: style2 }) {
-  const [id] = reactExports.useState(getNextId());
-  const canvas = reactExports.useRef(null);
-  const isMounting = reactExports.useRef(false);
   const [boxesScene, setBoxesScene] = reactExports.useState(null);
+  const [id] = reactExports.useState(getNextId());
   const [progress, setProgress] = reactExports.useState(0);
   const [supported, setSupported] = reactExports.useState(null);
-  const { getViewer, setViewer } = useViewerStore((state) => state);
   const { getBoundingBoxesVisible } = useViewerState((state) => state);
+  const { getViewer, setViewer } = useViewerStore((state) => state);
+  const canvas = reactExports.useRef(null);
+  const isMounting = reactExports.useRef(false);
+  const loader = reactExports.useRef({ reader: null });
   const viewer = getViewer(VIEWER_NAME);
   const boundingBoxesVisible = getBoundingBoxesVisible();
   const buildTestScene = reactExports.useCallback(
@@ -20843,6 +20847,9 @@ function Viewer({ style: style2 }) {
     }
     reader.progress = throttle(
       (value, total) => {
+        if (reader !== loader.current.reader) {
+          return false;
+        }
         if (value < 0 || total <= 0 || value > total) {
           return true;
         }
@@ -20856,10 +20863,15 @@ function Viewer({ style: style2 }) {
       200
     );
     let model = null;
+    loader.current = { reader };
     try {
       model = await reader.read(file);
     } catch (error) {
-      console.error(`Error reading file ${file.name}:`, error);
+      if (error instanceof Cancelled) {
+        console.log(`Reading was cancelled for file: ${file.name}`);
+      } else {
+        console.error(`Error reading file ${file.name}:`, error);
+      }
       return;
     }
     setProgress(0);
@@ -20889,11 +20901,13 @@ function Viewer({ style: style2 }) {
     if (files.length <= 0) {
       return;
     }
-    for (const file of files) {
-      console.log("Dropped file name:", file.name);
-      void handleFileRead(file);
-    }
-  }, [handleFileRead]);
+    loader.current = { reader: null };
+    const file = files[0];
+    console.log("Dropped file name:", file.name);
+    void handleFileRead(file);
+  }, [
+    handleFileRead
+  ]);
   const getOrCreateViewer = reactExports.useCallback(() => {
     if (!canvas.current) {
       throw new Error("Invalid canvas element");
@@ -21116,7 +21130,7 @@ function App() {
   );
   const buildTimeStamp = reactExports.useMemo(
     () => {
-      const date = /* @__PURE__ */ new Date(1778382609577);
+      const date = /* @__PURE__ */ new Date(1778394522653);
       const Y = date.getFullYear();
       const M = String(date.getMonth() + 1).padStart(2, "0");
       const D = String(date.getDate()).padStart(2, "0");
@@ -33273,4 +33287,4 @@ clientExports.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ jsxRuntimeExports.jsx(App, {})
   ] }) })
 );
-//# sourceMappingURL=index-CRXngnxB.js.map
+//# sourceMappingURL=index-hB0kGiu8.js.map
