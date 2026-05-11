@@ -16941,22 +16941,12 @@ class BuildBoxes extends Multiply {
    * Add the box.
    * @param {Box} box - The box to add.
    * @param {State | null} state - The state of the corresponding shape.
-   * @param {IMatrix44} [viewMatrix] - The view matrix.
    */
-  addBox(box, state, viewMatrix) {
+  addBox(box, state) {
     if (false === box.valid) {
       return;
     }
-    const corners = { ...box.corners };
-    const { llb, llf, lrb, lrf, ulb, ulf, urb, urf } = corners;
-    transformMat4$1(llb, llb, viewMatrix);
-    transformMat4$1(llf, llf, viewMatrix);
-    transformMat4$1(lrb, lrb, viewMatrix);
-    transformMat4$1(lrf, lrf, viewMatrix);
-    transformMat4$1(ulb, ulb, viewMatrix);
-    transformMat4$1(ulf, ulf, viewMatrix);
-    transformMat4$1(urb, urb, viewMatrix);
-    transformMat4$1(urf, urf, viewMatrix);
+    const { llb, llf, lrb, lrf, ulb, ulf, urb, urf } = box.corners;
     const points = __privateGet(this, _points2);
     const colors = __privateGet(this, _colors2);
     const indices = __privateGet(this, _indices2);
@@ -17076,7 +17066,10 @@ class BuildBoxes extends Multiply {
    */
   visitGeometry(shape2) {
     super.visitShape(shape2);
-    this.addBox(shape2.box, shape2.state, this.viewMatrix);
+    const box = shape2.box.clone();
+    box.transform(this.viewMatrix);
+    __privateGet(this, _boxes).set(shape2.id, box);
+    this.addBox(box, shape2.state);
   }
   /**
    * Visit the node.
@@ -17086,7 +17079,7 @@ class BuildBoxes extends Multiply {
     super.visitGroup(group);
     const box = this.makeGroupBox(group);
     __privateGet(this, _boxes).set(group.id, box);
-    this.addBox(box, group.state, this.viewMatrix);
+    this.addBox(box, group.state);
   }
   /**
    * Visit the node.
@@ -17096,7 +17089,7 @@ class BuildBoxes extends Multiply {
     super.visitTransform(tr);
     const box = this.makeGroupBox(tr);
     __privateGet(this, _boxes).set(tr.id, box);
-    this.addBox(box, tr.state, IDENTITY_MATRIX);
+    this.addBox(box, tr.state);
   }
 }
 _indices2 = new WeakMap();
@@ -20939,8 +20932,7 @@ let Viewer$1 = (_c = class extends Surface {
     this.clientListeners.notify(this.makeEvent("post_render"));
   }
 }, _mouse = new WeakMap(), _navBase = new WeakMap(), _eventHandlers = new WeakMap(), _keyboardListeners = new WeakMap(), _mouseListeners = new WeakMap(), _clientListeners = new WeakMap(), _branches = new WeakMap(), _keysDown = new WeakMap(), _animations = new WeakMap(), _options = new WeakMap(), _commands = new WeakMap(), _inputToCommand = new WeakMap(), __privateAdd(_c, _commands, makeCommands()), __privateAdd(_c, _inputToCommand, makeInputToCommandMap()), _c);
-const buildSceneSphere = (sphere) => {
-  const root = new Group();
+const buildSceneSphere = (sphere, edges) => {
   const node2 = new Sphere({
     center: sphere.center,
     radius: sphere.radius,
@@ -20951,6 +20943,7 @@ const buildSceneSphere = (sphere) => {
     twoSided: false,
     topology: "triangle-list"
   });
+  const root = new Group();
   root.addChild(node2);
   const lines = buildTriangleEdges(node2);
   if (lines) {
@@ -21372,7 +21365,7 @@ function App() {
   );
   const buildTimeStamp = reactExports.useMemo(
     () => {
-      const date = /* @__PURE__ */ new Date(1778397195775);
+      const date = /* @__PURE__ */ new Date(1778476248181);
       const Y = date.getFullYear();
       const M = String(date.getMonth() + 1).padStart(2, "0");
       const D = String(date.getDate()).padStart(2, "0");
@@ -33529,4 +33522,4 @@ clientExports.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ jsxRuntimeExports.jsx(App, {})
   ] }) })
 );
-//# sourceMappingURL=index-SWbyEcTM.js.map
+//# sourceMappingURL=index-D3uWTBmu.js.map
