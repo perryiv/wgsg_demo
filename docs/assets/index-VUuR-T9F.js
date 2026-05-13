@@ -8,7 +8,7 @@ var __accessCheck = (obj, member, msg) => member.has(obj) || __typeError("Cannot
 var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
-var _black, _blue, _gray, _green, _magenta, _orange, _red, _transparent, _white, _yellow, _min, _max, _p0, _p1, _point, _normal, _c2, _r, _a, _id, _b, _instance, _isInitializing, _device, _preferredFormat, _values, _buffer, _state, _shapes, _matrix, _stateGroupMap, _matrix2, _viewMatrixMap, _shader, _topology, _projMatrixMap, _pipelines, _bins, _layers, _viewMatrix, _projMatrix, _state2, _parents, _flags, _userData, _children, _sphere, _matrix3, _topology2, _first, _count, _indices, _points, _normals, _colors, _texCoords, _primitives, _box, _center, _radius, _numSubdivisions, _name, _layer, _bin, _shader2, _topology3, _apply, _reset, _code, _module, _data, _device2, _projMatrix2, _viewMatrix2, _instance2, _color, _twoSided, _lightDir, _uniforms, _bindGroup, _instance3, _color2, _uniforms2, _bindGroup2, _root, _defaultState, _currentState, _info, _states, _shaders, _context, _depthTexture, _clearColor, _renderPassEncoder, _commandEncoder, _geometry, _info2, _device3, _wasDirty, _indices2, _points2, _colors2, _geom, _boxes, _progress, _color3, _point1, _point2, _point3, _edge1, _edge2, _near, _far, _onUpdateNearFar, _fov, _aspect, _matrix4, _inverse, _mode, _localUp, _state3, _fun, _name2, _startTime, _duration, _axis, _angle, _space, _resetRotation, _scaleIn, _scaleOut, _scale, _scale2, _canvas, _context2, _observer, _viewport, _scene, _projection, _handles, _frame, _visitors, _root2, _defaultState2, _clearColor2, _info3, _eventListeners, _mouse, _navBase, _eventHandlers, _keyboardListeners, _mouseListeners, _clientListeners, _branches, _keysDown, _animations, _options, _c, _commands, _inputToCommand;
+var _black, _blue, _gray, _green, _magenta, _orange, _red, _transparent, _white, _yellow, _min, _max, _p0, _p1, _point, _normal, _c2, _r, _a, _id, _b, _instance, _isInitializing, _device, _preferredFormat, _values, _buffer, _state, _shapes, _matrix, _stateGroupMap, _matrix2, _viewMatrixMap, _shader, _topology, _projMatrixMap, _pipelines, _bins, _layers, _viewMatrix, _projMatrix, _state2, _parents, _flags, _userData, _children, _sphere, _matrix3, _topology2, _first, _count, _indices, _points, _normals, _colors, _texCoords, _primitives, _box, _center, _radius, _numSubdivisions, _name, _layer, _bin, _shader2, _topology3, _apply, _reset, _code, _module, _data, _device2, _projMatrix2, _viewMatrix2, _instance2, _color, _twoSided, _lightDir, _uniforms, _bindGroup, _instance3, _color2, _uniforms2, _bindGroup2, _root, _defaultState, _currentState, _info, _states, _shaders, _context, _depthTexture, _clearColor, _renderPassEncoder, _commandEncoder, _geometry, _info2, _device3, _wasDirty, _indices2, _points2, _colors2, _geom, _boxes, _scene, _current, _color3, _progress, _color4, _point1, _point2, _point3, _edge1, _edge2, _near, _far, _onUpdateNearFar, _fov, _aspect, _matrix4, _inverse, _mode, _localUp, _state3, _fun, _name2, _startTime, _duration, _axis, _angle, _space, _resetRotation, _scaleIn, _scaleOut, _scale, _scale2, _canvas, _context2, _observer, _viewport, _scene2, _projection, _handles, _frame, _visitors, _root2, _defaultState2, _clearColor2, _info3, _eventListeners, _mouse, _navBase, _eventHandlers, _keyboardListeners, _mouseListeners, _clientListeners, _branches, _keysDown, _animations, _options, _c, _commands, _inputToCommand;
 function _mergeNamespaces(n, m) {
   for (var i = 0; i < m.length; i++) {
     const e = m[i];
@@ -10869,6 +10869,7 @@ const useViewerStore = create$5()((set, get) => ({
 }));
 const useViewerState = create$5()((set, get) => ({
   boxesVisible: false,
+  edgesVisible: false,
   getBoundingBoxesVisible: () => {
     const store = get();
     return store.boxesVisible;
@@ -10879,6 +10880,20 @@ const useViewerState = create$5()((set, get) => ({
       set(() => {
         return {
           boxesVisible: visible
+        };
+      });
+    }
+  },
+  getTriangleEdgesVisible: () => {
+    const store = get();
+    return store.edgesVisible;
+  },
+  setTriangleEdgesVisible: (visible) => {
+    const store = get();
+    if (visible !== store.edgesVisible) {
+      set(() => {
+        return {
+          edgesVisible: visible
         };
       });
     }
@@ -17062,14 +17077,14 @@ class BuildBoxes extends Multiply {
   }
   /**
    * Visit the node.
-   * @param {Shape} shape - The shape node.
+   * @param {Geometry} geom - The shape node.
    */
-  visitGeometry(shape2) {
-    super.visitShape(shape2);
-    const box = shape2.box.clone();
+  visitGeometry(geom) {
+    super.visitShape(geom);
+    const box = geom.box.clone();
     box.transform(this.viewMatrix);
-    __privateGet(this, _boxes).set(shape2.id, box);
-    this.addBox(box, shape2.state);
+    __privateGet(this, _boxes).set(geom.id, box);
+    this.addBox(box, geom.state);
   }
   /**
    * Visit the node.
@@ -17151,6 +17166,121 @@ const buildTriangleEdges = (geom) => {
   const answer = new Geometry({ points, primitives: [lineList] });
   return answer;
 };
+class BuildEdges extends Multiply {
+  /**
+   * Construct the class.
+   * @class
+   */
+  constructor() {
+    super();
+    __privateAdd(this, _scene, new Group());
+    __privateAdd(this, _current, __privateGet(this, _scene));
+    __privateAdd(this, _color3, [...Color.black]);
+  }
+  /**
+   * Return the class name.
+   * @returns {string} The class name.
+   */
+  getClassName() {
+    return "Builders.Lines.BuildEdges";
+  }
+  /**
+   * Get the scene.
+   * @returns {Group} The scene.
+   */
+  get scene() {
+    return __privateGet(this, _scene);
+  }
+  /**
+   * Get the current group.
+   * @returns {Group} The current group.
+   */
+  get current() {
+    const current = __privateGet(this, _current);
+    if (!current) {
+      throw new Error("No current group when building triangle edges");
+    }
+    return current;
+  }
+  /**
+   * Set the current group.
+   * @param {Group} group - The current group.
+   */
+  set current(group) {
+    __privateSet(this, _current, group);
+  }
+  /**
+   * Set the color.
+   */
+  set color(color2) {
+    copy$1(__privateGet(this, _color3), color2);
+  }
+  /**
+   * Get the color.
+   * @returns {IVector4} The color.
+   */
+  get color() {
+    return __privateGet(this, _color3);
+  }
+  /**
+   * Reset the builder.
+   */
+  reset() {
+    __privateGet(this, _scene).clear();
+    __privateSet(this, _current, __privateGet(this, _scene));
+    copy$1(__privateGet(this, _color3), Color.black);
+  }
+  /**
+   * Visit the node.
+   * @param {Geometry} geom - The shape node.
+   */
+  visitGeometry(geom) {
+    super.visitShape(geom);
+    const edges = buildTriangleEdges(geom);
+    if (edges) {
+      edges.state = SolidColor.makeState({
+        color: [...Color.black],
+        topology: "line-list"
+      });
+      this.current.addChild(edges);
+    }
+  }
+  /**
+   * Visit the node.
+   * @param {Group} group - The group node.
+   */
+  visitGroup(group) {
+    const current = this.current;
+    const newGroup = new Group();
+    current.addChild(newGroup);
+    const original = current;
+    this.current = newGroup;
+    super.visitGroup(group);
+    this.current = original;
+  }
+  /**
+   * Visit the node.
+   * @param {Transform} tr - The transform node.
+   */
+  visitTransform(tr) {
+    const current = this.current;
+    const newTr = new Transform(tr.matrix);
+    current.addChild(newTr);
+    const original = current;
+    this.current = newTr;
+    super.visitTransform(tr);
+    this.current = original;
+  }
+}
+_scene = new WeakMap();
+_current = new WeakMap();
+_color3 = new WeakMap();
+const buildWireframeScene = (scene) => {
+  const visitor = new BuildEdges();
+  scene.accept(visitor);
+  const answer = visitor.scene;
+  return false === answer.empty ? answer : null;
+};
 class Cancelled extends Error {
   /**
    * Construct the class.
@@ -17214,7 +17344,7 @@ class Common extends Reader {
     // The default color is random in a developer build and gray in production.
     // If the file has color as described in the "Materialise Magics software"
     // then it will be reset. See: https://en.wikipedia.org/wiki/STL_(file_format)
-    __privateAdd(this, _color3, [0.5, 0.5, 0.5, 1]);
+    __privateAdd(this, _color4, [0.5, 0.5, 0.5, 1]);
     // These are allocated once here for speed in case they are needed below.
     __privateAdd(this, _point1, [0, 0, 0]);
     __privateAdd(this, _point2, [0, 0, 0]);
@@ -17227,14 +17357,14 @@ class Common extends Reader {
    * @returns {IVector4} The color.
    */
   get color() {
-    return __privateGet(this, _color3);
+    return __privateGet(this, _color4);
   }
   /**
    * Set the color.
    * @param {IVector4} color The color to set.
    */
   set color(color2) {
-    copy$1(__privateGet(this, _color3), color2);
+    copy$1(__privateGet(this, _color4), color2);
   }
   /**
    * Return a progress callback function. Make one if needed.
@@ -17343,7 +17473,7 @@ class Common extends Reader {
     cross(normal, edge1, edge2);
   }
 }
-_color3 = new WeakMap();
+_color4 = new WeakMap();
 _point1 = new WeakMap();
 _point2 = new WeakMap();
 _point3 = new WeakMap();
@@ -19630,7 +19760,7 @@ class Surface extends Base$1 {
     __privateAdd(this, _context2, null);
     __privateAdd(this, _observer, null);
     __privateAdd(this, _viewport, { x: 0, y: 0, width: 0, height: 0 });
-    __privateAdd(this, _scene, null);
+    __privateAdd(this, _scene2, null);
     __privateAdd(this, _projection, new Perspective());
     __privateAdd(this, _handles, { render: 0 });
     __privateAdd(this, _frame, { count: 0, start: 0 });
@@ -19681,7 +19811,7 @@ class Surface extends Base$1 {
     __privateSet(this, _context2, null);
     __privateSet(this, _observer, null);
     __privateSet(this, _viewport, { x: 0, y: 0, width: 0, height: 0 });
-    __privateSet(this, _scene, null);
+    __privateSet(this, _scene2, null);
     __privateSet(this, _projection, null);
     __privateSet(this, _handles, { render: 0 });
     __privateSet(this, _visitors, null);
@@ -19811,14 +19941,14 @@ class Surface extends Base$1 {
    * @returns {string | null} The scene that gets rendered on the surface.
    */
   get scene() {
-    return __privateGet(this, _scene);
+    return __privateGet(this, _scene2);
   }
   /**
    * Set the scene.
    * @param {Node | null} scene - The scene that gets rendered on the surface.
    */
   set scene(scene) {
-    __privateSet(this, _scene, scene);
+    __privateSet(this, _scene2, scene);
   }
   /**
    * Get the update visitor.
@@ -20043,7 +20173,7 @@ class Surface extends Base$1 {
    * rendered. It's public so that it can be called at other times, too.
    */
   update() {
-    const scene = __privateGet(this, _scene);
+    const scene = __privateGet(this, _scene2);
     if (!scene) {
       return;
     }
@@ -20058,7 +20188,7 @@ class Surface extends Base$1 {
    * Use with caution.
    */
   cull() {
-    const scene = __privateGet(this, _scene);
+    const scene = __privateGet(this, _scene2);
     if (!scene) {
       return;
     }
@@ -20157,7 +20287,7 @@ _canvas = new WeakMap();
 _context2 = new WeakMap();
 _observer = new WeakMap();
 _viewport = new WeakMap();
-_scene = new WeakMap();
+_scene2 = new WeakMap();
 _projection = new WeakMap();
 _handles = new WeakMap();
 _frame = new WeakMap();
@@ -20943,17 +21073,9 @@ const buildSceneSphere = (sphere, edges) => {
     twoSided: false,
     topology: "triangle-list"
   });
-  const root = new Group();
-  root.addChild(node2);
-  const lines = buildTriangleEdges(node2);
-  if (lines) {
-    lines.state = SolidColor.makeState({
-      color: [...Color.black],
-      topology: "line-list"
-    });
+  {
+    return node2;
   }
-  root.addChild(lines);
-  return root;
 };
 const buildSceneSpheres = () => {
   const root = new Group();
@@ -20992,16 +21114,18 @@ const handleNewDevice = (viewer) => {
 };
 function Viewer({ style: style2 }) {
   const [boxesScene, setBoxesScene] = reactExports.useState(null);
+  const [edgesScene, setEdgesScene] = reactExports.useState(null);
   const [id] = reactExports.useState(getNextId());
   const [progress, setProgress] = reactExports.useState(0);
   const [supported, setSupported] = reactExports.useState(null);
-  const { getBoundingBoxesVisible } = useViewerState((state) => state);
+  const { getBoundingBoxesVisible, getTriangleEdgesVisible } = useViewerState((state) => state);
   const { getViewer, setViewer } = useViewerStore((state) => state);
   const canvas = reactExports.useRef(null);
   const isMounting = reactExports.useRef(false);
   const loader = reactExports.useRef(null);
   const viewer = getViewer(VIEWER_NAME);
   const boundingBoxesVisible = getBoundingBoxesVisible();
+  const triangleEdgesVisible = getTriangleEdgesVisible();
   const buildTestScene = reactExports.useCallback(
     () => {
       return buildSceneSpheres();
@@ -21037,6 +21161,40 @@ function Viewer({ style: style2 }) {
   }, [
     boxesScene,
     boundingBoxesVisible,
+    viewer
+  ]);
+  reactExports.useEffect(() => {
+    if (!viewer) {
+      return;
+    }
+    if (false === triangleEdgesVisible) {
+      if (!edgesScene) {
+        return;
+      }
+      const extraScene = viewer.extraScene;
+      extraScene.removeChild(extraScene.indexOf(edgesScene));
+      setEdgesScene(null);
+      viewer.requestRender();
+      return;
+    }
+    if (edgesScene) {
+      return;
+    }
+    const modelScene = viewer.modelScene;
+    if (!modelScene) {
+      return;
+    }
+    const edges = buildWireframeScene(modelScene);
+    if (!edges) {
+      return;
+    }
+    edges.addsToBounds = false;
+    viewer.extraScene.addChild(edges);
+    setEdgesScene(edges);
+    viewer.requestRender();
+  }, [
+    edgesScene,
+    triangleEdgesVisible,
     viewer
   ]);
   const handleDragOver = reactExports.useCallback((event) => {
@@ -21354,7 +21512,12 @@ function App() {
   const { getViewer } = useViewerStore((state) => state);
   const [count, setCount] = reactExports.useState(0);
   const [showStats, setShowStats] = reactExports.useState(false);
-  const { getBoundingBoxesVisible, setBoundingBoxesVisible } = useViewerState((state) => state);
+  const {
+    getBoundingBoxesVisible,
+    setBoundingBoxesVisible,
+    getTriangleEdgesVisible,
+    setTriangleEdgesVisible
+  } = useViewerState((state) => state);
   const viewer = getViewer(VIEWER_NAME);
   const { palette } = useTheme();
   const panelBackground = reactExports.useMemo(
@@ -21365,7 +21528,7 @@ function App() {
   );
   const buildTimeStamp = reactExports.useMemo(
     () => {
-      const date = /* @__PURE__ */ new Date(1778476248181);
+      const date = /* @__PURE__ */ new Date(1778642466631);
       const Y = date.getFullYear();
       const M = String(date.getMonth() + 1).padStart(2, "0");
       const D = String(date.getDate()).padStart(2, "0");
@@ -21457,6 +21620,13 @@ function App() {
     getBoundingBoxesVisible,
     setBoundingBoxesVisible
   ]);
+  const handleShowTriangleEdges = reactExports.useCallback(() => {
+    const current = getTriangleEdgesVisible();
+    setTriangleEdgesVisible(!current);
+  }, [
+    getTriangleEdgesVisible,
+    setTriangleEdgesVisible
+  ]);
   reactExports.useEffect(
     () => {
       if (viewer) {
@@ -21543,6 +21713,14 @@ function App() {
                   onClick: handleShowBoundingBoxes,
                   value: getBoundingBoxesVisible(),
                   children: "Bounding boxes"
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                Button,
+                {
+                  onClick: handleShowTriangleEdges,
+                  value: getTriangleEdgesVisible(),
+                  children: "Triangle edges"
                 }
               ),
               verticalSpace(),
@@ -33522,4 +33700,4 @@ clientExports.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ jsxRuntimeExports.jsx(App, {})
   ] }) })
 );
-//# sourceMappingURL=index-D3uWTBmu.js.map
+//# sourceMappingURL=index-VUuR-T9F.js.map
