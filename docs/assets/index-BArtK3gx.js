@@ -8,7 +8,7 @@ var __accessCheck = (obj, member, msg) => member.has(obj) || __typeError("Cannot
 var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
-var _black, _blue, _gray, _green, _magenta, _orange, _red, _transparent, _white, _yellow, _min, _max, _p0, _p1, _point, _normal, _c2, _r, _a, _id, _b, _instance, _isInitializing, _device, _preferredFormat, _values, _buffer, _state, _shapes, _matrix, _stateGroupMap, _matrix2, _viewMatrixMap, _shader, _topology, _projMatrixMap, _pipelines, _bins, _layers, _viewMatrix, _projMatrix, _state2, _parents, _flags, _userData, _children, _sphere, _matrix3, _topology2, _first, _count, _indices, _points, _normals, _colors, _texCoords, _primitives, _box, _center, _radius, _numSubdivisions, _name, _layer, _bin, _shader2, _topology3, _apply, _reset, _code, _module, _data, _device2, _projMatrix2, _viewMatrix2, _instance2, _color, _twoSided, _lightDir, _uniforms, _bindGroup, _instance3, _color2, _uniforms2, _bindGroup2, _root, _defaultState, _currentState, _info, _states, _shaders, _context, _depthTexture, _clearColor, _renderPassEncoder, _commandEncoder, _geometry, _info2, _device3, _wasDirty, _indices2, _points2, _colors2, _geom, _boxes, _scene, _current, _color3, _progress, _color4, _point1, _point2, _point3, _edge1, _edge2, _near, _far, _onUpdateNearFar, _fov, _aspect, _matrix4, _inverse, _mode, _localUp, _state3, _fun, _name2, _startTime, _duration, _axis, _angle, _space, _resetRotation, _scaleIn, _scaleOut, _scale, _scale2, _canvas, _context2, _observer, _viewport, _scene2, _projection, _handles, _frame, _visitors, _root2, _defaultState2, _clearColor2, _info3, _eventListeners, _mouse, _navBase, _eventHandlers, _keyboardListeners, _mouseListeners, _clientListeners, _branches, _keysDown, _animations, _options, _c, _commands, _inputToCommand;
+var _a, _black, _blue, _gray, _green, _magenta, _orange, _red, _transparent, _white, _yellow, _min, _max, _p0, _p1, _point, _normal, _c2, _r, _b, _id, _c, _instance, _isInitializing, _device, _preferredFormat, _values, _buffer, _state, _shapes, _matrix, _stateGroupMap, _matrix2, _viewMatrixMap, _shader, _topology, _projMatrixMap, _pipelines, _bins, _layers, _viewMatrix, _projMatrix, _state2, _parents, _flags, _userData, _children, _sphere, _matrix3, _topology2, _first, _count, _indices, _points, _normals, _colors, _texCoords, _primitives, _box, _center, _radius, _numSubdivisions, _color, _value, _name, _layer, _bin, _shader2, _topology3, _apply, _reset, _attributes, _code, _module, _data, _device2, _projMatrix2, _viewMatrix2, _instance2, _color2, _twoSidedLight, _lightDir, _uniforms, _bindGroup, _instance3, _color3, _uniforms2, _bindGroup2, _root, _defaultState, _currentState, _info, _states, _shaders, _context, _depthTexture, _clearColor, _renderPassEncoder, _commandEncoder, _geometry, _info2, _device3, _wasDirty, _indices2, _points2, _colors2, _geom, _boxes, _scene, _current, _color4, _progress, _color5, _point1, _point2, _point3, _edge1, _edge2, _near, _far, _onUpdateNearFar, _fov, _aspect, _matrix4, _inverse, _mode, _localUp, _state3, _fun, _name2, _startTime, _duration, _axis, _angle, _space, _resetRotation, _scaleIn, _scaleOut, _scale, _scale2, _canvas, _context2, _observer, _viewport, _scene2, _projection, _handles, _frame, _visitors, _root2, _defaultState2, _clearColor2, _info3, _eventListeners, _mouse, _navBase, _eventHandlers, _keyboardListeners, _mouseListeners, _clientListeners, _branches, _keysDown, _animations, _options, _d, _commands, _inputToCommand;
 function _mergeNamespaces(n, m) {
   for (var i = 0; i < m.length; i++) {
     const e = m[i];
@@ -3111,14 +3111,14 @@ const width = style$1({
 const maxWidth = (props) => {
   if (props.maxWidth !== void 0 && props.maxWidth !== null) {
     const styleFromPropValue = (propValue) => {
-      var _a2, _b2, _c3, _d, _e;
+      var _a2, _b2, _c3, _d2, _e;
       const breakpoint = ((_c3 = (_b2 = (_a2 = props.theme) == null ? void 0 : _a2.breakpoints) == null ? void 0 : _b2.values) == null ? void 0 : _c3[propValue]) || values$1[propValue];
       if (!breakpoint) {
         return {
           maxWidth: sizingTransform(propValue)
         };
       }
-      if (((_e = (_d = props.theme) == null ? void 0 : _d.breakpoints) == null ? void 0 : _e.unit) !== "px") {
+      if (((_e = (_d2 = props.theme) == null ? void 0 : _d2.breakpoints) == null ? void 0 : _e.unit) !== "px") {
         return {
           maxWidth: `${breakpoint}${props.theme.breakpoints.unit}`
         };
@@ -5088,7 +5088,7 @@ function createCssVarsProvider(options) {
   const defaultColorSchemes = {};
   const defaultComponents = {};
   function CssVarsProvider2(props) {
-    var _a2, _b2, _c3, _d;
+    var _a2, _b2, _c3, _d2;
     const {
       children,
       theme: themeProp,
@@ -5256,7 +5256,7 @@ function createCssVarsProvider(options) {
         theme: memoTheme2,
         children
       }), shouldGenerateStyleSheet && /* @__PURE__ */ jsxRuntimeExports.jsx(GlobalStyles$3, {
-        styles: ((_d = memoTheme2.generateStyleSheets) == null ? void 0 : _d.call(memoTheme2)) || []
+        styles: ((_d2 = memoTheme2.generateStyleSheets) == null ? void 0 : _d2.call(memoTheme2)) || []
       })]
     });
     if (nested2) {
@@ -6763,14 +6763,14 @@ const SvgIconRoot = styled("svg", {
 })(memoTheme(({
   theme: theme2
 }) => {
-  var _a2, _b2, _c3, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n;
+  var _a2, _b2, _c3, _d2, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n;
   return {
     userSelect: "none",
     width: "1em",
     height: "1em",
     display: "inline-block",
     flexShrink: 0,
-    transition: (_d = (_a2 = theme2.transitions) == null ? void 0 : _a2.create) == null ? void 0 : _d.call(_a2, "fill", {
+    transition: (_d2 = (_a2 = theme2.transitions) == null ? void 0 : _a2.create) == null ? void 0 : _d2.call(_a2, "fill", {
       duration: (_c3 = (_b2 = (theme2.vars ?? theme2).transitions) == null ? void 0 : _b2.duration) == null ? void 0 : _c3.shorter
     }),
     variants: [
@@ -10870,6 +10870,7 @@ const useViewerStore = create$5()((set, get) => ({
 const useViewerState = create$5()((set, get) => ({
   boxesVisible: false,
   edgesVisible: false,
+  twoSidedLighting: false,
   getBoundingBoxesVisible: () => {
     const store = get();
     return store.boxesVisible;
@@ -10894,6 +10895,20 @@ const useViewerState = create$5()((set, get) => ({
       set(() => {
         return {
           edgesVisible: visible
+        };
+      });
+    }
+  },
+  getTwoSidedLighting: () => {
+    const store = get();
+    return store.twoSidedLighting;
+  },
+  setTwoSidedLighting: (enabled) => {
+    const store = get();
+    if (enabled !== store.twoSidedLighting) {
+      set(() => {
+        return {
+          twoSidedLighting: enabled
         };
       });
     }
@@ -11076,18 +11091,6 @@ const estimateSphereSizes = (n) => {
   const numIndices = numPoints;
   return { numPoints, numIndices };
 };
-function hasBits(n, bits) {
-  return (n & bits) === bits;
-}
-function addBits(n, bits) {
-  return n | bits;
-}
-function removeBits(n, bits) {
-  return n & bits ? n ^ bits : n;
-}
-function setBits(n, bits, state) {
-  return state ? addBits(n, bits) : removeBits(n, bits);
-}
 const __vite_import_meta_env__ = { "VITE_KEEP_PERFORMANCE_INFO": "true", "VITE_LOG_LEVEL": "2" };
 const BUILD_ENVIRONMENT = __vite_import_meta_env__;
 const IDENTITY_MATRIX = [
@@ -11836,7 +11839,7 @@ const midPoint = (out, a, b) => {
   scale$1(out, out, 0.5);
   return out;
 };
-class Color {
+let Color$1 = (_a = class {
   /**
    * Make a random color.
    * @param {number} low - The lower bound for the color components.
@@ -12092,27 +12095,19 @@ class Color {
   static get yellow() {
     return __privateGet(this, _yellow);
   }
+}, _black = new WeakMap(), _blue = new WeakMap(), _gray = new WeakMap(), _green = new WeakMap(), _magenta = new WeakMap(), _orange = new WeakMap(), _red = new WeakMap(), _transparent = new WeakMap(), _white = new WeakMap(), _yellow = new WeakMap(), __privateAdd(_a, _black, [0, 0, 0, 1]), __privateAdd(_a, _blue, [0, 0, 1, 1]), __privateAdd(_a, _gray, [0.5, 0.5, 0.5, 1]), __privateAdd(_a, _green, [0, 1, 0, 1]), __privateAdd(_a, _magenta, [1, 0, 1, 1]), __privateAdd(_a, _orange, [1, 0.5, 0, 1]), __privateAdd(_a, _red, [1, 0, 0, 1]), __privateAdd(_a, _transparent, [0, 0, 0, 0]), __privateAdd(_a, _white, [1, 1, 1, 1]), __privateAdd(_a, _yellow, [1, 1, 0, 1]), _a);
+function hasBits(n, bits) {
+  return (n & bits) === bits;
 }
-_black = new WeakMap();
-_blue = new WeakMap();
-_gray = new WeakMap();
-_green = new WeakMap();
-_magenta = new WeakMap();
-_orange = new WeakMap();
-_red = new WeakMap();
-_transparent = new WeakMap();
-_white = new WeakMap();
-_yellow = new WeakMap();
-__privateAdd(Color, _black, [0, 0, 0, 1]);
-__privateAdd(Color, _blue, [0, 0, 1, 1]);
-__privateAdd(Color, _gray, [0.5, 0.5, 0.5, 1]);
-__privateAdd(Color, _green, [0, 1, 0, 1]);
-__privateAdd(Color, _magenta, [1, 0, 1, 1]);
-__privateAdd(Color, _orange, [1, 0.5, 0, 1]);
-__privateAdd(Color, _red, [1, 0, 0, 1]);
-__privateAdd(Color, _transparent, [0, 0, 0, 0]);
-__privateAdd(Color, _white, [1, 1, 1, 1]);
-__privateAdd(Color, _yellow, [1, 1, 0, 1]);
+function addBits(n, bits) {
+  return n | bits;
+}
+function removeBits(n, bits) {
+  return n & bits ? n ^ bits : n;
+}
+function setBits(n, bits, state) {
+  return state ? addBits(n, bits) : removeBits(n, bits);
+}
 let prodNextId = 0;
 function prodGetNextId() {
   return ++prodNextId;
@@ -12913,7 +12908,7 @@ const isPositiveFiniteNumber = (value) => {
   }
   return true;
 };
-let Sphere$1 = (_a = class {
+let Sphere$1 = (_b = class {
   // Invalid by default.
   /**
    * Construct the class.
@@ -12936,7 +12931,7 @@ let Sphere$1 = (_a = class {
    * @returns {Sphere} The cloned sphere.
    */
   clone() {
-    return new _a(this.center, this.radius);
+    return new _b(this.center, this.radius);
   }
   /**
    * Get the center.
@@ -13073,14 +13068,14 @@ let Sphere$1 = (_a = class {
   static transform(sphere, m) {
     const center = [0, 0, 0];
     transformMat4$1(center, sphere.center, m);
-    return new _a(center, sphere.radius);
+    return new _b(center, sphere.radius);
   }
   /**
    * Transform the sphere by a matrix in place.
    * @param {IMatrix44} m - The transformation matrix.
    */
   transform(m) {
-    const sphere = _a.transform(this, m);
+    const sphere = _b.transform(this, m);
     this.center = sphere.center;
     this.radius = sphere.radius;
   }
@@ -13141,7 +13136,7 @@ let Sphere$1 = (_a = class {
         r2 = d2;
       }
     }
-    const sphere = new _a([x, y, z], Math.sqrt(r2));
+    const sphere = new _b([x, y, z], Math.sqrt(r2));
     this.growBySphere(sphere);
   }
   /**
@@ -13182,7 +13177,7 @@ let Sphere$1 = (_a = class {
     this.center = c3;
     this.radius = (dist + r1 + r2) * 0.5;
   }
-}, _c2 = new WeakMap(), _r = new WeakMap(), _a);
+}, _c2 = new WeakMap(), _r = new WeakMap(), _b);
 function unProject(input) {
   const { viewMatrix, projMatrix, viewport } = input;
   let { screenPoint } = input;
@@ -13235,7 +13230,7 @@ function makeLine(input) {
   }
   return new Line(near, far);
 }
-let Base$1 = (_b = class {
+let Base$1 = (_c = class {
   /**
    * Construct the class.
    * @class
@@ -13264,7 +13259,7 @@ let Base$1 = (_b = class {
   get type() {
     return this.getClassName();
   }
-}, _id = new WeakMap(), _b);
+}, _id = new WeakMap(), _c);
 const _Device = class _Device extends Base$1 {
   /**
    * Construct the class.
@@ -13817,7 +13812,7 @@ class Bin extends Base$1 {
     if (!shader) {
       throw new Error(`State '${state.name}' has invalid shader when getting pipeline`);
     }
-    const name = `${shader.name}, ${topology}`;
+    const name = `${shader.type}, ${topology}`;
     let pipeline = __privateGet(this, _pipelines).get(name);
     if (!pipeline) {
       pipeline = new Pipeline({ shader, topology });
@@ -15266,7 +15261,158 @@ class Sphere extends Geometry {
 _center = new WeakMap();
 _radius = new WeakMap();
 _numSubdivisions = new WeakMap();
+class Attribute extends Base$1 {
+  /**
+   * Construct the class.
+   * @class
+   */
+  constructor() {
+    super();
+  }
+  /**
+   * Return the class name.
+   * @returns {string} The class name.
+   */
+  static getClassName() {
+    return "Scene.State.Attribute";
+  }
+  /**
+   * Return the class name.
+   * @returns {string} The class name.
+   */
+  getClassName() {
+    return Attribute.getClassName();
+  }
+}
+const _Color = class _Color extends Attribute {
+  /**
+   * Construct the class.
+   * @class
+   * @param {Readonly<IVector4>} [color] The color to use.
+   */
+  constructor(color2) {
+    super();
+    __privateAdd(this, _color, [...Color$1.gray]);
+    if (color2) {
+      copy(__privateGet(this, _color), color2);
+    }
+  }
+  /**
+   * Return the class name.
+   * @returns {string} The class name.
+   */
+  static getClassName() {
+    return "Scene.State.Attributes.Color";
+  }
+  /**
+   * Return the class name.
+   * @returns {string} The class name.
+   */
+  getClassName() {
+    return _Color.getClassName();
+  }
+  /**
+   * Get the color.
+   * @returns {IVector4} The color.
+   */
+  get color() {
+    return __privateGet(this, _color);
+  }
+  /**
+   * Set the color.
+   * @param {Readonly<IVector4>} color - The new color.
+   */
+  set color(color2) {
+    copy(__privateGet(this, _color), color2);
+  }
+  /**
+   * Return the string representation of this attribute.
+   * @returns {string} The string representation of this attribute.
+   */
+  toString() {
+    const color2 = this.color.join(", ");
+    return `${this.type} [${color2}]`;
+  }
+  /**
+   * Apply the state attributes to the shader.
+   * @param {IAttributeApplyInput} input - The input for applying the state attributes.
+   */
+  apply(input) {
+    const { shader } = input;
+    if ("color" in shader) {
+      shader.color = this.color;
+    }
+  }
+};
+_color = new WeakMap();
+let Color = _Color;
+const _TwoSidedLight = class _TwoSidedLight extends Attribute {
+  /**
+   * Construct the class.
+   * @class
+   * @param {boolean} [value] The initial value.
+   */
+  constructor(value) {
+    super();
+    __privateAdd(this, _value, false);
+    if (value !== void 0) {
+      __privateSet(this, _value, value);
+    }
+  }
+  /**
+   * Return the class name.
+   * @returns {string} The class name.
+   */
+  static getClassName() {
+    return "Scene.State.Attributes.TwoSidedLight";
+  }
+  /**
+   * Return the class name.
+   * @returns {string} The class name.
+   */
+  getClassName() {
+    return _TwoSidedLight.getClassName();
+  }
+  /**
+   * Get the value.
+   * @returns {boolean} The value.
+   */
+  get value() {
+    return __privateGet(this, _value);
+  }
+  /**
+   * Set the value.
+   * @param {boolean} value - The new value.
+   */
+  set value(value) {
+    __privateSet(this, _value, value);
+  }
+  /**
+   * Return the string representation of this attribute.
+   * @returns {string} The string representation of this attribute.
+   */
+  toString() {
+    return `${this.type} ${this.value}`;
+  }
+  /**
+   * Apply the state attributes to the shader.
+   * @param {IAttributeApplyInput} input - The input for applying the state attributes.
+   */
+  apply(input) {
+    const { shader } = input;
+    if ("twoSidedLight" in shader) {
+      shader.twoSidedLight = this.value;
+    }
+  }
+};
+_value = new WeakMap();
+let TwoSidedLight = _TwoSidedLight;
 const defaultApplyFunction = (input) => {
+  const { state, shader } = input;
+  const { attributes } = state;
+  for (const [, attribute] of attributes) {
+    attribute.apply({ shader });
+  }
 };
 const defaultResetFunction = () => {
 };
@@ -15285,6 +15431,7 @@ class State extends Base$1 {
     __privateAdd(this, _topology3, "triangle-list");
     __privateAdd(this, _apply, defaultApplyFunction);
     __privateAdd(this, _reset, defaultResetFunction);
+    __privateAdd(this, _attributes, /* @__PURE__ */ new Map());
     const { name, layer, bin, shader, topology, apply, reset } = input ?? {};
     if (name) {
       __privateSet(this, _name, name);
@@ -15314,6 +15461,29 @@ class State extends Base$1 {
    */
   getClassName() {
     return "Scene.State.State";
+  }
+  /**
+   * Get the state attributes.
+   * @returns {IStateAttributes} The state attributes.
+   */
+  get attributes() {
+    return __privateGet(this, _attributes);
+  }
+  /**
+   * Add an attribute to this state.
+   * @param {Attribute} attribute - The attribute to add.
+   */
+  addAttribute(attribute) {
+    __privateGet(this, _attributes).set(attribute.type, attribute);
+  }
+  /**
+   * Get the attribute of the given type.
+   * @param {string} type - The type of the attribute to get.
+   * @returns {Attribute | null} The attribute of the given type, or null if not found.
+   */
+  getAttribute(type) {
+    const attribute = __privateGet(this, _attributes).get(type);
+    return attribute ?? null;
   }
   /**
    * Set the apply function.
@@ -15381,8 +15551,12 @@ class State extends Base$1 {
       return name;
     }
     const shader = this.shader;
-    name = shader ? shader.name : "invalid_shader";
+    name = shader ? shader.type : "invalid_shader";
     name = `${this.type} with shader '${name}'`;
+    const { attributes } = this;
+    for (const [, attribute] of attributes) {
+      name += `, ${attribute.toString()}`;
+    }
     return name;
   }
   /**
@@ -15453,6 +15627,7 @@ _shader2 = new WeakMap();
 _topology3 = new WeakMap();
 _apply = new WeakMap();
 _reset = new WeakMap();
+_attributes = new WeakMap();
 class ShaderBase extends Base$1 {
   /**
    * Construct the class.
@@ -15595,7 +15770,7 @@ class WithMatrices extends ShaderBase {
 }
 _projMatrix2 = new WeakMap();
 _viewMatrix2 = new WeakMap();
-const code$1 = "///////////////////////////////////////////////////////////////////////////////\n//\n//	Copyright (c) 2025, Perry L Miller IV\n//	All rights reserved.\n//	MIT License: https://opensource.org/licenses/mit-license.html\n//\n///////////////////////////////////////////////////////////////////////////////\n\n///////////////////////////////////////////////////////////////////////////////\n//\n//	Shader code that renders with Phong shading.\n//	https://gist.github.com/ccincotti3/f5bbfca9acd27c0efb9a2d22509b5aca\n//\n///////////////////////////////////////////////////////////////////////////////\n\nstruct Uniforms\n{\n	projMatrix: mat4x4f,\n	viewMatrix: mat4x4f,\n	color: vec4f,\n	lightDir: vec3f,\n};\n\n@group ( 0 ) @binding ( 0 ) var<uniform> uniforms : Uniforms;\n\nstruct VertexOut\n{\n	@builtin ( position ) position : vec4f,\n	@location ( 0 ) normal : vec3f,\n};\n\n@group ( 0 ) @binding ( 1 ) var<uniform> twoSided : u32;\n\n@vertex fn vs ( @location ( 0 ) position: vec4f, @location ( 1 ) normal: vec3f ) -> VertexOut\n{\n	// The answer.\n	var answer : VertexOut;\n\n	// Transform the position to view space.\n	answer.position = uniforms.projMatrix * uniforms.viewMatrix * position;\n\n	// Transform the normal to view space. We ignore the translation.\n	answer.normal = normalize ( ( uniforms.viewMatrix * vec4f ( normal, 0.0 ) ).xyz );\n\n	// Return the answer.\n	return answer;\n}\n\n@fragment fn fs ( fragData: VertexOut ) -> @location ( 0 ) vec4f\n{\n	// Make sure the normal vector is unit length.\n	let normal = normalize ( fragData.normal );\n\n	// Calculate the diffuse lighting factor.\n	let dotProduct = dot ( normal, -uniforms.lightDir );\n	let diffuse = select ( max ( dotProduct, 0.0 ), abs ( dotProduct ), twoSided != 0u );\n\n	// Calculate the color, assuming that the canvas is configured\n	// for pre-multiplied alpha.\n	return vec4 ( uniforms.color.rgb * diffuse * uniforms.color.a, uniforms.color.a );\n}\n";
+const code$1 = "///////////////////////////////////////////////////////////////////////////////\n//\n//	Copyright (c) 2025, Perry L Miller IV\n//	All rights reserved.\n//	MIT License: https://opensource.org/licenses/mit-license.html\n//\n///////////////////////////////////////////////////////////////////////////////\n\n///////////////////////////////////////////////////////////////////////////////\n//\n//	Shader code that renders with Phong shading.\n//	https://gist.github.com/ccincotti3/f5bbfca9acd27c0efb9a2d22509b5aca\n//\n///////////////////////////////////////////////////////////////////////////////\n\nstruct Uniforms\n{\n	projMatrix: mat4x4f,\n	viewMatrix: mat4x4f,\n	color: vec4f,\n	lightDir: vec3f,\n	twoSided: u32,\n};\n\n@group ( 0 ) @binding ( 0 ) var<uniform> uniforms : Uniforms;\n\nstruct VertexOut\n{\n	@builtin ( position ) position : vec4f,\n	@location ( 0 ) normal : vec3f,\n};\n\n@vertex fn vs ( @location ( 0 ) position: vec4f, @location ( 1 ) normal: vec3f ) -> VertexOut\n{\n	// The answer.\n	var answer : VertexOut;\n\n	// Transform the position to view space.\n	answer.position = uniforms.projMatrix * uniforms.viewMatrix * position;\n\n	// Transform the normal to view space. We ignore the translation.\n	answer.normal = normalize ( ( uniforms.viewMatrix * vec4f ( normal, 0.0 ) ).xyz );\n\n	// Return the answer.\n	return answer;\n}\n\n@fragment fn fs ( fragData: VertexOut ) -> @location ( 0 ) vec4f\n{\n	// Make sure the normal vector is unit length.\n	let normal = normalize ( fragData.normal );\n\n	// Calculate the diffuse lighting factor.\n	let dotProduct = dot ( normal, -uniforms.lightDir );\n	let diffuse = select ( max ( dotProduct, 0.0 ), abs ( dotProduct ), ( uniforms.twoSided != 0u ) );\n\n	// Calculate the color, assuming that the canvas is configured\n	// for pre-multiplied alpha.\n	return vec4 ( uniforms.color.rgb * diffuse * uniforms.color.a, uniforms.color.a );\n}\n";
 const _PhongShading = class _PhongShading extends WithMatrices {
   /**
    * Construct the class.
@@ -15608,8 +15783,8 @@ const _PhongShading = class _PhongShading extends WithMatrices {
       code: code$1,
       topology: topology ?? "triangle-list"
     });
-    __privateAdd(this, _color, [...Color.gray]);
-    __privateAdd(this, _twoSided, false);
+    __privateAdd(this, _color2, [...Color$1.gray]);
+    __privateAdd(this, _twoSidedLight, false);
     __privateAdd(this, _lightDir, [0, 0, -1, 0]);
     __privateAdd(this, _uniforms, null);
     __privateAdd(this, _bindGroup, null);
@@ -15662,11 +15837,12 @@ const _PhongShading = class _PhongShading extends WithMatrices {
    * Get the name.
    * @returns {string} The name of the shader.
    */
-  get name() {
-    const color2 = this.color.join(", ");
-    const lightDir = this.lightDir.join(", ");
-    return `${this.type} with color: [${color2}], two-sided lighting: ${this.twoSided}, and light direction: [${lightDir}]`;
-  }
+  // public get name() : string
+  // {
+  // 	const color = this.color.join ( ", " );
+  // 	const lightDir = this.lightDir.join ( ", " );
+  // 	return `${this.type} with color: [${color}], two-sided lighting: ${this.twoSidedLight}, and light direction: [${lightDir}]`;
+  // }
   /**
    * Get the view matrix.
    * @returns {IMatrix44} The view matrix.
@@ -15688,14 +15864,14 @@ const _PhongShading = class _PhongShading extends WithMatrices {
    * @returns {IVector4} The color.
    */
   get color() {
-    return [...__privateGet(this, _color)];
+    return [...__privateGet(this, _color2)];
   }
   /**
    * Set the color.
    * @param {IVector4} color - The color.
    */
   set color(color2) {
-    copy(__privateGet(this, _color), color2);
+    copy(__privateGet(this, _color2), color2);
     __privateSet(this, _uniforms, null);
     __privateSet(this, _bindGroup, null);
   }
@@ -15703,15 +15879,15 @@ const _PhongShading = class _PhongShading extends WithMatrices {
    * Return whether to use two-sided lighting.
    * @returns {boolean} Whether to use two-sided lighting.
    */
-  get twoSided() {
-    return __privateGet(this, _twoSided);
+  get twoSidedLight() {
+    return __privateGet(this, _twoSidedLight);
   }
   /**
    * Set whether to use two-sided lighting.
-   * @param {boolean} twoSided - Whether to use two-sided lighting.
+   * @param {boolean} twoSidedLight - Whether to use two-sided lighting.
    */
-  set twoSided(twoSided) {
-    __privateSet(this, _twoSided, twoSided);
+  set twoSidedLight(twoSidedLight) {
+    __privateSet(this, _twoSidedLight, twoSidedLight);
     __privateSet(this, _uniforms, null);
     __privateSet(this, _bindGroup, null);
   }
@@ -15741,15 +15917,15 @@ const _PhongShading = class _PhongShading extends WithMatrices {
       const device = Device.instance.device;
       buffer = device.createBuffer({
         label: `Uniform buffer for shader ${this.type} ${this.id}`,
-        // Two 4x4 matrices + 4D color + 4D light + 1D twoSided, 4 bytes each.
-        size: (16 + 16 + 4 + 4 + 1) * 4,
+        // Two 4x4 matrices + 4D color + 3D light + 1D twoSidedLight, padded to 16-byte alignment.
+        size: 160,
         usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST
       });
       const pm = new Float32Array(this.projMatrix);
       const vm = new Float32Array(this.viewMatrix);
-      const color2 = new Float32Array(__privateGet(this, _color));
-      const lightDir = new Float32Array(__privateGet(this, _lightDir));
-      const twoSided = new Uint32Array([__privateGet(this, _twoSided) ? 1 : 0]);
+      const color2 = new Float32Array(__privateGet(this, _color2));
+      const lightDir = new Float32Array([__privateGet(this, _lightDir)[0], __privateGet(this, _lightDir)[1], __privateGet(this, _lightDir)[2]]);
+      const twoSidedLight = new Uint32Array([__privateGet(this, _twoSidedLight) ? 1 : 0]);
       let offset = 0;
       device.queue.writeBuffer(buffer, offset, pm);
       offset += pm.byteLength;
@@ -15759,8 +15935,8 @@ const _PhongShading = class _PhongShading extends WithMatrices {
       offset += color2.byteLength;
       device.queue.writeBuffer(buffer, offset, lightDir);
       offset += lightDir.byteLength;
-      device.queue.writeBuffer(buffer, offset, twoSided);
-      offset += twoSided.byteLength;
+      device.queue.writeBuffer(buffer, offset, twoSidedLight);
+      offset += twoSidedLight.byteLength;
       __privateSet(this, _uniforms, buffer);
     }
     return buffer;
@@ -15772,7 +15948,8 @@ const _PhongShading = class _PhongShading extends WithMatrices {
    */
   makePipeline(topology) {
     const { device, preferredFormat } = Device.instance;
-    const arrayStride = 12;
+    const positionStride = 12;
+    const normalStride = 12;
     const pipeline = device.createRenderPipeline({
       label: `Render pipeline for shader ${this.type}`,
       layout: "auto",
@@ -15789,7 +15966,7 @@ const _PhongShading = class _PhongShading extends WithMatrices {
                 format: "float32x3"
               }
             ],
-            arrayStride,
+            arrayStride: positionStride,
             stepMode: "vertex"
           },
           {
@@ -15801,7 +15978,7 @@ const _PhongShading = class _PhongShading extends WithMatrices {
                 format: "float32x3"
               }
             ],
-            arrayStride,
+            arrayStride: normalStride,
             stepMode: "vertex"
           }
         ]
@@ -15857,10 +16034,6 @@ const _PhongShading = class _PhongShading extends WithMatrices {
           {
             binding: 0,
             resource: { buffer: this.uniforms }
-          },
-          {
-            binding: 1,
-            resource: { buffer: this.uniforms }
           }
         ]
       });
@@ -15878,24 +16051,15 @@ const _PhongShading = class _PhongShading extends WithMatrices {
   }
 };
 _instance2 = new WeakMap();
-_color = new WeakMap();
-_twoSided = new WeakMap();
+_color2 = new WeakMap();
+_twoSidedLight = new WeakMap();
 _lightDir = new WeakMap();
 _uniforms = new WeakMap();
 _bindGroup = new WeakMap();
 __privateAdd(_PhongShading, _instance2, null);
-_PhongShading.makeState = ({ color: color2, twoSided = false, topology }) => {
-  color2 = [color2[0], color2[1], color2[2], color2[3]];
+_PhongShading.makeState = ({ topology }) => {
   const shader = _PhongShading.instance;
-  return new State({
-    name: `${shader.type} state with color: ${color2.join(", ")}, twoSided: ${twoSided}, topology: ${topology}`,
-    shader,
-    topology,
-    apply: (() => {
-      shader.color = color2;
-      shader.twoSided = twoSided;
-    })
-  });
+  return new State({ shader, topology });
 };
 let PhongShading = _PhongShading;
 const code = "///////////////////////////////////////////////////////////////////////////////\n//\n//	Copyright (c) 2025, Perry L Miller IV\n//	All rights reserved.\n//	MIT License: https://opensource.org/licenses/mit-license.html\n//\n///////////////////////////////////////////////////////////////////////////////\n\n///////////////////////////////////////////////////////////////////////////////\n//\n//	Shader code that renders a solid color.\n//	https://gist.github.com/ccincotti3/f5bbfca9acd27c0efb9a2d22509b5aca\n//\n///////////////////////////////////////////////////////////////////////////////\n\nstruct Uniforms\n{\n	projMatrix: mat4x4f,\n	viewMatrix: mat4x4f,\n	color: vec4f,\n};\n\n@group ( 0 ) @binding ( 0 ) var<uniform> uniforms : Uniforms;\n\nstruct VertexOut\n{\n	@builtin ( position ) position : vec4f,\n};\n\n@vertex fn vs ( @location ( 0 ) position: vec4f ) -> VertexOut\n{\n	var output : VertexOut;\n	output.position = uniforms.projMatrix * uniforms.viewMatrix * position;\n	return output;\n}\n\n@fragment fn fs ( fragData: VertexOut ) -> @location ( 0 ) vec4f\n{\n	// We assume that the canvas is configured for pre-multiplied alpha.\n	return vec4 ( uniforms.color.rgb * uniforms.color.a, uniforms.color.a );\n}\n";
@@ -15911,7 +16075,7 @@ const _SolidColor = class _SolidColor extends WithMatrices {
       code,
       topology: topology ?? "triangle-list"
     });
-    __privateAdd(this, _color2, [...Color.gray]);
+    __privateAdd(this, _color3, [...Color$1.gray]);
     __privateAdd(this, _uniforms2, null);
     __privateAdd(this, _bindGroup2, null);
   }
@@ -15963,10 +16127,11 @@ const _SolidColor = class _SolidColor extends WithMatrices {
    * Get the name.
    * @returns {string} The name of the shader.
    */
-  get name() {
-    const color2 = this.color.join(", ");
-    return `${this.type} with color [${color2}]`;
-  }
+  // public get name() : string
+  // {
+  // 	const color = this.color.join ( ", " );
+  // 	return `${this.type} with color [${color}]`;
+  // }
   /**
    * Get the view matrix.
    * @returns {IMatrix44} The view matrix.
@@ -15988,14 +16153,14 @@ const _SolidColor = class _SolidColor extends WithMatrices {
    * @returns {IVector4} The color.
    */
   get color() {
-    return [...__privateGet(this, _color2)];
+    return [...__privateGet(this, _color3)];
   }
   /**
    * Set the color.
    * @param {IVector4} color - The color.
    */
   set color(color2) {
-    copy(__privateGet(this, _color2), color2);
+    copy(__privateGet(this, _color3), color2);
     __privateSet(this, _uniforms2, null);
     __privateSet(this, _bindGroup2, null);
   }
@@ -16015,7 +16180,7 @@ const _SolidColor = class _SolidColor extends WithMatrices {
       });
       const pm = new Float32Array(this.projMatrix);
       const vm = new Float32Array(this.viewMatrix);
-      const color2 = new Float32Array(__privateGet(this, _color2));
+      const color2 = new Float32Array(__privateGet(this, _color3));
       let offset = 0;
       device.queue.writeBuffer(buffer, offset, pm);
       offset += pm.byteLength;
@@ -16123,21 +16288,13 @@ const _SolidColor = class _SolidColor extends WithMatrices {
   }
 };
 _instance3 = new WeakMap();
-_color2 = new WeakMap();
+_color3 = new WeakMap();
 _uniforms2 = new WeakMap();
 _bindGroup2 = new WeakMap();
 __privateAdd(_SolidColor, _instance3, null);
-_SolidColor.makeState = ({ color: color2, topology }) => {
-  color2 = [color2[0], color2[1], color2[2], color2[3]];
+_SolidColor.makeState = ({ topology }) => {
   const shader = _SolidColor.instance;
-  return new State({
-    name: `${shader.type} state with color: ${color2.join(", ")}, topology: ${topology}`,
-    shader,
-    topology,
-    apply: (() => {
-      shader.color = color2;
-    })
-  });
+  return new State({ shader, topology });
 };
 let SolidColor = _SolidColor;
 const makeDefaultState = () => {
@@ -16378,11 +16535,11 @@ class DeviceLost extends Visitor {
    * @param {Geometry} geom - The geometry node.
    */
   visitGeometry(geom) {
-    var _a2, _b2, _c3, _d, _e;
+    var _a2, _b2, _c3, _d2, _e;
     (_a2 = geom.points) == null ? void 0 : _a2.reset();
     (_b2 = geom.normals) == null ? void 0 : _b2.reset();
     (_c3 = geom.colors) == null ? void 0 : _c3.reset();
-    (_d = geom.texCoords) == null ? void 0 : _d.reset();
+    (_d2 = geom.texCoords) == null ? void 0 : _d2.reset();
     (_e = geom.primitives) == null ? void 0 : _e.forEach((primitive) => {
       primitive.reset();
     });
@@ -16441,7 +16598,7 @@ class Draw extends Visitor {
     super();
     __privateAdd(this, _context);
     __privateAdd(this, _depthTexture, null);
-    __privateAdd(this, _clearColor, [...Color.gray]);
+    __privateAdd(this, _clearColor, [...Color$1.gray]);
     __privateAdd(this, _renderPassEncoder, null);
     __privateAdd(this, _commandEncoder, null);
     __privateAdd(this, _geometry, null);
@@ -16542,7 +16699,7 @@ class Draw extends Visitor {
    * @returns {IVector4} The pre-multiplied clear color.
    */
   get preMultipliedClearColor() {
-    return Color.preMultiply(__privateGet(this, _clearColor));
+    return Color$1.preMultiply(__privateGet(this, _clearColor));
   }
   /**
    * Get or make the depth texture.
@@ -16722,7 +16879,7 @@ class Draw extends Visitor {
    * @param {Indexed} prims - The indexed primitives to draw.
    */
   visitIndexed(prims) {
-    var _a2, _b2, _c3, _d, _e;
+    var _a2, _b2, _c3, _d2, _e;
     const numIndices = prims.numIndices;
     if (numIndices <= 0) {
       return;
@@ -16746,7 +16903,7 @@ class Draw extends Visitor {
     if (normals) {
       pass.setVertexBuffer(1, normals);
     }
-    const colors = (_d = geom.colors) == null ? void 0 : _d.buffer;
+    const colors = (_d2 = geom.colors) == null ? void 0 : _d2.buffer;
     if (colors) {
       pass.setVertexBuffer(2, colors);
     }
@@ -16944,10 +17101,9 @@ class BuildBoxes extends Multiply {
       const colors = new Float32Array(__privateGet(this, _colors2));
       const primitives = new Indexed({ topology: "line-list", indices });
       const geom = new Geometry({ points, colors, primitives });
-      geom.state = SolidColor.makeState({
-        color: [...Color.gray],
-        topology: "line-list"
-      });
+      const state = SolidColor.makeState({ topology: "line-list" });
+      state.addAttribute(new Color([...Color$1.gray]));
+      geom.state = state;
       __privateSet(this, _geom, geom);
     }
     return __privateGet(this, _geom);
@@ -17018,7 +17174,7 @@ class BuildBoxes extends Multiply {
       urf[1],
       urf[2]
     );
-    const c = [...Color.gray];
+    const c = [...Color$1.gray];
     if (state) {
       const { shader } = state;
       if (shader instanceof SolidColor) {
@@ -17175,7 +17331,7 @@ class BuildEdges extends Multiply {
     super();
     __privateAdd(this, _scene, new Group());
     __privateAdd(this, _current, __privateGet(this, _scene));
-    __privateAdd(this, _color3, [...Color.black]);
+    __privateAdd(this, _color4, [...Color$1.black]);
   }
   /**
    * Return the class name.
@@ -17213,14 +17369,14 @@ class BuildEdges extends Multiply {
    * Set the color.
    */
   set color(color2) {
-    copy$1(__privateGet(this, _color3), color2);
+    copy$1(__privateGet(this, _color4), color2);
   }
   /**
    * Get the color.
    * @returns {IVector4} The color.
    */
   get color() {
-    return __privateGet(this, _color3);
+    return __privateGet(this, _color4);
   }
   /**
    * Reset the builder.
@@ -17228,7 +17384,7 @@ class BuildEdges extends Multiply {
   reset() {
     __privateGet(this, _scene).clear();
     __privateSet(this, _current, __privateGet(this, _scene));
-    copy$1(__privateGet(this, _color3), Color.black);
+    copy$1(__privateGet(this, _color4), Color$1.black);
   }
   /**
    * Visit the node.
@@ -17238,10 +17394,9 @@ class BuildEdges extends Multiply {
     super.visitShape(geom);
     const edges = buildTriangleEdges(geom);
     if (edges) {
-      edges.state = SolidColor.makeState({
-        color: [...Color.black],
-        topology: "line-list"
-      });
+      const state = SolidColor.makeState({ topology: "line-list" });
+      state.addAttribute(new Color([...Color$1.black]));
+      edges.state = state;
       this.current.addChild(edges);
     }
   }
@@ -17274,7 +17429,7 @@ class BuildEdges extends Multiply {
 }
 _scene = new WeakMap();
 _current = new WeakMap();
-_color3 = new WeakMap();
+_color4 = new WeakMap();
 const buildWireframeScene = (scene) => {
   const visitor = new BuildEdges();
   scene.accept(visitor);
@@ -17344,7 +17499,7 @@ class Common extends Reader {
     // The default color is random in a developer build and gray in production.
     // If the file has color as described in the "Materialise Magics software"
     // then it will be reset. See: https://en.wikipedia.org/wiki/STL_(file_format)
-    __privateAdd(this, _color4, [0.5, 0.5, 0.5, 1]);
+    __privateAdd(this, _color5, [0.5, 0.5, 0.5, 1]);
     // These are allocated once here for speed in case they are needed below.
     __privateAdd(this, _point1, [0, 0, 0]);
     __privateAdd(this, _point2, [0, 0, 0]);
@@ -17357,14 +17512,14 @@ class Common extends Reader {
    * @returns {IVector4} The color.
    */
   get color() {
-    return __privateGet(this, _color4);
+    return __privateGet(this, _color5);
   }
   /**
    * Set the color.
    * @param {IVector4} color The color to set.
    */
   set color(color2) {
-    copy$1(__privateGet(this, _color4), color2);
+    copy$1(__privateGet(this, _color5), color2);
   }
   /**
    * Return a progress callback function. Make one if needed.
@@ -17432,7 +17587,10 @@ class Common extends Reader {
       const topology = "triangle-list";
       tris.primitives = new Indexed({ topology, indices });
       const color2 = this.color;
-      tris.state = PhongShading.makeState({ color: color2, twoSided: true, topology });
+      const state = PhongShading.makeState({ topology });
+      state.addAttribute(new Color(color2));
+      state.addAttribute(new TwoSidedLight(true));
+      tris.state = state;
       void tris.box;
       group.addChild(tris);
     }
@@ -17473,7 +17631,7 @@ class Common extends Reader {
     cross(normal, edge1, edge2);
   }
 }
-_color4 = new WeakMap();
+_color5 = new WeakMap();
 _point1 = new WeakMap();
 _point2 = new WeakMap();
 _point3 = new WeakMap();
@@ -19767,7 +19925,7 @@ class Surface extends Base$1 {
     __privateAdd(this, _visitors, null);
     __privateAdd(this, _root2, new Root());
     __privateAdd(this, _defaultState2, null);
-    __privateAdd(this, _clearColor2, [...Color.transparent]);
+    __privateAdd(this, _clearColor2, [...Color$1.transparent]);
     __privateAdd(this, _info3, makeRenderGraphInfo());
     if (!canvas) {
       throw new Error("Invalid canvas when constructing a surface");
@@ -20412,7 +20570,7 @@ class Listeners extends Base$1 {
   }
 }
 _eventListeners = new WeakMap();
-let Viewer$1 = (_c = class extends Surface {
+let Viewer$1 = (_d = class extends Surface {
   /**
    * Construct the class.
    * @class
@@ -20421,16 +20579,16 @@ let Viewer$1 = (_c = class extends Surface {
   constructor(input) {
     const { noMouseEvents, noKeyboardEvents } = input;
     super(input);
-    __privateAdd(this, _mouse, _c.makeMouseData());
+    __privateAdd(this, _mouse, _d.makeMouseData());
     __privateAdd(this, _navBase, null);
     __privateAdd(this, _eventHandlers, []);
     __privateAdd(this, _keyboardListeners, /* @__PURE__ */ new Map());
     __privateAdd(this, _mouseListeners, /* @__PURE__ */ new Map());
     __privateAdd(this, _clientListeners, new Listeners());
-    __privateAdd(this, _branches, _c.makeBranches(true));
+    __privateAdd(this, _branches, _d.makeBranches(true));
     __privateAdd(this, _keysDown, /* @__PURE__ */ new Set());
     __privateAdd(this, _animations, { nav: new Animation() });
-    __privateAdd(this, _options, _c.makeOptions());
+    __privateAdd(this, _options, _d.makeOptions());
     super.scene = __privateGet(this, _branches).root;
     if (!noMouseEvents) {
       this.addMouseEventListeners();
@@ -20453,16 +20611,16 @@ let Viewer$1 = (_c = class extends Surface {
   destroy() {
     this.removeKeyboardEventListeners();
     this.removeMouseEventListeners();
-    __privateSet(this, _mouse, _c.makeMouseData());
+    __privateSet(this, _mouse, _d.makeMouseData());
     __privateSet(this, _navBase, null);
     __privateSet(this, _eventHandlers, []);
     __privateGet(this, _keyboardListeners).clear();
     __privateGet(this, _mouseListeners).clear();
     __privateGet(this, _clientListeners).destroy();
-    __privateSet(this, _branches, _c.makeBranches(false));
+    __privateSet(this, _branches, _d.makeBranches(false));
     __privateGet(this, _keysDown).clear();
     __privateGet(this, _animations).nav.stop();
-    __privateSet(this, _options, _c.makeOptions());
+    __privateSet(this, _options, _d.makeOptions());
     super.destroy();
   }
   /**
@@ -20827,11 +20985,11 @@ let Viewer$1 = (_c = class extends Surface {
    */
   getCommand(event) {
     const input = this.makeCommandMapKey(event);
-    const name = __privateGet(_c, _inputToCommand).get(input);
+    const name = __privateGet(_d, _inputToCommand).get(input);
     if (!name) {
       return null;
     }
-    const command = __privateGet(_c, _commands).get(name);
+    const command = __privateGet(_d, _commands).get(name);
     return command ?? null;
   }
   /**
@@ -21061,18 +21219,19 @@ let Viewer$1 = (_c = class extends Surface {
     super.render();
     this.clientListeners.notify(this.makeEvent("post_render"));
   }
-}, _mouse = new WeakMap(), _navBase = new WeakMap(), _eventHandlers = new WeakMap(), _keyboardListeners = new WeakMap(), _mouseListeners = new WeakMap(), _clientListeners = new WeakMap(), _branches = new WeakMap(), _keysDown = new WeakMap(), _animations = new WeakMap(), _options = new WeakMap(), _commands = new WeakMap(), _inputToCommand = new WeakMap(), __privateAdd(_c, _commands, makeCommands()), __privateAdd(_c, _inputToCommand, makeInputToCommandMap()), _c);
+}, _mouse = new WeakMap(), _navBase = new WeakMap(), _eventHandlers = new WeakMap(), _keyboardListeners = new WeakMap(), _mouseListeners = new WeakMap(), _clientListeners = new WeakMap(), _branches = new WeakMap(), _keysDown = new WeakMap(), _animations = new WeakMap(), _options = new WeakMap(), _commands = new WeakMap(), _inputToCommand = new WeakMap(), __privateAdd(_d, _commands, makeCommands()), __privateAdd(_d, _inputToCommand, makeInputToCommandMap()), _d);
 const buildSceneSphere = (sphere, edges) => {
   const node2 = new Sphere({
     center: sphere.center,
     radius: sphere.radius,
     numSubdivisions: 4
   });
-  node2.state = PhongShading.makeState({
-    color: [0.8, 0.2, 0.2, 1],
-    twoSided: false,
-    topology: "triangle-list"
-  });
+  {
+    const state = PhongShading.makeState({ topology: "triangle-list" });
+    state.addAttribute(new Color([0.8, 0.2, 0.2, 1]));
+    state.addAttribute(new TwoSidedLight(false));
+    node2.state = state;
+  }
   {
     return node2;
   }
@@ -21118,14 +21277,19 @@ function Viewer({ style: style2 }) {
   const [id] = reactExports.useState(getNextId());
   const [progress, setProgress] = reactExports.useState(0);
   const [supported, setSupported] = reactExports.useState(null);
-  const { getBoundingBoxesVisible, getTriangleEdgesVisible } = useViewerState((state) => state);
   const { getViewer, setViewer } = useViewerStore((state) => state);
   const canvas = reactExports.useRef(null);
   const isMounting = reactExports.useRef(false);
   const loader = reactExports.useRef(null);
+  const {
+    getBoundingBoxesVisible,
+    getTriangleEdgesVisible,
+    getTwoSidedLighting
+  } = useViewerState((state) => state);
   const viewer = getViewer(VIEWER_NAME);
   const boundingBoxesVisible = getBoundingBoxesVisible();
   const triangleEdgesVisible = getTriangleEdgesVisible();
+  const twoSidedLighting = getTwoSidedLighting();
   const buildTestScene = reactExports.useCallback(
     () => {
       return buildSceneSpheres();
@@ -21195,6 +21359,29 @@ function Viewer({ style: style2 }) {
   }, [
     edgesScene,
     triangleEdgesVisible,
+    viewer
+  ]);
+  reactExports.useEffect(() => {
+    if (!viewer) {
+      return;
+    }
+    const modelScene = viewer.modelScene;
+    if (!modelScene) {
+      return;
+    }
+    modelScene.traverse((node2) => {
+      const { state } = node2;
+      if (state) {
+        const type = TwoSidedLight.getClassName();
+        const twoSidedLight = state.getAttribute(type);
+        if (twoSidedLight) {
+          twoSidedLight.value = twoSidedLighting;
+        }
+      }
+    });
+    viewer.requestRender();
+  }, [
+    twoSidedLighting,
     viewer
   ]);
   const handleDragOver = reactExports.useCallback((event) => {
@@ -21516,7 +21703,9 @@ function App() {
     getBoundingBoxesVisible,
     setBoundingBoxesVisible,
     getTriangleEdgesVisible,
-    setTriangleEdgesVisible
+    setTriangleEdgesVisible,
+    getTwoSidedLighting,
+    setTwoSidedLighting
   } = useViewerState((state) => state);
   const viewer = getViewer(VIEWER_NAME);
   const { palette } = useTheme();
@@ -21528,7 +21717,7 @@ function App() {
   );
   const buildTimeStamp = reactExports.useMemo(
     () => {
-      const date = /* @__PURE__ */ new Date(1778642466631);
+      const date = /* @__PURE__ */ new Date(1779170506669);
       const Y = date.getFullYear();
       const M = String(date.getMonth() + 1).padStart(2, "0");
       const D = String(date.getDate()).padStart(2, "0");
@@ -21627,6 +21816,13 @@ function App() {
     getTriangleEdgesVisible,
     setTriangleEdgesVisible
   ]);
+  const handleUseTwoSidedLighting = reactExports.useCallback(() => {
+    const current = getTwoSidedLighting();
+    setTwoSidedLighting(!current);
+  }, [
+    getTwoSidedLighting,
+    setTwoSidedLighting
+  ]);
   reactExports.useEffect(
     () => {
       if (viewer) {
@@ -21723,6 +21919,14 @@ function App() {
                   children: "Triangle edges"
                 }
               ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                Button,
+                {
+                  onClick: handleUseTwoSidedLighting,
+                  value: getTwoSidedLighting(),
+                  children: "Two-sided lighting"
+                }
+              ),
               verticalSpace(),
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "div",
@@ -21744,9 +21948,11 @@ function App() {
   }, [
     buildTimeStamp,
     getBoundingBoxesVisible,
+    getTriangleEdgesVisible,
     handleAllowAnimations,
     handleShowBoundingBoxes,
     handleShowStats,
+    handleShowTriangleEdges,
     handleSimulateDeviceLost,
     handleTrackballMode,
     handleTurntableMode,
@@ -33700,4 +33906,4 @@ clientExports.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ jsxRuntimeExports.jsx(App, {})
   ] }) })
 );
-//# sourceMappingURL=index-VUuR-T9F.js.map
+//# sourceMappingURL=index-BArtK3gx.js.map
