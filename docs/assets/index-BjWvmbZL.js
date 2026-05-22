@@ -8,7 +8,7 @@ var __accessCheck = (obj, member, msg) => member.has(obj) || __typeError("Cannot
 var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
-var _a, _black, _blue, _gray, _green, _magenta, _orange, _red, _transparent, _white, _yellow, _min, _max, _p0, _p1, _point, _normal, _c2, _r, _b, _id, _c, _instance, _isInitializing, _device, _preferredFormat, _values, _buffer, _state, _shapes, _matrix, _stateGroupMap, _matrix2, _viewMatrixMap, _shader, _topology, _projMatrixMap, _pipelines, _bins, _layers, _viewMatrix, _projMatrix, _state2, _parents, _flags, _userData, _children, _sphere, _matrix3, _topology2, _first, _count, _indices, _points, _normals, _colors, _texCoords, _primitives, _box, _center, _radius, _numSubdivisions, _color, _value, _name, _layer, _bin, _shader2, _topology3, _apply, _reset, _attributes, _code, _module, _data, _device2, _projMatrix2, _viewMatrix2, _instance2, _color2, _twoSidedLight, _lightDir, _uniforms, _bindGroup, _instance3, _color3, _uniforms2, _bindGroup2, _root, _defaultState, _currentState, _info, _states, _shaders, _context, _depthTexture, _clearColor, _renderPassEncoder, _commandEncoder, _geometry, _info2, _device3, _wasDirty, _indices2, _points2, _colors2, _geom, _boxes, _scene, _current, _color4, _progress, _color5, _point1, _point2, _point3, _edge1, _edge2, _near, _far, _onUpdateNearFar, _fov, _aspect, _matrix4, _inverse, _mode, _localUp, _state3, _fun, _name2, _startTime, _duration, _axis, _angle, _space, _resetRotation, _scaleIn, _scaleOut, _scale, _scale2, _canvas, _context2, _observer, _viewport, _scene2, _projection, _handles, _frame, _visitors, _root2, _defaultState2, _clearColor2, _info3, _eventListeners, _mouse, _navBase, _eventHandlers, _keyboardListeners, _mouseListeners, _clientListeners, _branches, _keysDown, _animations, _options, _d, _commands, _inputToCommand;
+var _a, _black, _blue, _gray, _green, _magenta, _orange, _red, _transparent, _white, _yellow, _min, _max, _p0, _p1, _point, _normal, _c2, _r, _b, _id, _c, _instance, _isInitializing, _device, _preferredFormat, _values, _buffer, _state, _shapes, _matrix, _stateGroupMap, _matrix2, _viewMatrixMap, _shader, _topology, _projMatrixMap, _pipelines, _bins, _layers, _viewMatrix, _projMatrix, _state2, _parents, _flags, _userData, _children, _sphere, _matrix3, _topology2, _first, _count, _indices, _points, _normals, _colors, _texCoords, _primitives, _box, _center, _radius, _numSubdivisions, _color, _value, _name, _layer, _bin, _shader2, _topology3, _apply, _reset, _attributes, _code, _module, _data, _device2, _projMatrix2, _viewMatrix2, _instance2, _color2, _twoSidedLight, _lightDir, _uniforms, _bindGroup, _instance3, _color3, _uniforms2, _bindGroup2, _root, _defaultState, _currentState, _info, _context, _depthTexture, _clearColor, _renderPassEncoder, _commandEncoder, _geometry, _info2, _device3, _wasDirty, _indices2, _points2, _colors2, _geom, _boxes, _scene, _current, _color4, _progress, _color5, _point1, _point2, _point3, _edge1, _edge2, _near, _far, _onUpdateNearFar, _fov, _aspect, _matrix4, _inverse, _mode, _localUp, _state3, _fun, _name2, _startTime, _duration, _axis, _angle, _space, _resetRotation, _scaleIn, _scaleOut, _scale, _scale2, _canvas, _context2, _observer, _viewport, _scene2, _projection, _handles, _frame, _visitors, _root2, _defaultState2, _clearColor2, _info3, _eventListeners, _mouse, _navBase, _eventHandlers, _keyboardListeners, _mouseListeners, _clientListeners, _branches, _keysDown, _animations, _options, _d, _commands, _inputToCommand;
 function _mergeNamespaces(n, m) {
   for (var i = 0; i < m.length; i++) {
     const e = m[i];
@@ -117,85 +117,6 @@ function requireJsxRuntime() {
   return jsxRuntime.exports;
 }
 var jsxRuntimeExports = requireJsxRuntime();
-const common = {
-  black: "#000",
-  white: "#fff"
-};
-const red = {
-  300: "#e57373",
-  400: "#ef5350",
-  500: "#f44336",
-  700: "#d32f2f",
-  800: "#c62828"
-};
-const purple = {
-  50: "#f3e5f5",
-  200: "#ce93d8",
-  300: "#ba68c8",
-  400: "#ab47bc",
-  500: "#9c27b0",
-  700: "#7b1fa2"
-};
-const blue = {
-  50: "#e3f2fd",
-  200: "#90caf9",
-  400: "#42a5f5",
-  700: "#1976d2",
-  800: "#1565c0"
-};
-const lightBlue = {
-  300: "#4fc3f7",
-  400: "#29b6f6",
-  500: "#03a9f4",
-  700: "#0288d1",
-  900: "#01579b"
-};
-const green = {
-  300: "#81c784",
-  400: "#66bb6a",
-  500: "#4caf50",
-  700: "#388e3c",
-  800: "#2e7d32",
-  900: "#1b5e20"
-};
-const orange = {
-  300: "#ffb74d",
-  400: "#ffa726",
-  500: "#ff9800",
-  700: "#f57c00",
-  900: "#e65100"
-};
-const grey = {
-  50: "#fafafa",
-  100: "#f5f5f5",
-  200: "#eeeeee",
-  300: "#e0e0e0",
-  400: "#bdbdbd",
-  500: "#9e9e9e",
-  600: "#757575",
-  700: "#616161",
-  800: "#424242",
-  900: "#212121",
-  A100: "#f5f5f5",
-  A200: "#eeeeee",
-  A400: "#bdbdbd",
-  A700: "#616161"
-};
-function formatMuiErrorMessage(code2, ...args) {
-  const url = new URL(`https://mui.com/production-error/?code=${code2}`);
-  args.forEach((arg2) => url.searchParams.append("args[]", arg2));
-  return `Minified MUI error #${code2}; visit ${url} for the full message.`;
-}
-const THEME_ID = "$$material";
-function _extends() {
-  return _extends = Object.assign ? Object.assign.bind() : function(n) {
-    for (var e = 1; e < arguments.length; e++) {
-      var t = arguments[e];
-      for (var r2 in t) ({}).hasOwnProperty.call(t, r2) && (n[r2] = t[r2]);
-    }
-    return n;
-  }, _extends.apply(null, arguments);
-}
 var react = { exports: {} };
 var react_production = {};
 /**
@@ -646,6 +567,85 @@ const React$1 = /* @__PURE__ */ _mergeNamespaces({
   __proto__: null,
   default: React
 }, [reactExports]);
+const common = {
+  black: "#000",
+  white: "#fff"
+};
+const red = {
+  300: "#e57373",
+  400: "#ef5350",
+  500: "#f44336",
+  700: "#d32f2f",
+  800: "#c62828"
+};
+const purple = {
+  50: "#f3e5f5",
+  200: "#ce93d8",
+  300: "#ba68c8",
+  400: "#ab47bc",
+  500: "#9c27b0",
+  700: "#7b1fa2"
+};
+const blue = {
+  50: "#e3f2fd",
+  200: "#90caf9",
+  400: "#42a5f5",
+  700: "#1976d2",
+  800: "#1565c0"
+};
+const lightBlue = {
+  300: "#4fc3f7",
+  400: "#29b6f6",
+  500: "#03a9f4",
+  700: "#0288d1",
+  900: "#01579b"
+};
+const green = {
+  300: "#81c784",
+  400: "#66bb6a",
+  500: "#4caf50",
+  700: "#388e3c",
+  800: "#2e7d32",
+  900: "#1b5e20"
+};
+const orange = {
+  300: "#ffb74d",
+  400: "#ffa726",
+  500: "#ff9800",
+  700: "#f57c00",
+  900: "#e65100"
+};
+const grey = {
+  50: "#fafafa",
+  100: "#f5f5f5",
+  200: "#eeeeee",
+  300: "#e0e0e0",
+  400: "#bdbdbd",
+  500: "#9e9e9e",
+  600: "#757575",
+  700: "#616161",
+  800: "#424242",
+  900: "#212121",
+  A100: "#f5f5f5",
+  A200: "#eeeeee",
+  A400: "#bdbdbd",
+  A700: "#616161"
+};
+function formatMuiErrorMessage(code2, ...args) {
+  const url = new URL(`https://mui.com/production-error/?code=${code2}`);
+  args.forEach((arg2) => url.searchParams.append("args[]", arg2));
+  return `Minified MUI error #${code2}; visit ${url} for the full message.`;
+}
+const THEME_ID = "$$material";
+function _extends() {
+  return _extends = Object.assign ? Object.assign.bind() : function(n) {
+    for (var e = 1; e < arguments.length; e++) {
+      var t = arguments[e];
+      for (var r2 in t) ({}).hasOwnProperty.call(t, r2) && (n[r2] = t[r2]);
+    }
+    return n;
+  }, _extends.apply(null, arguments);
+}
 function sheetForTag(tag) {
   if (tag.sheet) {
     return tag.sheet;
@@ -10680,7 +10680,7 @@ const Radio = /* @__PURE__ */ reactExports.forwardRef(function Radio2(inProps, r
   });
 });
 function Button(props) {
-  const { style: style2, children, onClick, value, radio } = props;
+  const { style: style2, children, onClick, value, radio, disabled = false } = props;
   const { palette } = useTheme();
   const handleClick = reactExports.useCallback(() => {
     if (onClick) {
@@ -10700,6 +10700,7 @@ function Button(props) {
         control: radio ? /* @__PURE__ */ jsxRuntimeExports.jsx(
           Radio,
           {
+            disabled,
             checked: value,
             onChange: handleClick,
             size: "small"
@@ -10707,6 +10708,7 @@ function Button(props) {
         ) : /* @__PURE__ */ jsxRuntimeExports.jsx(
           Checkbox,
           {
+            disabled,
             checked: value,
             onChange: handleClick,
             size: "small"
@@ -10722,6 +10724,7 @@ function Button(props) {
               ":hover": { color: palette.secondary.main },
               ...style2
             },
+            disabled,
             onClick: handleClick,
             children
           }
@@ -10743,177 +10746,13 @@ function Button(props) {
           ":hover": { color: palette.secondary.main },
           ...style2
         },
+        disabled,
         onClick: handleClick,
         children
       }
     );
   }
 }
-function Panel(props) {
-  const { style: style2, children } = props;
-  reactExports.useEffect(
-    () => {
-      return (() => {
-      });
-    },
-    []
-  );
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(
-    Paper,
-    {
-      style: {
-        padding: "4px",
-        ...style2
-      },
-      elevation: 0,
-      children
-    }
-  );
-}
-const createStoreImpl = (createState) => {
-  let state;
-  const listeners = /* @__PURE__ */ new Set();
-  const setState = (partial, replace2) => {
-    const nextState = typeof partial === "function" ? partial(state) : partial;
-    if (!Object.is(nextState, state)) {
-      const previousState = state;
-      state = (replace2 != null ? replace2 : typeof nextState !== "object" || nextState === null) ? nextState : Object.assign({}, state, nextState);
-      listeners.forEach((listener) => listener(state, previousState));
-    }
-  };
-  const getState = () => state;
-  const getInitialState = () => initialState;
-  const subscribe = (listener) => {
-    listeners.add(listener);
-    return () => listeners.delete(listener);
-  };
-  const api = { setState, getState, getInitialState, subscribe };
-  const initialState = state = createState(setState, getState, api);
-  return api;
-};
-const createStore = ((createState) => createState ? createStoreImpl(createState) : createStoreImpl);
-const identity = (arg2) => arg2;
-function useStore(api, selector = identity) {
-  const slice2 = React.useSyncExternalStore(
-    api.subscribe,
-    React.useCallback(() => selector(api.getState()), [api, selector]),
-    React.useCallback(() => selector(api.getInitialState()), [api, selector])
-  );
-  React.useDebugValue(slice2);
-  return slice2;
-}
-const createImpl = (createState) => {
-  const api = createStore(createState);
-  const useBoundStore = (selector) => useStore(api, selector);
-  Object.assign(useBoundStore, api);
-  return useBoundStore;
-};
-const create$5 = ((createState) => createImpl);
-create$5()((set, get) => ({
-  scenes: /* @__PURE__ */ new Map(),
-  setScene: (id, scene) => {
-    const current = get().scenes.get(id);
-    if (scene !== current) {
-      set((current2) => {
-        const next2 = new Map(current2.scenes);
-        next2.set(id, scene);
-        return { scenes: next2 };
-      });
-    }
-  },
-  removeScene: (id) => {
-    set((current) => {
-      const next2 = new Map(current.scenes);
-      next2.delete(id);
-      return { scenes: next2 };
-    });
-  },
-  clearScenes: () => {
-    set(() => ({
-      scenes: /* @__PURE__ */ new Map()
-    }));
-  }
-}));
-const useViewerStore = create$5()((set, get) => ({
-  viewers: /* @__PURE__ */ new Map(),
-  getViewer: (id) => {
-    const store = get();
-    const viewer = store.viewers.get(id);
-    return viewer ?? null;
-  },
-  setViewer: (id, viewer) => {
-    const store = get();
-    const current = store.viewers.get(id);
-    if (viewer !== current) {
-      set((current2) => {
-        const next2 = new Map(current2.viewers);
-        next2.set(id, viewer);
-        return { viewers: next2 };
-      });
-    }
-  },
-  removeViewer: (id) => {
-    set((current) => {
-      const next2 = new Map(current.viewers);
-      next2.delete(id);
-      return { viewers: next2 };
-    });
-  },
-  clearViewers: () => {
-    set(() => {
-      return {
-        viewers: /* @__PURE__ */ new Map()
-      };
-    });
-  }
-}));
-const useViewerState = create$5()((set, get) => ({
-  boxesVisible: false,
-  edgesVisible: false,
-  twoSidedLighting: false,
-  getBoundingBoxesVisible: () => {
-    const store = get();
-    return store.boxesVisible;
-  },
-  setBoundingBoxesVisible: (visible) => {
-    const store = get();
-    if (visible !== store.boxesVisible) {
-      set(() => {
-        return {
-          boxesVisible: visible
-        };
-      });
-    }
-  },
-  getTriangleEdgesVisible: () => {
-    const store = get();
-    return store.edgesVisible;
-  },
-  setTriangleEdgesVisible: (visible) => {
-    const store = get();
-    if (visible !== store.edgesVisible) {
-      set(() => {
-        return {
-          edgesVisible: visible
-        };
-      });
-    }
-  },
-  getTwoSidedLighting: () => {
-    const store = get();
-    return store.twoSidedLighting;
-  },
-  setTwoSidedLighting: (enabled) => {
-    const store = get();
-    if (enabled !== store.twoSidedLighting) {
-      set(() => {
-        return {
-          twoSidedLighting: enabled
-        };
-      });
-    }
-  }
-}));
 const makeKey = (p0, p1) => {
   const answer = [
     p0.toString(),
@@ -11120,7 +10959,7 @@ const DEFAULT_NEAR_DISTANCE = 0.1;
 const DEFAULT_FAR_DISTANCE = 1e4;
 var EPSILON = 1e-6;
 var ARRAY_TYPE = typeof Float32Array !== "undefined" ? Float32Array : Array;
-function create$4() {
+function create$5() {
   var out = new ARRAY_TYPE(9);
   if (ARRAY_TYPE != Float32Array) {
     out[1] = 0;
@@ -11392,7 +11231,7 @@ function perspectiveNO(out, fovy, aspect, near, far) {
   return out;
 }
 var perspective = perspectiveNO;
-function create$3() {
+function create$4() {
   var out = new ARRAY_TYPE(3);
   if (ARRAY_TYPE != Float32Array) {
     out[0] = 0;
@@ -11531,7 +11370,7 @@ function equals$1(a, b) {
 }
 var len = length;
 (function() {
-  var vec = create$3();
+  var vec = create$4();
   return function(a, stride, offset, count, fn, arg2) {
     var i, l;
     if (!stride) {
@@ -11557,7 +11396,7 @@ var len = length;
     return a;
   };
 })();
-function create$2() {
+function create$3() {
   var out = new ARRAY_TYPE(4);
   if (ARRAY_TYPE != Float32Array) {
     out[0] = 0;
@@ -11598,7 +11437,7 @@ function transformMat4(out, a, m) {
   return out;
 }
 (function() {
-  var vec = create$2();
+  var vec = create$3();
   return function(a, stride, offset, count, fn, arg2) {
     var i, l;
     if (!stride) {
@@ -11626,7 +11465,7 @@ function transformMat4(out, a, m) {
     return a;
   };
 })();
-function create$1() {
+function create$2() {
   var out = new ARRAY_TYPE(4);
   if (ARRAY_TYPE != Float32Array) {
     out[0] = 0;
@@ -11708,7 +11547,7 @@ function fromMat3(out, m) {
 }
 var normalize = normalize$1;
 (function() {
-  var tmpvec3 = create$3();
+  var tmpvec3 = create$4();
   var xUnitVec3 = fromValues(1, 0, 0);
   var yUnitVec3 = fromValues(0, 1, 0);
   return function(out, a, b) {
@@ -11736,8 +11575,8 @@ var normalize = normalize$1;
   };
 })();
 (function() {
-  var temp1 = create$1();
-  var temp2 = create$1();
+  var temp1 = create$2();
+  var temp2 = create$2();
   return function(out, a, b, c, d, t) {
     slerp(temp1, a, d, t);
     slerp(temp2, b, c, t);
@@ -11746,7 +11585,7 @@ var normalize = normalize$1;
   };
 })();
 (function() {
-  var matr = create$4();
+  var matr = create$5();
   return function(out, view, right, up) {
     matr[0] = right[0];
     matr[3] = right[1];
@@ -11760,7 +11599,7 @@ var normalize = normalize$1;
     return normalize(out, fromMat3(out, matr));
   };
 })();
-function create() {
+function create$1() {
   var out = new ARRAY_TYPE(2);
   if (ARRAY_TYPE != Float32Array) {
     out[0] = 0;
@@ -11788,7 +11627,7 @@ function equals(a, b) {
   return Math.abs(a0 - b0) <= EPSILON * Math.max(1, Math.abs(a0), Math.abs(b0)) && Math.abs(a1 - b1) <= EPSILON * Math.max(1, Math.abs(a1), Math.abs(b1));
 }
 (function() {
-  var vec = create();
+  var vec = create$1();
   return function(a, stride, offset, count, fn, arg2) {
     var i, l;
     if (!stride) {
@@ -12125,15 +11964,24 @@ function getNumElements(array, dimension) {
   }
   return array.length / dimension;
 }
-function throttle(func, delay) {
+function throttle(func, delay, fallbackResult) {
   let lastCall = 0;
-  return ((value, total) => {
+  let hasResult = void 0 !== fallbackResult;
+  let lastResult = fallbackResult;
+  return ((...args) => {
     const now = Date.now();
     if (now - lastCall >= delay) {
       lastCall = now;
-      return func(value, total);
+      lastResult = func(...args);
+      hasResult = true;
+      return lastResult;
     }
-    return true;
+    if (hasResult) {
+      return lastResult;
+    }
+    lastResult = func(...args);
+    hasResult = true;
+    return lastResult;
   });
 }
 var LogLevel = /* @__PURE__ */ ((LogLevel2) => {
@@ -16496,90 +16344,6 @@ _root = new WeakMap();
 _defaultState = new WeakMap();
 _currentState = new WeakMap();
 _info = new WeakMap();
-const makeKeyForType = (base) => {
-  return `${base.type}.${base.id}`;
-};
-class DeviceLost extends Visitor {
-  /**
-   * Construct the class.
-   * @class
-   */
-  constructor() {
-    super();
-    __privateAdd(this, _states, /* @__PURE__ */ new Set());
-    __privateAdd(this, _shaders, /* @__PURE__ */ new Set());
-  }
-  /**
-   * Return the class name.
-   * @returns {string} The class name.
-   */
-  getClassName() {
-    return "Visitors.DeviceLost";
-  }
-  /**
-   * Handle when the device is lost.
-   * @param {SceneNode} scene - The scene node.
-   */
-  handle(scene) {
-    scene.accept(this);
-  }
-  /**
-   * Visit the group.
-   * @param {Group} group - The group to visit.
-   */
-  visitGroup(group) {
-    super.visitGroup(group);
-  }
-  /**
-   * Visit the geometry.
-   * @param {Geometry} geom - The geometry node.
-   */
-  visitGeometry(geom) {
-    var _a2, _b2, _c3, _d2, _e;
-    (_a2 = geom.points) == null ? void 0 : _a2.reset();
-    (_b2 = geom.normals) == null ? void 0 : _b2.reset();
-    (_c3 = geom.colors) == null ? void 0 : _c3.reset();
-    (_d2 = geom.texCoords) == null ? void 0 : _d2.reset();
-    (_e = geom.primitives) == null ? void 0 : _e.forEach((primitive) => {
-      primitive.reset();
-    });
-    this.visitShape(geom);
-  }
-  /**
-   * Visit the shape.
-   * @param {Shape} shape - The shape node.
-   */
-  visitShape(shape2) {
-    const states = __privateGet(this, _states);
-    const shaders = __privateGet(this, _shaders);
-    const state = shape2.state;
-    if (state) {
-      const key1 = makeKeyForType(state);
-      if (false === states.has(key1)) {
-        states.add(key1);
-        const shader = state.shader;
-        if (shader) {
-          const key2 = makeKeyForType(shader);
-          if (false === shaders.has(key2)) {
-            shaders.add(key2);
-            shader.reset();
-            console.log(`Reset shader '${key2}' module after device was lost`);
-          }
-        }
-      }
-    }
-    super.visitShape(shape2);
-  }
-  /**
-   * Reset to the initial state.
-   */
-  reset() {
-    __privateGet(this, _states).clear();
-    __privateGet(this, _shaders).clear();
-  }
-}
-_states = new WeakMap();
-_shaders = new WeakMap();
 const requireShader = (state) => {
   const { shader } = state;
   if (!shader) {
@@ -20502,15 +20266,18 @@ class Listeners extends Base$1 {
    * Add a listener for the given event type.
    * @param {IEventType} type - The event type.
    * @param {IEventListener} listener - The event listener.
+   * @returns {IEventListener} The event listener that was added.
    */
   add(type, listener) {
     const listeners = this.get(type);
     listeners.push(listener);
+    return listener;
   }
   /**
    * Add listeners for the given event type that gets called only once.
    * @param {IEventType} type - The event type.
    * @param {IEventListener} listener - The event listener.
+   * @returns {IEventListener} The event listener that was added.
    */
   once(type, listener) {
     const oneTimeListener = (event) => {
@@ -20518,6 +20285,7 @@ class Listeners extends Base$1 {
       listener(event);
     };
     this.add(type, oneTimeListener);
+    return oneTimeListener;
   }
   /**
    * Remove a listener for the given event type.
@@ -20672,7 +20440,7 @@ let Viewer$1 = (_d = class extends Surface {
         allow: true
       },
       distance: {
-        mouse_move_max: 100,
+        mouse_move_max: 150,
         mouse_throw: 2
       },
       duration: {
@@ -21049,7 +20817,7 @@ let Viewer$1 = (_d = class extends Surface {
       const d = distance(this.mouseCurrent, this.mousePrevious);
       const mx = this.options.distance.mouse_move_max;
       if (d > mx) {
-        console.log(`Mouse move event ignored because distance ${d} > ${mx}`);
+        console.warn(`Mouse move event ignored because distance ${d} > ${mx}`);
         return;
       }
     }
@@ -21220,6 +20988,336 @@ let Viewer$1 = (_d = class extends Surface {
     this.clientListeners.notify(this.makeEvent("post_render"));
   }
 }, _mouse = new WeakMap(), _navBase = new WeakMap(), _eventHandlers = new WeakMap(), _keyboardListeners = new WeakMap(), _mouseListeners = new WeakMap(), _clientListeners = new WeakMap(), _branches = new WeakMap(), _keysDown = new WeakMap(), _animations = new WeakMap(), _options = new WeakMap(), _commands = new WeakMap(), _inputToCommand = new WeakMap(), __privateAdd(_d, _commands, makeCommands()), __privateAdd(_d, _inputToCommand, makeInputToCommandMap()), _d);
+function Initialize({ children }) {
+  const [initialized, setInitialized] = reactExports.useState(false);
+  const [supported, setSupported] = reactExports.useState(null);
+  const isMounting = reactExports.useRef(false);
+  const initDevice = reactExports.useCallback(
+    async () => {
+      if (true === Device.valid) {
+        console.log("Device is already initialized");
+      }
+      if (true === Device.isInitializing) {
+        console.log("Device is already being initialized");
+      }
+      await Device.init();
+      void Device.instance.device.lost.then(() => {
+        Device.destroy();
+        setInitialized(false);
+      });
+      setInitialized(true);
+      console.log(`Singleton device ${Device.instance.id} initialized`);
+    },
+    []
+  );
+  const handleMount = reactExports.useCallback(async () => {
+    if (null === supported) {
+      if (false === await Device.isSupported()) {
+        console.warn("WebGPU is not supported in this browser");
+        setSupported(false);
+        return;
+      }
+      setSupported(true);
+    }
+    if (false === supported) {
+      return;
+    }
+    if (true === isMounting.current) {
+      console.log("We are still handling the previous mount");
+      return;
+    }
+    isMounting.current = true;
+    await initDevice();
+    isMounting.current = false;
+  }, [
+    initDevice,
+    supported
+  ]);
+  reactExports.useEffect(
+    () => {
+      console.log("Device component mounted");
+      void (async () => {
+        await handleMount();
+      })();
+      return (() => {
+        console.log("Device component unmounted");
+      });
+    },
+    [handleMount]
+  );
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: initialized ? children : null });
+}
+function Panel(props) {
+  const { style: style2, children } = props;
+  reactExports.useEffect(
+    () => {
+      return (() => {
+      });
+    },
+    []
+  );
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    Paper,
+    {
+      style: {
+        padding: "4px",
+        ...style2
+      },
+      elevation: 0,
+      children
+    }
+  );
+}
+const createStoreImpl = (createState) => {
+  let state;
+  const listeners = /* @__PURE__ */ new Set();
+  const setState = (partial, replace2) => {
+    const nextState = typeof partial === "function" ? partial(state) : partial;
+    if (!Object.is(nextState, state)) {
+      const previousState = state;
+      state = (replace2 != null ? replace2 : typeof nextState !== "object" || nextState === null) ? nextState : Object.assign({}, state, nextState);
+      listeners.forEach((listener) => listener(state, previousState));
+    }
+  };
+  const getState = () => state;
+  const getInitialState = () => initialState;
+  const subscribe = (listener) => {
+    listeners.add(listener);
+    return () => listeners.delete(listener);
+  };
+  const api = { setState, getState, getInitialState, subscribe };
+  const initialState = state = createState(setState, getState, api);
+  return api;
+};
+const createStore = ((createState) => createState ? createStoreImpl(createState) : createStoreImpl);
+const identity = (arg2) => arg2;
+function useStore(api, selector = identity) {
+  const slice2 = React.useSyncExternalStore(
+    api.subscribe,
+    React.useCallback(() => selector(api.getState()), [api, selector]),
+    React.useCallback(() => selector(api.getInitialState()), [api, selector])
+  );
+  React.useDebugValue(slice2);
+  return slice2;
+}
+const createImpl = (createState) => {
+  const api = createStore(createState);
+  const useBoundStore = (selector) => useStore(api, selector);
+  Object.assign(useBoundStore, api);
+  return useBoundStore;
+};
+const create = ((createState) => createImpl);
+create()((set, get) => ({
+  scenes: /* @__PURE__ */ new Map(),
+  setScene: (id, scene) => {
+    const current = get().scenes.get(id);
+    if (scene !== current) {
+      set((current2) => {
+        const next2 = new Map(current2.scenes);
+        next2.set(id, scene);
+        return { scenes: next2 };
+      });
+    }
+  },
+  removeScene: (id) => {
+    set((current) => {
+      const next2 = new Map(current.scenes);
+      next2.delete(id);
+      return { scenes: next2 };
+    });
+  },
+  clearScenes: () => {
+    set(() => ({
+      scenes: /* @__PURE__ */ new Map()
+    }));
+  }
+}));
+const useViewerStore = create()((set, get) => ({
+  viewers: /* @__PURE__ */ new Map(),
+  current: null,
+  setCurrentViewer: (id) => {
+    const store = get();
+    if (id !== store.current) {
+      set(() => {
+        return { current: id };
+      });
+    }
+  },
+  setViewerState: (id, state) => {
+    const store = get();
+    const current = store.viewers.get(id);
+    if (state !== current) {
+      set((current2) => {
+        const next2 = new Map(current2.viewers);
+        next2.set(id, state);
+        return { viewers: next2 };
+      });
+    }
+  },
+  createViewerState: () => {
+    return {
+      viewer: null,
+      boxesVisible: false,
+      edgesVisible: false,
+      twoSidedLighting: false
+    };
+  },
+  removeViewerState: (id) => {
+    set((current) => {
+      const next2 = new Map(current.viewers);
+      next2.delete(id);
+      return { viewers: next2 };
+    });
+  },
+  clearViewerStates: () => {
+    set(() => {
+      return {
+        viewers: /* @__PURE__ */ new Map()
+      };
+    });
+  }
+}));
+const defaultRenderGraphInfo = {
+  numLayers: 0,
+  numBins: 0,
+  numPipelines: 0,
+  numProjMatrixGroups: 0,
+  numViewMatrixGroups: 0,
+  numStateGroups: 0,
+  numShapes: 0,
+  numTriangles: 0,
+  numLines: 0
+};
+function RenderStats() {
+  const [, setCount] = reactExports.useState(0);
+  const { palette } = useTheme();
+  const currentViewerId = useViewerStore((store) => store.current);
+  const viewerStates = useViewerStore((store) => store.viewers);
+  const viewer = reactExports.useMemo(() => {
+    if (currentViewerId) {
+      const state = viewerStates.get(currentViewerId);
+      if (state) {
+        return state.viewer;
+      }
+    }
+    return null;
+  }, [
+    currentViewerId,
+    viewerStates
+  ]);
+  const getFrameCount = reactExports.useCallback(
+    () => {
+      return viewer ? viewer.frame.count : 0;
+    },
+    [viewer]
+  );
+  const { intF, decF } = reactExports.useMemo(() => {
+    const intF2 = new Intl.NumberFormat();
+    const decF2 = new Intl.NumberFormat(navigator.languages[0], {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+    return { intF: intF2, decF: decF2 };
+  }, []);
+  const panelBackground = reactExports.useMemo(
+    () => {
+      return palette.background.paper + "5";
+    },
+    [palette]
+  );
+  const getRenderGraphInfo = reactExports.useCallback(
+    () => {
+      return viewer ? viewer.cullVisitor.renderGraphInfo : defaultRenderGraphInfo;
+    },
+    [viewer]
+  );
+  reactExports.useEffect(
+    () => {
+      if (!viewer) {
+        return;
+      }
+      const listener = viewer.clientListeners.add("post_render", throttle(
+        () => {
+          setCount((current) => {
+            return current + 1;
+          });
+        },
+        200
+      ));
+      return (() => {
+        if (viewer) {
+          viewer.clientListeners.remove("post_render", listener);
+        }
+      });
+    },
+    [viewer]
+  );
+  const getLabel = reactExports.useCallback(() => {
+    if (!viewer) {
+      return null;
+    }
+    const frame = viewer.frame;
+    if (!frame.end) {
+      return null;
+    }
+    const rgi = getRenderGraphInfo();
+    const duration2 = frame.end - frame.start;
+    const label2 = `Frame: ${getFrameCount()}
+Time: ${decF.format(duration2)} ms
+Rate: ${decF.format(1e3 / duration2)} f/s
+Layers: ${intF.format(rgi.numLayers)}
+Bins: ${intF.format(rgi.numBins)}
+Pipelines: ${intF.format(rgi.numPipelines)}
+Projections: ${intF.format(rgi.numProjMatrixGroups)}
+ViewMatrices: ${intF.format(rgi.numViewMatrixGroups)}
+States: ${intF.format(rgi.numStateGroups)}
+Shapes: ${intF.format(rgi.numShapes)}
+Triangles: ${intF.format(rgi.numTriangles)}
+Lines: ${intF.format(rgi.numLines)}`;
+    return label2;
+  }, [
+    decF,
+    getFrameCount,
+    getRenderGraphInfo,
+    intF,
+    viewer
+  ]);
+  const label = getLabel();
+  if (!label) {
+    return null;
+  }
+  console.log("Rendering stats panel for frame:", getFrameCount());
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    Panel,
+    {
+      style: {
+        background: panelBackground
+      },
+      children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "div",
+        {
+          style: {
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            paddingLeft: "4px",
+            minWidth: "104px"
+          },
+          children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "div",
+            {
+              style: {
+                whiteSpace: "pre",
+                fontSize: "12px"
+              },
+              children: label
+            }
+          )
+        }
+      )
+    }
+  );
+}
 const buildSceneSphere = (sphere, edges) => {
   const node2 = new Sphere({
     center: sphere.center,
@@ -21260,36 +21358,39 @@ const buildSceneSpheres = () => {
 const CloseIcon = createSvgIcon(/* @__PURE__ */ jsxRuntimeExports.jsx("path", {
   d: "M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
 }), "Close");
-const VIEWER_NAME = "main_viewer";
-const handleNewDevice = (viewer) => {
-  viewer.handleNewDevice();
-  const { scene } = viewer;
-  if (!scene) {
-    return;
-  }
-  const visitor = new DeviceLost();
-  visitor.handle(scene);
-  viewer.requestRender();
-};
-function Viewer({ style: style2 }) {
+let componentRenderCount = 0;
+function Viewer({ viewerId, ...rest }) {
   const [boxesScene, setBoxesScene] = reactExports.useState(null);
   const [edgesScene, setEdgesScene] = reactExports.useState(null);
   const [id] = reactExports.useState(getNextId());
   const [progress, setProgress] = reactExports.useState(0);
-  const [supported, setSupported] = reactExports.useState(null);
-  const { getViewer, setViewer } = useViewerStore((state) => state);
+  const [supported] = reactExports.useState(null);
   const canvas = reactExports.useRef(null);
-  const isMounting = reactExports.useRef(false);
   const loader = reactExports.useRef(null);
-  const {
-    getBoundingBoxesVisible,
-    getTriangleEdgesVisible,
-    getTwoSidedLighting
-  } = useViewerState((state) => state);
-  const viewer = getViewer(VIEWER_NAME);
-  const boundingBoxesVisible = getBoundingBoxesVisible();
-  const triangleEdgesVisible = getTriangleEdgesVisible();
-  const twoSidedLighting = getTwoSidedLighting();
+  const createViewerState = useViewerStore((store) => store.createViewerState);
+  const setCurrentViewer = useViewerStore((store) => store.setCurrentViewer);
+  const setViewerState = useViewerStore((store) => store.setViewerState);
+  const viewerStates = useViewerStore((store) => store.viewers);
+  const viewer = reactExports.useMemo(() => {
+    if (viewerId) {
+      const state = viewerStates.get(viewerId);
+      if (state) {
+        return state.viewer;
+      }
+    }
+    return null;
+  }, [
+    viewerId,
+    viewerStates
+  ]);
+  const { boxesVisible, edgesVisible, twoSidedLighting } = reactExports.useMemo(() => {
+    const state = viewerStates.get(viewerId);
+    return state ?? createViewerState();
+  }, [
+    createViewerState,
+    viewerId,
+    viewerStates
+  ]);
   const buildTestScene = reactExports.useCallback(
     () => {
       return buildSceneSpheres();
@@ -21300,7 +21401,7 @@ function Viewer({ style: style2 }) {
     if (!viewer) {
       return;
     }
-    if (false === boundingBoxesVisible) {
+    if (false === boxesVisible) {
       if (!boxesScene) {
         return;
       }
@@ -21324,14 +21425,14 @@ function Viewer({ style: style2 }) {
     viewer.requestRender();
   }, [
     boxesScene,
-    boundingBoxesVisible,
+    boxesVisible,
     viewer
   ]);
   reactExports.useEffect(() => {
     if (!viewer) {
       return;
     }
-    if (false === triangleEdgesVisible) {
+    if (false === edgesVisible) {
       if (!edgesScene) {
         return;
       }
@@ -21358,7 +21459,7 @@ function Viewer({ style: style2 }) {
     viewer.requestRender();
   }, [
     edgesScene,
-    triangleEdgesVisible,
+    edgesVisible,
     viewer
   ]);
   reactExports.useEffect(() => {
@@ -21435,7 +21536,7 @@ function Viewer({ style: style2 }) {
       return;
     }
     if (!viewer) {
-      console.warn(`No viewer found with name: ${VIEWER_NAME}`);
+      console.warn(`No viewer found with id: ${viewerId}`);
       return;
     }
     void model.bounds;
@@ -21447,7 +21548,8 @@ function Viewer({ style: style2 }) {
     viewer.requestRender();
   }, [
     boxesScene,
-    viewer
+    viewer,
+    viewerId
   ]);
   const handleDroppedFiles = reactExports.useCallback((event) => {
     event.preventDefault();
@@ -21474,71 +21576,45 @@ function Viewer({ style: style2 }) {
     if (!canvas.current) {
       throw new Error("Invalid canvas element");
     }
-    const existing = getViewer(VIEWER_NAME);
-    if (existing) {
-      return existing;
+    const state = viewerStates.get(viewerId);
+    if (state) {
+      const { viewer: viewer2 } = state;
+      if (viewer2) {
+        return viewer2;
+      }
     }
     const newViewer = new Viewer$1({ canvas: canvas.current });
-    setViewer(VIEWER_NAME, newViewer);
     console.log(`Internal viewer ${newViewer.id} created`);
     newViewer.modelScene = buildTestScene();
     newViewer.viewAll({ animate: false });
+    const newState = createViewerState();
+    newState.viewer = newViewer;
+    setViewerState(viewerId, newState);
+    setCurrentViewer(viewerId);
     return newViewer;
   }, [
     buildTestScene,
-    getViewer,
-    setViewer
+    createViewerState,
+    setCurrentViewer,
+    setViewerState,
+    viewerId,
+    viewerStates
   ]);
-  const initDevice = reactExports.useCallback(
-    async () => {
-      if (true === Device.valid) {
-        console.log("Device is already initialized");
-        return;
-      }
-      if (true === Device.isInitializing) {
-        throw new Error("Device is already being initialized");
-      }
-      await Device.init();
-      console.log(`Singleton device ${Device.instance.id} initialized`);
-      void Device.instance.device.lost.then(async () => {
-        Device.destroy();
-        await initDevice();
-        handleNewDevice(getOrCreateViewer());
-      });
-    },
-    [getOrCreateViewer]
-  );
-  const handleMount = reactExports.useCallback(async () => {
-    if (null === supported) {
-      if (false === await Device.isSupported()) {
-        console.warn("WebGPU is not supported in this browser");
-        setSupported(false);
-        return;
-      }
-      setSupported(true);
+  const handleMount = reactExports.useCallback(() => {
+    if (false === Device.valid) {
+      throw new Error("Device is not initialized");
     }
-    if (false === supported) {
-      return;
+    if (true === Device.isInitializing) {
+      throw new Error("Device is already being initialized");
     }
-    if (true === isMounting.current) {
-      console.log("We are still handling the previous mount");
-      return;
-    }
-    isMounting.current = true;
-    await initDevice();
     getOrCreateViewer().requestRender();
-    isMounting.current = false;
   }, [
-    getOrCreateViewer,
-    initDevice,
-    supported
+    getOrCreateViewer
   ]);
   reactExports.useEffect(
     () => {
       console.log(`Viewer component ${id} mounted`);
-      void (async () => {
-        await handleMount();
-      })();
+      handleMount();
       return (() => {
         console.log(`Viewer component ${id} unmounted`);
       });
@@ -21670,45 +21746,62 @@ function Viewer({ style: style2 }) {
     },
     [supported]
   );
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx(
-      "canvas",
-      {
-        style: style2,
-        ref: canvas,
-        onDragOver: handleDragOver,
-        onDrop: handleDroppedFiles
-      }
-    ),
-    renderNotSupported(),
-    renderProgressBar(progress)
-  ] });
+  console.log(`Viewer component ${id} render count ${componentRenderCount++}`);
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+    "div",
+    {
+      ...rest,
+      children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "canvas",
+          {
+            style: {
+              width: "100%",
+              height: "100%"
+            },
+            ref: canvas,
+            onDragOver: handleDragOver,
+            onDrop: handleDroppedFiles
+          }
+        ),
+        renderNotSupported(),
+        renderProgressBar(progress)
+      ]
+    }
+  );
 }
-const defaultRenderGraphInfo = {
-  numLayers: 0,
-  numBins: 0,
-  numPipelines: 0,
-  numProjMatrixGroups: 0,
-  numViewMatrixGroups: 0,
-  numStateGroups: 0,
-  numShapes: 0,
-  numTriangles: 0,
-  numLines: 0
-};
+let renderCount = 0;
+const LEFT_VIEWER = "left_viewer";
+const RIGHT_VIEWER = "right_viewer";
 function App() {
-  const { getViewer } = useViewerStore((state) => state);
   const [count, setCount] = reactExports.useState(0);
   const [showStats, setShowStats] = reactExports.useState(false);
-  const {
-    getBoundingBoxesVisible,
-    setBoundingBoxesVisible,
-    getTriangleEdgesVisible,
-    setTriangleEdgesVisible,
-    getTwoSidedLighting,
-    setTwoSidedLighting
-  } = useViewerState((state) => state);
-  const viewer = getViewer(VIEWER_NAME);
   const { palette } = useTheme();
+  const createViewerState = useViewerStore((store) => store.createViewerState);
+  const currentViewerId = useViewerStore((store) => store.current);
+  const setCurrentViewer = useViewerStore((store) => store.setCurrentViewer);
+  const setViewerState = useViewerStore((store) => store.setViewerState);
+  const viewerStates = useViewerStore((store) => store.viewers);
+  const viewer = reactExports.useMemo(() => {
+    if (currentViewerId) {
+      const state = viewerStates.get(currentViewerId);
+      if (state) {
+        return state.viewer;
+      }
+    }
+    return null;
+  }, [
+    currentViewerId,
+    viewerStates
+  ]);
+  const { boxesVisible, edgesVisible, twoSidedLighting } = reactExports.useMemo(() => {
+    const state = currentViewerId ? viewerStates.get(currentViewerId) : null;
+    return state ?? createViewerState();
+  }, [
+    createViewerState,
+    currentViewerId,
+    viewerStates
+  ]);
   const panelBackground = reactExports.useMemo(
     () => {
       return palette.background.paper + "5";
@@ -21717,7 +21810,7 @@ function App() {
   );
   const buildTimeStamp = reactExports.useMemo(
     () => {
-      const date = /* @__PURE__ */ new Date(1779170506669);
+      const date = /* @__PURE__ */ new Date(1779428251320);
       const Y = date.getFullYear();
       const M = String(date.getMonth() + 1).padStart(2, "0");
       const D = String(date.getDate()).padStart(2, "0");
@@ -21728,11 +21821,11 @@ function App() {
     },
     []
   );
-  const getRenderGraphInfo = reactExports.useCallback(
-    () => {
-      return viewer ? viewer.cullVisitor.renderGraphInfo : defaultRenderGraphInfo;
+  const handleViewerClick = reactExports.useCallback(
+    (viewerId) => {
+      setCurrentViewer(viewerId);
     },
-    [viewer]
+    [setCurrentViewer]
   );
   const handleAllowAnimations = reactExports.useCallback(
     () => {
@@ -21803,40 +21896,44 @@ function App() {
     []
   );
   const handleShowBoundingBoxes = reactExports.useCallback(() => {
-    const current = getBoundingBoxesVisible();
-    setBoundingBoxesVisible(!current);
+    if (currentViewerId) {
+      const vs = viewerStates.get(currentViewerId);
+      if (vs) {
+        const visible = vs.boxesVisible;
+        setViewerState(currentViewerId, { ...vs, boxesVisible: !visible });
+      }
+    }
   }, [
-    getBoundingBoxesVisible,
-    setBoundingBoxesVisible
+    currentViewerId,
+    setViewerState,
+    viewerStates
   ]);
   const handleShowTriangleEdges = reactExports.useCallback(() => {
-    const current = getTriangleEdgesVisible();
-    setTriangleEdgesVisible(!current);
+    if (currentViewerId) {
+      const vs = viewerStates.get(currentViewerId);
+      if (vs) {
+        const visible = vs.edgesVisible;
+        setViewerState(currentViewerId, { ...vs, edgesVisible: !visible });
+      }
+    }
   }, [
-    getTriangleEdgesVisible,
-    setTriangleEdgesVisible
+    currentViewerId,
+    setViewerState,
+    viewerStates
   ]);
   const handleUseTwoSidedLighting = reactExports.useCallback(() => {
-    const current = getTwoSidedLighting();
-    setTwoSidedLighting(!current);
-  }, [
-    getTwoSidedLighting,
-    setTwoSidedLighting
-  ]);
-  reactExports.useEffect(
-    () => {
-      if (viewer) {
-        viewer.clientListeners.add("post_render", () => {
-          setCount((current) => {
-            return current + 1;
-          });
-        });
+    if (currentViewerId) {
+      const vs = viewerStates.get(currentViewerId);
+      if (vs) {
+        const tsl = vs.twoSidedLighting;
+        setViewerState(currentViewerId, { ...vs, twoSidedLighting: !tsl });
       }
-      return (() => {
-      });
-    },
-    [viewer]
-  );
+    }
+  }, [
+    currentViewerId,
+    setViewerState,
+    viewerStates
+  ]);
   const verticalSpace = reactExports.useCallback(
     (height2) => {
       height2 ?? (height2 = 10);
@@ -21844,10 +21941,8 @@ function App() {
     },
     []
   );
-  const renderPanel1 = reactExports.useCallback(() => {
-    if (!viewer) {
-      return null;
-    }
+  const panel1 = reactExports.useMemo(() => {
+    const disabled = !viewer;
     return /* @__PURE__ */ jsxRuntimeExports.jsx(
       Panel,
       {
@@ -21866,8 +21961,9 @@ function App() {
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 Button,
                 {
+                  disabled,
                   onClick: handleTrackballMode,
-                  value: "track_ball" === viewer.navBase.rotationMode,
+                  value: "track_ball" === (viewer == null ? void 0 : viewer.navBase.rotationMode),
                   radio: true,
                   children: "Trackball rotation"
                 }
@@ -21875,8 +21971,9 @@ function App() {
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 Button,
                 {
+                  disabled,
                   onClick: handleTurntableMode,
-                  value: "turn_table" === viewer.navBase.rotationMode,
+                  value: "turn_table" === (viewer == null ? void 0 : viewer.navBase.rotationMode),
                   radio: true,
                   children: "Turntable rotation"
                 }
@@ -21885,19 +21982,42 @@ function App() {
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 Button,
                 {
+                  disabled,
                   onClick: handleAllowAnimations,
-                  value: viewer.options.animations.allow,
+                  value: viewer ? viewer.options.animations.allow : false,
                   children: "Allow animations"
                 }
               ),
               verticalSpace(),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { onClick: handleViewerRender, children: "Render viewer" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { onClick: handleViewerReset, children: "Reset navigation" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { onClick: handleSimulateDeviceLost, children: "Simulate device lost" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                Button,
+                {
+                  disabled,
+                  onClick: handleViewerRender,
+                  children: "Render viewer"
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                Button,
+                {
+                  disabled,
+                  onClick: handleViewerReset,
+                  children: "Reset navigation"
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                Button,
+                {
+                  disabled,
+                  onClick: handleSimulateDeviceLost,
+                  children: "Simulate device lost"
+                }
+              ),
               verticalSpace(),
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 Button,
                 {
+                  disabled,
                   onClick: handleShowStats,
                   value: showStats,
                   children: "Render stats"
@@ -21906,24 +22026,27 @@ function App() {
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 Button,
                 {
+                  disabled,
                   onClick: handleShowBoundingBoxes,
-                  value: getBoundingBoxesVisible(),
+                  value: boxesVisible,
                   children: "Bounding boxes"
                 }
               ),
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 Button,
                 {
+                  disabled,
                   onClick: handleShowTriangleEdges,
-                  value: getTriangleEdgesVisible(),
+                  value: edgesVisible,
                   children: "Triangle edges"
                 }
               ),
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 Button,
                 {
+                  disabled,
                   onClick: handleUseTwoSidedLighting,
-                  value: getTwoSidedLighting(),
+                  value: twoSidedLighting,
                   children: "Two-sided lighting"
                 }
               ),
@@ -21946,9 +22069,9 @@ function App() {
       }
     );
   }, [
+    boxesVisible,
     buildTimeStamp,
-    getBoundingBoxesVisible,
-    getTriangleEdgesVisible,
+    edgesVisible,
     handleAllowAnimations,
     handleShowBoundingBoxes,
     handleShowStats,
@@ -21956,79 +22079,54 @@ function App() {
     handleSimulateDeviceLost,
     handleTrackballMode,
     handleTurntableMode,
+    handleUseTwoSidedLighting,
     handleViewerRender,
     handleViewerReset,
     panelBackground,
     showStats,
+    twoSidedLighting,
     verticalSpace,
     viewer
   ]);
-  const renderPanel2 = reactExports.useCallback(() => {
-    if (!viewer) {
-      return null;
-    }
-    if (!showStats) {
-      return null;
-    }
-    const frame = viewer.frame;
-    if (!frame.end) {
-      return null;
-    }
-    const rgi = getRenderGraphInfo();
-    const duration2 = frame.end - frame.start;
-    const intF = new Intl.NumberFormat();
-    const decF = new Intl.NumberFormat(navigator.languages[0], {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    });
-    const label = `Frame: ${viewer.frame.count}
-Time: ${decF.format(duration2)} ms
-Rate: ${decF.format(1e3 / duration2)} f/s
-Layers: ${intF.format(rgi.numLayers)}
-Bins: ${intF.format(rgi.numBins)}
-Pipelines: ${intF.format(rgi.numPipelines)}
-Projections: ${intF.format(rgi.numProjMatrixGroups)}
-ViewMatrices: ${intF.format(rgi.numViewMatrixGroups)}
-States: ${intF.format(rgi.numStateGroups)}
-Shapes: ${intF.format(rgi.numShapes)}
-Triangles: ${intF.format(rgi.numTriangles)}
-Lines: ${intF.format(rgi.numLines)}`;
+  const renderViewer = reactExports.useCallback((viewerId) => {
+    const border2 = "none";
     return /* @__PURE__ */ jsxRuntimeExports.jsx(
-      Panel,
+      "div",
       {
         style: {
-          background: panelBackground
+          boxSizing: "border-box",
+          flexGrow: 1,
+          height: "100%",
+          border: border2
         },
         children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "div",
+          Viewer,
           {
             style: {
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
-              paddingLeft: "4px",
-              minWidth: "104px"
+              width: "100%",
+              height: "100%"
             },
-            children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "div",
-              {
-                style: {
-                  whiteSpace: "pre",
-                  fontSize: "12px"
-                },
-                children: label
-              }
-            )
+            viewerId,
+            onClick: () => handleViewerClick(viewerId)
           }
         )
       }
     );
   }, [
-    getRenderGraphInfo,
-    panelBackground,
-    showStats,
-    viewer
+    currentViewerId,
+    handleViewerClick
   ]);
+  const leftViewer = reactExports.useMemo(() => {
+    return renderViewer(LEFT_VIEWER);
+  }, [
+    renderViewer
+  ]);
+  reactExports.useMemo(() => {
+    return renderViewer(RIGHT_VIEWER);
+  }, [
+    renderViewer
+  ]);
+  console.log(`App render count ${++renderCount}`);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(
     "div",
     {
@@ -22050,21 +22148,26 @@ Lines: ${intF.format(rgi.numLines)}`;
               gap: "10px"
             },
             children: [
-              renderPanel1(),
-              renderPanel2()
+              panel1,
+              showStats ? /* @__PURE__ */ jsxRuntimeExports.jsx(RenderStats, {}) : null
             ]
           }
         ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          Viewer,
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Initialize, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
           {
             style: {
-              width: "100vw",
-              height: "100vh",
-              background: "transparent"
-            }
+              display: "flex",
+              flexDirection: "row",
+              width: "100%",
+              height: "100%"
+            },
+            children: [
+              leftViewer,
+              null
+            ]
           }
-        )
+        ) })
       ]
     }
   );
@@ -33906,4 +34009,4 @@ clientExports.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ jsxRuntimeExports.jsx(App, {})
   ] }) })
 );
-//# sourceMappingURL=index-BArtK3gx.js.map
+//# sourceMappingURL=index-BjWvmbZL.js.map
