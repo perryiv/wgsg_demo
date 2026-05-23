@@ -12322,6 +12322,16 @@ const _Box = class _Box {
     this.min = box.min;
     this.max = box.max;
   }
+  /**
+   * Return an object used when converting to JSON.
+   * @returns {object} An object used when converting to JSON.
+   */
+  toJSON() {
+    return {
+      min: this.min,
+      max: this.max
+    };
+  }
 };
 _min = new WeakMap();
 _max = new WeakMap();
@@ -12568,6 +12578,16 @@ const _Line = class _Line {
   transform(m) {
     _Line.transform(this, m, this);
   }
+  /**
+   * Return an object used when converting to JSON.
+   * @returns {object} An object used when converting to JSON.
+   */
+  toJSON() {
+    return {
+      start: __privateGet(this, _p0),
+      end: __privateGet(this, _p1)
+    };
+  }
 };
 _p0 = new WeakMap();
 _p1 = new WeakMap();
@@ -12724,6 +12744,16 @@ const _Plane = class _Plane {
    */
   transform(m) {
     _Plane.transform(this, m, this);
+  }
+  /**
+   * Return an object used when converting to JSON.
+   * @returns {object} An object used when converting to JSON.
+   */
+  toJSON() {
+    return {
+      point: __privateGet(this, _point),
+      normal: __privateGet(this, _normal)
+    };
   }
 };
 _point = new WeakMap();
@@ -13025,6 +13055,16 @@ let Sphere$1 = (_b = class {
     this.center = c3;
     this.radius = (dist + r1 + r2) * 0.5;
   }
+  /**
+   * Return an object used when converting to JSON.
+   * @returns {object} An object used when converting to JSON.
+   */
+  toJSON() {
+    return {
+      center: this.center,
+      radius: this.radius
+    };
+  }
 }, _c2 = new WeakMap(), _r = new WeakMap(), _b);
 function unProject(input) {
   const { viewMatrix, projMatrix, viewport } = input;
@@ -13106,6 +13146,16 @@ let Base$1 = (_c = class {
    */
   get type() {
     return this.getClassName();
+  }
+  /**
+   * Return an object used when converting to JSON.
+   * @returns {object} An object used when converting to JSON.
+   */
+  toJSON() {
+    return {
+      id: __privateGet(this, _id),
+      type: this.type
+    };
   }
 }, _id = new WeakMap(), _c);
 const _Device = class _Device extends Base$1 {
@@ -14154,6 +14204,20 @@ class Node extends Base$1 {
   get bounds() {
     return this.getBoundingSphere();
   }
+  /**
+   * Return an object used when converting to JSON.
+   * @returns {object} An object used when converting to JSON.
+   */
+  toJSON() {
+    const state = this.state;
+    const base = super.toJSON();
+    return {
+      ...base,
+      state: state ? state.toJSON() : null,
+      flags: this.flags,
+      bounds: this.bounds.toJSON()
+    };
+  }
 }
 _state2 = new WeakMap();
 _parents = new WeakMap();
@@ -14339,6 +14403,21 @@ class Group extends Node {
     }
     __privateGet(this, _children).length = 0;
   }
+  /**
+   * Return an object used when converting to JSON.
+   * @returns {object} An object used when converting to JSON.
+   */
+  toJSON() {
+    const base = super.toJSON();
+    const children = [];
+    this.forEachChild((child) => {
+      children.push(child.toJSON());
+    });
+    return {
+      ...base,
+      children
+    };
+  }
 }
 _children = new WeakMap();
 _sphere = new WeakMap();
@@ -14423,6 +14502,17 @@ class Transform extends Group {
     }
     return Sphere$1.transform(sphere, __privateGet(this, _matrix3));
   }
+  /**
+   * Return an object used when converting to JSON.
+   * @returns {object} An object used when converting to JSON.
+   */
+  toJSON() {
+    const base = super.toJSON();
+    return {
+      ...base,
+      matrix: __privateGet(this, _matrix3)
+    };
+  }
 }
 _matrix3 = new WeakMap();
 class Base extends Base$1 {
@@ -14457,6 +14547,17 @@ class Base extends Base$1 {
    */
   set topology(topology) {
     __privateSet(this, _topology2, topology);
+  }
+  /**
+   * Return an object used when converting to JSON.
+   * @returns {object} An object used when converting to JSON.
+   */
+  toJSON() {
+    const base = super.toJSON();
+    return {
+      ...base,
+      topology: this.topology
+    };
   }
 }
 _topology2 = new WeakMap();
@@ -14541,6 +14642,18 @@ class Arrays extends Base {
     for (let i = 0; i < count; ++i) {
       func(first + i, i);
     }
+  }
+  /**
+   * Return an object used when converting to JSON.
+   * @returns {object} An object used when converting to JSON.
+   */
+  toJSON() {
+    const base = super.toJSON();
+    return {
+      ...base,
+      first: __privateGet(this, _first),
+      count: __privateGet(this, _count)
+    };
   }
 }
 _first = new WeakMap();
@@ -14645,6 +14758,20 @@ class Indexed extends Base {
       func(indices[i], i);
     }
   }
+  /**
+   * Return an object used when converting to JSON.
+   * @returns {object} An object used when converting to JSON.
+   */
+  toJSON() {
+    var _a2;
+    const base = super.toJSON();
+    const values2 = (_a2 = __privateGet(this, _indices)) == null ? void 0 : _a2.values;
+    const indices = values2 ? Array.from(values2) : null;
+    return {
+      ...base,
+      indices
+    };
+  }
 }
 _indices = new WeakMap();
 class Shape extends Node {
@@ -14681,6 +14808,17 @@ class Shape extends Node {
    */
   traverse(cb) {
     cb(this);
+  }
+  /**
+   * Return an object used when converting to JSON.
+   * @returns {object} An object used when converting to JSON.
+   */
+  toJSON() {
+    const base = super.toJSON();
+    return {
+      ...base,
+      box: this.box
+    };
   }
 }
 class Geometry extends Shape {
@@ -14928,6 +15066,32 @@ class Geometry extends Shape {
    */
   update() {
   }
+  /**
+   * Return an object used when converting to JSON.
+   * @param {boolean} includeArrays - Whether to include the arrays in the JSON.
+   * @returns {object} An object used when converting to JSON.
+   */
+  toJSON(includeArrays = true) {
+    var _a2, _b2, _c3, _d2;
+    const base = super.toJSON();
+    if (false === includeArrays) {
+      return base;
+    }
+    const points = (_a2 = __privateGet(this, _points)) == null ? void 0 : _a2.values;
+    const normals = (_b2 = __privateGet(this, _normals)) == null ? void 0 : _b2.values;
+    const colors = (_c3 = __privateGet(this, _colors)) == null ? void 0 : _c3.values;
+    const texCoords = (_d2 = __privateGet(this, _texCoords)) == null ? void 0 : _d2.values;
+    const primitives = __privateGet(this, _primitives);
+    const pj = primitives == null ? void 0 : primitives.map((pl) => pl.toJSON());
+    return {
+      ...base,
+      ...points && { points: Array.from(points) },
+      ...normals && { normals: Array.from(normals) },
+      ...colors && { colors: Array.from(colors) },
+      ...texCoords && { texCoords: Array.from(texCoords) },
+      ...pj && { primitives: pj }
+    };
+  }
 }
 _points = new WeakMap();
 _normals = new WeakMap();
@@ -15105,6 +15269,19 @@ class Sphere extends Geometry {
   getBoundingSphere() {
     return new Sphere$1(this.center, this.radius);
   }
+  /**
+   * Return an object used when converting to JSON.
+   * @returns {object} An object used when converting to JSON.
+   */
+  toJSON() {
+    const base = super.toJSON(false);
+    return {
+      ...base,
+      center: this.center,
+      radius: this.radius,
+      numSubdivisions: this.numSubdivisions
+    };
+  }
 }
 _center = new WeakMap();
 _radius = new WeakMap();
@@ -15130,6 +15307,16 @@ class Attribute extends Base$1 {
    */
   getClassName() {
     return Attribute.getClassName();
+  }
+  /**
+   * Return an object used when converting to JSON.
+   * @returns {object} An object used when converting to JSON.
+   */
+  toJSON() {
+    const base = super.toJSON();
+    return {
+      ...base
+    };
   }
 }
 const _Color = class _Color extends Attribute {
@@ -15191,6 +15378,17 @@ const _Color = class _Color extends Attribute {
       shader.color = this.color;
     }
   }
+  /**
+   * Return an object used when converting to JSON.
+   * @returns {object} An object used when converting to JSON.
+   */
+  toJSON() {
+    const base = super.toJSON();
+    return {
+      ...base,
+      color: this.color
+    };
+  }
 };
 _color = new WeakMap();
 let Color = _Color;
@@ -15251,6 +15449,17 @@ const _TwoSidedLight = class _TwoSidedLight extends Attribute {
     if ("twoSidedLight" in shader) {
       shader.twoSidedLight = this.value;
     }
+  }
+  /**
+   * Return an object used when converting to JSON.
+   * @returns {object} An object used when converting to JSON.
+   */
+  toJSON() {
+    const base = super.toJSON();
+    return {
+      ...base,
+      value: this.value
+    };
   }
 };
 _value = new WeakMap();
@@ -15466,6 +15675,25 @@ class State extends Base$1 {
       throw new Error(`State ${this.type} ${this.id} has invalid shader when configuring render pass`);
     }
     shader.configureRenderPass(pass, this.topology);
+  }
+  /**
+   * Return an object used when converting to JSON.
+   * @returns {object} An object used when converting to JSON.
+   */
+  toJSON() {
+    const shader = this.shader;
+    const attributes = {};
+    this.attributes.forEach((attribute, key) => {
+      attributes[key] = attribute.toJSON();
+    });
+    return {
+      name: this.name,
+      layer: this.layer,
+      bin: this.bin,
+      shader: shader ? shader.type : null,
+      topology: this.topology,
+      attributes
+    };
   }
 }
 _name = new WeakMap();
@@ -20793,12 +21021,12 @@ let Viewer$1 = (_d = class extends Surface {
   mouseDown(input) {
     this.animations.nav.stop();
     input.preventDefault();
-    const { button, clientX, clientY } = input;
+    const { button, offsetX, offsetY } = input;
     this.mouseButtonsDown.add(button);
     this.mousePrevious = this.mouseCurrent;
-    this.mouseCurrent = [clientX, clientY];
+    this.mouseCurrent = [offsetX, offsetY];
     this.mouseReleased = null;
-    this.mousePressed = [clientX, clientY];
+    this.mousePressed = [offsetX, offsetY];
     const handler = this.eventHandlerOrNavigator;
     const event = this.makeEvent("mouse_down", input);
     handler.handleEvent(event);
@@ -20810,9 +21038,9 @@ let Viewer$1 = (_d = class extends Surface {
    */
   mouseMove(input) {
     input.preventDefault();
-    const { buttons, clientX, clientY } = input;
+    const { buttons, offsetX, offsetY } = input;
     this.mousePrevious = this.mouseCurrent;
-    this.mouseCurrent = [clientX, clientY];
+    this.mouseCurrent = [offsetX, offsetY];
     if (this.mousePrevious && this.mouseCurrent) {
       const d = distance(this.mouseCurrent, this.mousePrevious);
       const mx = this.options.distance.mouse_move_max;
@@ -20848,10 +21076,10 @@ let Viewer$1 = (_d = class extends Surface {
    */
   mouseUp(input) {
     input.preventDefault();
-    const { button, clientX, clientY } = input;
+    const { button, offsetX, offsetY } = input;
     this.mouseButtonsDown.delete(button);
-    this.mouseCurrent = [clientX, clientY];
-    this.mouseReleased = [clientX, clientY];
+    this.mouseCurrent = [offsetX, offsetY];
+    this.mouseReleased = [offsetX, offsetY];
     const handler = this.eventHandlerOrNavigator;
     const event = this.makeEvent("mouse_up", input);
     handler.handleEvent(event);
@@ -21590,6 +21818,7 @@ function Viewer({ viewerId, ...rest }) {
     const newState = createViewerState();
     newState.viewer = newViewer;
     setViewerState(viewerId, newState);
+    viewerStates.set(viewerId, newState);
     setCurrentViewer(viewerId);
     return newViewer;
   }, [
@@ -21810,7 +22039,7 @@ function App() {
   );
   const buildTimeStamp = reactExports.useMemo(
     () => {
-      const date = /* @__PURE__ */ new Date(1779428251320);
+      const date = /* @__PURE__ */ new Date(1779500335990);
       const Y = date.getFullYear();
       const M = String(date.getMonth() + 1).padStart(2, "0");
       const D = String(date.getDate()).padStart(2, "0");
@@ -34009,4 +34238,4 @@ clientExports.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ jsxRuntimeExports.jsx(App, {})
   ] }) })
 );
-//# sourceMappingURL=index-BjWvmbZL.js.map
+//# sourceMappingURL=index-CDr4A4rU.js.map
