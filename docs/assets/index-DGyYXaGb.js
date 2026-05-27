@@ -10930,33 +10930,6 @@ const estimateSphereSizes = (n) => {
   const numIndices = numPoints;
   return { numPoints, numIndices };
 };
-const __vite_import_meta_env__ = { "VITE_KEEP_PERFORMANCE_INFO": "true", "VITE_LOG_LEVEL": "2" };
-const BUILD_ENVIRONMENT = __vite_import_meta_env__;
-const IDENTITY_MATRIX = [
-  1,
-  0,
-  0,
-  0,
-  0,
-  1,
-  0,
-  0,
-  0,
-  0,
-  1,
-  0,
-  0,
-  0,
-  0,
-  1
-];
-const DEG_TO_RAD = Math.PI / 180;
-const KEEP_PERFORMANCE_INFO = "true" === BUILD_ENVIRONMENT.VITE_KEEP_PERFORMANCE_INFO.toLowerCase();
-const MIN_NEAR_DISTANCE = 1e-3;
-const MAX_FAR_DISTANCE = 1e6;
-const MAX_FAR_OVER_NEAR_RATIO = 1e4;
-const DEFAULT_NEAR_DISTANCE = 0.1;
-const DEFAULT_FAR_DISTANCE = 1e4;
 var EPSILON = 1e-6;
 var ARRAY_TYPE = typeof Float32Array !== "undefined" ? Float32Array : Array;
 function create$5() {
@@ -11651,9 +11624,6 @@ function equals(a, b) {
     return a;
   };
 })();
-const makeIdentity = () => {
-  return [...IDENTITY_MATRIX];
-};
 const clampNumber = (n, mn, mx) => {
   return Math.max(mn, Math.min(mx, n));
 };
@@ -11947,6 +11917,33 @@ function removeBits(n, bits) {
 function setBits(n, bits, state) {
   return state ? addBits(n, bits) : removeBits(n, bits);
 }
+const IDENTITY_MATRIX = [
+  1,
+  0,
+  0,
+  0,
+  0,
+  1,
+  0,
+  0,
+  0,
+  0,
+  1,
+  0,
+  0,
+  0,
+  0,
+  1
+];
+const DEG_TO_RAD = Math.PI / 180;
+const MIN_NEAR_DISTANCE = 1e-3;
+const MAX_FAR_DISTANCE = 1e6;
+const MAX_FAR_OVER_NEAR_RATIO = 1e4;
+const DEFAULT_NEAR_DISTANCE = 0.1;
+const DEFAULT_FAR_DISTANCE = 1e4;
+const __vite_import_meta_env__ = { "VITE_KEEP_PERFORMANCE_INFO": "true", "VITE_LOG_LEVEL": "2" };
+const BUILD_ENVIRONMENT = __vite_import_meta_env__;
+const KEEP_PERFORMANCE_INFO = "true" === BUILD_ENVIRONMENT.VITE_KEEP_PERFORMANCE_INFO.toLowerCase();
 let prodNextId = 0;
 function prodGetNextId() {
   return ++prodNextId;
@@ -13937,9 +13934,9 @@ class Multiply extends Visitor {
    */
   constructor() {
     super();
-    __privateAdd(this, _viewMatrix, makeIdentity());
+    __privateAdd(this, _viewMatrix, [...IDENTITY_MATRIX]);
     // Has to be a copy.
-    __privateAdd(this, _projMatrix, makeIdentity());
+    __privateAdd(this, _projMatrix, [...IDENTITY_MATRIX]);
   }
   /**
    * Return the view matrix.
@@ -22039,7 +22036,7 @@ function App() {
   );
   const buildTimeStamp = reactExports.useMemo(
     () => {
-      const date = /* @__PURE__ */ new Date(1779500335990);
+      const date = /* @__PURE__ */ new Date(1779845067726);
       const Y = date.getFullYear();
       const M = String(date.getMonth() + 1).padStart(2, "0");
       const D = String(date.getDate()).padStart(2, "0");
@@ -34238,4 +34235,4 @@ clientExports.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ jsxRuntimeExports.jsx(App, {})
   ] }) })
 );
-//# sourceMappingURL=index-CDr4A4rU.js.map
+//# sourceMappingURL=index-DGyYXaGb.js.map
