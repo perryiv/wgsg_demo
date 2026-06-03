@@ -22037,7 +22037,7 @@ function App() {
   );
   const buildTimeStamp = reactExports.useMemo(
     () => {
-      const date = /* @__PURE__ */ new Date(1780461076839);
+      const date = /* @__PURE__ */ new Date(1780461131233);
       const Y = date.getFullYear();
       const M = String(date.getMonth() + 1).padStart(2, "0");
       const D = String(date.getDate()).padStart(2, "0");
@@ -34270,4 +34270,4 @@ clientExports.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ jsxRuntimeExports.jsx(App, {})
   ] }) })
 );
-//# sourceMappingURL=index-CM4Hs6Ku.js.map
+//# sourceMappingURL=index-CnmbdiOb.js.map
