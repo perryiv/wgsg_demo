@@ -22001,6 +22001,7 @@ const LEFT_VIEWER = "left_viewer";
 const RIGHT_VIEWER = "right_viewer";
 function App() {
   const [count, setCount] = reactExports.useState(0);
+  const [showPanel, setShowPanel] = reactExports.useState(true);
   const [showStats, setShowStats] = reactExports.useState(false);
   const { palette } = useTheme();
   const createViewerState = useViewerStore((store) => store.createViewerState);
@@ -22036,7 +22037,7 @@ function App() {
   );
   const buildTimeStamp = reactExports.useMemo(
     () => {
-      const date = /* @__PURE__ */ new Date(1779845067726);
+      const date = /* @__PURE__ */ new Date(1780461076839);
       const Y = date.getFullYear();
       const M = String(date.getMonth() + 1).padStart(2, "0");
       const D = String(date.getDate()).padStart(2, "0");
@@ -22052,6 +22053,14 @@ function App() {
       setCurrentViewer(viewerId);
     },
     [setCurrentViewer]
+  );
+  const handleTogglePanel = reactExports.useCallback(
+    () => {
+      setShowPanel((current) => {
+        return !current;
+      });
+    },
+    [setShowPanel]
   );
   const handleAllowAnimations = reactExports.useCallback(
     () => {
@@ -22168,12 +22177,18 @@ function App() {
     []
   );
   const panel1 = reactExports.useMemo(() => {
+    if (!showPanel) {
+      return null;
+    }
     const disabled = !viewer;
     return /* @__PURE__ */ jsxRuntimeExports.jsx(
       Panel,
       {
         style: {
-          background: panelBackground
+          background: panelBackground,
+          paddingTop: "10px",
+          paddingLeft: "6px",
+          overflow: "hidden"
         },
         children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
           "div",
@@ -22303,12 +22318,16 @@ function App() {
     handleShowStats,
     handleShowTriangleEdges,
     handleSimulateDeviceLost,
+    handleTogglePanel,
     handleTrackballMode,
     handleTurntableMode,
     handleUseTwoSidedLighting,
     handleViewerRender,
     handleViewerReset,
+    palette.background.paper,
+    palette.divider,
     panelBackground,
+    showPanel,
     showStats,
     twoSidedLighting,
     verticalSpace,
@@ -22374,6 +22393,22 @@ function App() {
               gap: "10px"
             },
             children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  style: {
+                    position: "absolute",
+                    top: "-25px",
+                    left: "-25px",
+                    width: "30px",
+                    height: "30px",
+                    transform: "rotate(45deg)",
+                    border: `2px solid ${palette.divider}`,
+                    background: `${palette.background.paper}`
+                  },
+                  onClick: handleTogglePanel
+                }
+              ),
               panel1,
               showStats ? /* @__PURE__ */ jsxRuntimeExports.jsx(RenderStats, {}) : null
             ]
@@ -34235,4 +34270,4 @@ clientExports.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ jsxRuntimeExports.jsx(App, {})
   ] }) })
 );
-//# sourceMappingURL=index-DGyYXaGb.js.map
+//# sourceMappingURL=index-CM4Hs6Ku.js.map
