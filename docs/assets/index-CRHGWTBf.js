@@ -8,7 +8,7 @@ var __accessCheck = (obj, member, msg) => member.has(obj) || __typeError("Cannot
 var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
-var _a, _black, _blue, _gray, _green, _magenta, _orange, _red, _transparent, _white, _yellow, _min, _max, _p0, _p1, _point, _normal, _c2, _r, _b, _id, _c, _instance, _isInitializing, _device, _preferredFormat, _values, _buffer, _state, _shapes, _matrix, _stateGroupMap, _matrix2, _viewMatrixMap, _shader, _topology, _projMatrixMap, _pipelines, _bins, _layers, _viewMatrix, _projMatrix, _state2, _parents, _flags, _userData, _children, _sphere, _matrix3, _topology2, _first, _count, _indices, _points, _normals, _colors, _texCoords, _primitives, _box, _center, _radius, _numSubdivisions, _color, _value, _name, _layer, _bin, _shader2, _topology3, _apply, _reset, _attributes, _code, _module, _data, _device2, _projMatrix2, _viewMatrix2, _instance2, _color2, _twoSidedLight, _lightDir, _uniforms, _bindGroup, _instance3, _color3, _uniforms2, _bindGroup2, _root, _defaultState, _currentState, _info, _context, _depthTexture, _clearColor, _renderPassEncoder, _commandEncoder, _geometry, _info2, _device3, _wasDirty, _indices2, _points2, _colors2, _geom, _boxes, _scene, _current, _color4, _progress, _color5, _point1, _point2, _point3, _edge1, _edge2, _near, _far, _onUpdateNearFar, _fov, _aspect, _matrix4, _inverse, _mode, _localUp, _state3, _fun, _name2, _startTime, _duration, _axis, _angle, _space, _resetRotation, _scaleIn, _scaleOut, _scale, _scale2, _canvas, _context2, _observer, _viewport, _scene2, _projection, _handles, _frame, _visitors, _root2, _defaultState2, _clearColor2, _info3, _eventListeners, _mouse, _navBase, _eventHandlers, _keyboardListeners, _mouseListeners, _clientListeners, _branches, _keysDown, _animations, _options, _d, _commands, _inputToCommand;
+var _a, _black, _blue, _gray, _green, _magenta, _orange, _red, _transparent, _white, _yellow, _min, _max, _p0, _p1, _point, _normal, _c2, _r, _b, _id, _c, _instance, _isInitializing, _device, _preferredFormat, _values, _buffer, _state, _shapes, _matrix, _stateGroupMap, _matrix2, _viewMatrixMap, _shader, _topology, _projMatrixMap, _pipelines, _bins, _layers, _viewMatrix, _projMatrix, _state2, _parents, _flags, _userData, _children, _sphere, _matrix3, _topology2, _first, _count, _indices, _points, _normals, _colors, _texCoords, _primitives, _box, _center, _radius, _numSubdivisions, _color, _value, _name, _layer, _bin, _shader2, _topology3, _apply, _reset, _attributes, _code, _module, _data, _device2, _projMatrix2, _viewMatrix2, _instance2, _color2, _twoSidedLight, _lightDir, _uniforms, _bindGroup, _instance3, _color3, _uniforms2, _bindGroup2, _root, _defaultState, _currentState, _info, _context, _depthTexture, _clearColor, _renderPassEncoder, _commandEncoder, _geometry, _info2, _device3, _wasDirty, _indices2, _points2, _colors2, _geom, _boxes, _scene, _current, _color4, _progress, _color5, _point1, _point2, _point3, _edge1, _edge2, _near, _far, _onUpdateNearFar, _fov, _aspect, _matrix4, _inverse, _mode, _localUp, _state3, _fun, _name2, _startTime, _duration, _axis, _angle, _space, _resetRotation, _scaleIn, _scaleOut, _scale, _scale2, _canvas, _context2, _observer, _viewport, _scene2, _projection, _handles, _frame, _visitors, _root2, _defaultState2, _clearColor2, _info3, _flags2, _eventListeners, _d, _mouse, _navBase, _eventHandlers, _keyboardListeners, _mouseListeners, _clientListeners, _branches, _keysDown, _animations, _options, _e, _commands, _inputToCommand;
 function _mergeNamespaces(n, m) {
   for (var i = 0; i < m.length; i++) {
     const e = m[i];
@@ -3111,14 +3111,14 @@ const width = style$1({
 const maxWidth = (props) => {
   if (props.maxWidth !== void 0 && props.maxWidth !== null) {
     const styleFromPropValue = (propValue) => {
-      var _a2, _b2, _c3, _d2, _e;
+      var _a2, _b2, _c3, _d2, _e2;
       const breakpoint = ((_c3 = (_b2 = (_a2 = props.theme) == null ? void 0 : _a2.breakpoints) == null ? void 0 : _b2.values) == null ? void 0 : _c3[propValue]) || values$1[propValue];
       if (!breakpoint) {
         return {
           maxWidth: sizingTransform(propValue)
         };
       }
-      if (((_e = (_d2 = props.theme) == null ? void 0 : _d2.breakpoints) == null ? void 0 : _e.unit) !== "px") {
+      if (((_e2 = (_d2 = props.theme) == null ? void 0 : _d2.breakpoints) == null ? void 0 : _e2.unit) !== "px") {
         return {
           maxWidth: `${breakpoint}${props.theme.breakpoints.unit}`
         };
@@ -6763,7 +6763,7 @@ const SvgIconRoot = styled("svg", {
 })(memoTheme(({
   theme: theme2
 }) => {
-  var _a2, _b2, _c3, _d2, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n;
+  var _a2, _b2, _c3, _d2, _e2, _f, _g, _h, _i, _j, _k, _l, _m, _n;
   return {
     userSelect: "none",
     width: "1em",
@@ -6795,7 +6795,7 @@ const SvgIconRoot = styled("svg", {
           fontSize: "small"
         },
         style: {
-          fontSize: ((_f = (_e = theme2.typography) == null ? void 0 : _e.pxToRem) == null ? void 0 : _f.call(_e, 20)) || "1.25rem"
+          fontSize: ((_f = (_e2 = theme2.typography) == null ? void 0 : _e2.pxToRem) == null ? void 0 : _f.call(_e2, 20)) || "1.25rem"
         }
       },
       {
@@ -16868,7 +16868,7 @@ class Draw extends Visitor {
    * @param {Indexed} prims - The indexed primitives to draw.
    */
   visitIndexed(prims) {
-    var _a2, _b2, _c3, _d2, _e;
+    var _a2, _b2, _c3, _d2, _e2;
     const numIndices = prims.numIndices;
     if (numIndices <= 0) {
       return;
@@ -16896,7 +16896,7 @@ class Draw extends Visitor {
     if (colors) {
       pass.setVertexBuffer(2, colors);
     }
-    const texCoords = (_e = geom.texCoords) == null ? void 0 : _e.buffer;
+    const texCoords = (_e2 = geom.texCoords) == null ? void 0 : _e2.buffer;
     if (texCoords) {
       pass.setVertexBuffer(3, texCoords);
     }
@@ -19916,6 +19916,7 @@ class Surface extends Base$1 {
     __privateAdd(this, _defaultState2, null);
     __privateAdd(this, _clearColor2, [...Color$1.transparent]);
     __privateAdd(this, _info3, makeRenderGraphInfo());
+    __privateAdd(this, _flags2, 0);
     if (!canvas) {
       throw new Error("Invalid canvas when constructing a surface");
     }
@@ -20026,6 +20027,20 @@ class Surface extends Base$1 {
     canvas.height = height2;
     this.size = { width: width2, height: height2 };
     this.projection.viewport = { ...this.viewport };
+  }
+  /**
+   * Get the flags.
+   * @returns {number} The flags.
+   */
+  get flags() {
+    return __privateGet(this, _flags2);
+  }
+  /**
+   * Set the flags.
+   * @param {number} flags - The flags.
+   */
+  set flags(flags) {
+    __privateSet(this, _flags2, flags);
   }
   /**
    * Handle resize events.
@@ -20443,6 +20458,7 @@ _root2 = new WeakMap();
 _defaultState2 = new WeakMap();
 _clearColor2 = new WeakMap();
 _info3 = new WeakMap();
+_flags2 = new WeakMap();
 class Listeners extends Base$1 {
   /**
    * Construct the class.
@@ -20563,7 +20579,7 @@ class Listeners extends Base$1 {
   }
 }
 _eventListeners = new WeakMap();
-let Viewer$1 = (_d = class extends Surface {
+let Viewer$1 = (_e = class extends Surface {
   /**
    * Construct the class.
    * @class
@@ -20572,16 +20588,16 @@ let Viewer$1 = (_d = class extends Surface {
   constructor(input) {
     const { noMouseEvents, noKeyboardEvents } = input;
     super(input);
-    __privateAdd(this, _mouse, _d.makeMouseData());
+    __privateAdd(this, _mouse, _e.makeMouseData());
     __privateAdd(this, _navBase, null);
     __privateAdd(this, _eventHandlers, []);
     __privateAdd(this, _keyboardListeners, /* @__PURE__ */ new Map());
     __privateAdd(this, _mouseListeners, /* @__PURE__ */ new Map());
     __privateAdd(this, _clientListeners, new Listeners());
-    __privateAdd(this, _branches, _d.makeBranches(true));
+    __privateAdd(this, _branches, _e.makeBranches(true));
     __privateAdd(this, _keysDown, /* @__PURE__ */ new Set());
     __privateAdd(this, _animations, { nav: new Animation() });
-    __privateAdd(this, _options, _d.makeOptions());
+    __privateAdd(this, _options, _e.makeOptions());
     super.scene = __privateGet(this, _branches).root;
     if (!noMouseEvents) {
       this.addMouseEventListeners();
@@ -20604,16 +20620,16 @@ let Viewer$1 = (_d = class extends Surface {
   destroy() {
     this.removeKeyboardEventListeners();
     this.removeMouseEventListeners();
-    __privateSet(this, _mouse, _d.makeMouseData());
+    __privateSet(this, _mouse, _e.makeMouseData());
     __privateSet(this, _navBase, null);
     __privateSet(this, _eventHandlers, []);
     __privateGet(this, _keyboardListeners).clear();
     __privateGet(this, _mouseListeners).clear();
     __privateGet(this, _clientListeners).destroy();
-    __privateSet(this, _branches, _d.makeBranches(false));
+    __privateSet(this, _branches, _e.makeBranches(false));
     __privateGet(this, _keysDown).clear();
     __privateGet(this, _animations).nav.stop();
-    __privateSet(this, _options, _d.makeOptions());
+    __privateSet(this, _options, _e.makeOptions());
     super.destroy();
   }
   /**
@@ -20732,12 +20748,12 @@ let Viewer$1 = (_d = class extends Surface {
       return;
     }
     lm.set("keydown", (event) => {
-      if (false === this.isDestroyed() && false === event.repeat) {
+      if (false === this.isDestroyed() && true === this.useKeyboardInput && false === event.repeat) {
         this.keyDown(event);
       }
     });
     lm.set("keyup", (event) => {
-      if (false === this.isDestroyed()) {
+      if (false === this.isDestroyed() && true === this.useKeyboardInput) {
         this.keyUp(event);
       }
     });
@@ -20765,6 +20781,20 @@ let Viewer$1 = (_d = class extends Surface {
       globalThis.removeEventListener(type, handler, false);
     });
     lm.clear();
+  }
+  /**
+   * Are we using keyboard input?
+   * @returns {boolean} True if we are using keyboard input, false if not.
+   */
+  get useKeyboardInput() {
+    return hasBits(this.flags, _e.Flags.USE_KEYBOARD_INPUT);
+  }
+  /**
+   * Set whether or not to use keyboard input.
+   * @param {boolean} use - True to use keyboard input, false to disable it.
+   */
+  set useKeyboardInput(use) {
+    this.flags = setBits(this.flags, _e.Flags.USE_KEYBOARD_INPUT, use);
   }
   /**
    * Get the view matrix.
@@ -20978,11 +21008,11 @@ let Viewer$1 = (_d = class extends Surface {
    */
   getCommand(event) {
     const input = this.makeCommandMapKey(event);
-    const name = __privateGet(_d, _inputToCommand).get(input);
+    const name = __privateGet(_e, _inputToCommand).get(input);
     if (!name) {
       return null;
     }
-    const command = __privateGet(_d, _commands).get(name);
+    const command = __privateGet(_e, _commands).get(name);
     return command ?? null;
   }
   /**
@@ -21212,7 +21242,8 @@ let Viewer$1 = (_d = class extends Surface {
     super.render();
     this.clientListeners.notify(this.makeEvent("post_render"));
   }
-}, _mouse = new WeakMap(), _navBase = new WeakMap(), _eventHandlers = new WeakMap(), _keyboardListeners = new WeakMap(), _mouseListeners = new WeakMap(), _clientListeners = new WeakMap(), _branches = new WeakMap(), _keysDown = new WeakMap(), _animations = new WeakMap(), _options = new WeakMap(), _commands = new WeakMap(), _inputToCommand = new WeakMap(), __privateAdd(_d, _commands, makeCommands()), __privateAdd(_d, _inputToCommand, makeInputToCommandMap()), _d);
+}, _mouse = new WeakMap(), _navBase = new WeakMap(), _eventHandlers = new WeakMap(), _keyboardListeners = new WeakMap(), _mouseListeners = new WeakMap(), _clientListeners = new WeakMap(), _branches = new WeakMap(), _keysDown = new WeakMap(), _animations = new WeakMap(), _options = new WeakMap(), _commands = new WeakMap(), _inputToCommand = new WeakMap(), __privateAdd(_e, _commands, makeCommands()), __privateAdd(_e, _inputToCommand, makeInputToCommandMap()), _e.Flags = (_d = class {
+}, _d.USE_KEYBOARD_INPUT = 1 << 0, _d), _e);
 function Initialize({ children }) {
   const [initialized, setInitialized] = reactExports.useState(false);
   const [supported, setSupported] = reactExports.useState(null);
@@ -21361,19 +21392,28 @@ const useViewerStore = create()((set, get) => ({
   viewers: /* @__PURE__ */ new Map(),
   current: null,
   setCurrentViewer: (id) => {
-    const store = get();
-    if (id !== store.current) {
-      set(() => {
-        return { current: id };
-      });
+    if (id === get().current) {
+      return;
     }
+    set(() => {
+      return { current: id };
+    });
+    set((store) => {
+      const next2 = new Map(store.viewers);
+      for (const [key, value] of next2) {
+        const { viewer } = value;
+        if (viewer) {
+          viewer.useKeyboardInput = key === id;
+        }
+      }
+      return { viewers: next2 };
+    });
   },
   setViewerState: (id, state) => {
-    const store = get();
-    const current = store.viewers.get(id);
+    const current = get().viewers.get(id);
     if (state !== current) {
-      set((current2) => {
-        const next2 = new Map(current2.viewers);
+      set((store) => {
+        const next2 = new Map(store.viewers);
         next2.set(id, state);
         return { viewers: next2 };
       });
@@ -21388,8 +21428,8 @@ const useViewerStore = create()((set, get) => ({
     };
   },
   removeViewerState: (id) => {
-    set((current) => {
-      const next2 = new Map(current.viewers);
+    set((store) => {
+      const next2 = new Map(store.viewers);
       next2.delete(id);
       return { viewers: next2 };
     });
@@ -22037,7 +22077,7 @@ function App() {
   );
   const buildTimeStamp = reactExports.useMemo(
     () => {
-      const date = /* @__PURE__ */ new Date(1780461131233);
+      const date = /* @__PURE__ */ new Date(1780546501867);
       const Y = date.getFullYear();
       const M = String(date.getMonth() + 1).padStart(2, "0");
       const D = String(date.getDate()).padStart(2, "0");
@@ -22318,14 +22358,11 @@ function App() {
     handleShowStats,
     handleShowTriangleEdges,
     handleSimulateDeviceLost,
-    handleTogglePanel,
     handleTrackballMode,
     handleTurntableMode,
     handleUseTwoSidedLighting,
     handleViewerRender,
     handleViewerReset,
-    palette.background.paper,
-    palette.divider,
     panelBackground,
     showPanel,
     showStats,
@@ -34270,4 +34307,4 @@ clientExports.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ jsxRuntimeExports.jsx(App, {})
   ] }) })
 );
-//# sourceMappingURL=index-CnmbdiOb.js.map
+//# sourceMappingURL=index-CRHGWTBf.js.map
