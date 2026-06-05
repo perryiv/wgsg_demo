@@ -22077,7 +22077,7 @@ function App() {
   );
   const buildTimeStamp = reactExports.useMemo(
     () => {
-      const date = /* @__PURE__ */ new Date(1780546501867);
+      const date = /* @__PURE__ */ new Date(1780619040293);
       const Y = date.getFullYear();
       const M = String(date.getMonth() + 1).padStart(2, "0");
       const D = String(date.getDate()).padStart(2, "0");
@@ -22215,6 +22215,30 @@ function App() {
       return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { height: `${height2}px` } });
     },
     []
+  );
+  reactExports.useEffect(
+    () => {
+      const handler = (input) => {
+        if (!viewer) {
+          return;
+        }
+        const event = viewer.makeEvent("key_down", input);
+        event.keysDown.add(input.code);
+        const command = viewer.getCommand(event);
+        if (!command) {
+          return;
+        }
+        setCount((current) => {
+          return current + 1;
+        });
+      };
+      const type = "keyup";
+      globalThis.addEventListener(type, handler, false);
+      return (() => {
+        globalThis.removeEventListener(type, handler, false);
+      });
+    },
+    [viewer]
   );
   const panel1 = reactExports.useMemo(() => {
     if (!showPanel) {
@@ -34307,4 +34331,4 @@ clientExports.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ jsxRuntimeExports.jsx(App, {})
   ] }) })
 );
-//# sourceMappingURL=index-CRHGWTBf.js.map
+//# sourceMappingURL=index-CksYf3_3.js.map
