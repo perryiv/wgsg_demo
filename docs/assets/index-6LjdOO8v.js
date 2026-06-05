@@ -16492,6 +16492,9 @@ class Cull extends Multiply {
    * @param {Group} group - The group node.
    */
   visitGroup(group) {
+    if (false === group.visible) {
+      return;
+    }
     const original = this.currentState;
     this.maybeSetCurrentState(group.state);
     super.visitGroup(group);
@@ -16502,6 +16505,9 @@ class Cull extends Multiply {
    * @param {Transform} tr - The transform node.
    */
   visitTransform(tr) {
+    if (false === tr.visible) {
+      return;
+    }
     const original = this.currentState;
     this.maybeSetCurrentState(tr.state);
     super.visitTransform(tr);
@@ -16512,6 +16518,9 @@ class Cull extends Multiply {
    * @param {Projection} proj - The projection node.
    */
   visitProjection(proj) {
+    if (false === proj.visible) {
+      return;
+    }
     const original = this.currentState;
     this.maybeSetCurrentState(proj.state);
     super.visitProjection(proj);
@@ -16522,6 +16531,9 @@ class Cull extends Multiply {
    * @param {Geometry} geom - The geometry node.
    */
   visitGeometry(geom) {
+    if (false === geom.visible) {
+      return;
+    }
     this.visitShape(geom);
   }
   /**
@@ -16529,6 +16541,9 @@ class Cull extends Multiply {
    * @param {Shape} shape - The shape node.
    */
   visitShape(shape2) {
+    if (false === shape2.visible) {
+      return;
+    }
     const original = this.currentState;
     this.maybeSetCurrentState(shape2.state);
     const root = this.root;
@@ -16555,6 +16570,9 @@ class Cull extends Multiply {
    * @param {Node} node - The scene node.
    */
   visitNode(node2) {
+    if (false === node2.visible) {
+      return;
+    }
     super.visitNode(node2);
   }
   /**
@@ -17484,6 +17502,20 @@ class Decorator extends Base$1 {
     return __privateGet(this, _scene2);
   }
   /**
+   * Get the visibility of the scene.
+   * @returns {boolean} True if the scene is visible, false if not.
+   */
+  get visible() {
+    return this.scene.visible;
+  }
+  /**
+   * Set the visibility of the scene.
+   * @param {boolean} value - True to make the scene visible, false to hide it.
+   */
+  set visible(value) {
+    this.scene.visible = value;
+  }
+  /**
    * Get the viewer.
    * @returns {(IViewer | null)} The viewer or null if not set.
    */
@@ -17538,8 +17570,15 @@ class Grid extends Decorator {
    * Get the class name.
    * @returns {string} The class name.
    */
-  getClassName() {
+  static getClassName() {
     return "Decorators.Grid";
+  }
+  /**
+   * Get the class name.
+   * @returns {string} The class name.
+   */
+  getClassName() {
+    return Grid.getClassName();
   }
   /**
    * Get the viewer. This is needed because there is a setter.
@@ -19818,6 +19857,35 @@ class RotateZ extends RotateAxisAngle {
     super([0, 0, 1], angle2);
   }
 }
+class ToggleGridVisibility extends Command {
+  /**
+   * Construct the class.
+   * @class
+   */
+  constructor() {
+    super();
+  }
+  /**
+   * Get the class name.
+   * @returns {string} The class name.
+   */
+  getClassName() {
+    return "Viewers.Commands.ToggleGridVisibility";
+  }
+  /**
+   * Execute the command.
+   * @param {IEvent} event The event.
+   */
+  execute(event) {
+    const { viewer } = event;
+    const decorator = viewer.getDecorator(Grid.getClassName());
+    if (decorator) {
+      const newState = !decorator.visible;
+      decorator.visible = newState;
+    }
+    viewer.requestRender();
+  }
+}
 class ToggleRotationMode extends Command {
   /**
    * Construct the class.
@@ -20019,6 +20087,7 @@ function makeCommands() {
     ["rotate_py_small", new RotateY(DEG_TO_RAD * 5)],
     ["rotate_pz_large", new RotateZ(DEG_TO_RAD * 45)],
     ["rotate_pz_small", new RotateZ(DEG_TO_RAD * 5)],
+    ["toggle_grid_visibility", new ToggleGridVisibility()],
     ["toggle_rotation_mode", new ToggleRotationMode()],
     ["view_sphere_fit", new ViewSphere(false)],
     ["view_sphere_reset", new ViewSphere(true)]
@@ -20041,6 +20110,7 @@ function makeInputToCommandMap() {
   const sp = "Space";
   const kf = "KeyF";
   const kt = "KeyT";
+  const kg = "KeyG";
   return new Map([
     makeTuple("mouse_rotate_large", "mouse_drag", [0], []),
     makeTuple("mouse_rotate_small", "mouse_drag", [0], [sl]),
@@ -20062,6 +20132,7 @@ function makeInputToCommandMap() {
     makeTuple("rotate_py_large", "key_down", [], [ar]),
     makeTuple("rotate_py_small", "key_down", [], [sl, ar]),
     makeTuple("rotate_py_small", "key_down", [], [sr, ar]),
+    makeTuple("toggle_grid_visibility", "key_down", [], [kg]),
     makeTuple("toggle_rotation_mode", "key_down", [], [kt]),
     makeTuple("view_sphere_fit", "key_down", [], [kf]),
     makeTuple("view_sphere_reset", "key_down", [], [sp])
@@ -22333,7 +22404,7 @@ function App() {
   );
   const buildTimeStamp = reactExports.useMemo(
     () => {
-      const date = /* @__PURE__ */ new Date(1780642600281);
+      const date = /* @__PURE__ */ new Date(1780703884617);
       const Y = date.getFullYear();
       const M = String(date.getMonth() + 1).padStart(2, "0");
       const D = String(date.getDate()).padStart(2, "0");
@@ -34587,4 +34658,4 @@ clientExports.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ jsxRuntimeExports.jsx(App, {})
   ] }) })
 );
-//# sourceMappingURL=index-q6g3TLxz.js.map
+//# sourceMappingURL=index-6LjdOO8v.js.map
