@@ -8,7 +8,7 @@ var __accessCheck = (obj, member, msg) => member.has(obj) || __typeError("Cannot
 var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
-var _a, _black, _blue, _gray, _green, _magenta, _orange, _red, _transparent, _white, _yellow, _min, _max, _p0, _p1, _point, _normal, _c2, _r, _b, _id, _c, _instance, _isInitializing, _device, _preferredFormat, _values, _buffer, _state, _shapes, _matrix, _stateGroupMap, _matrix2, _viewMatrixMap, _shader, _topology, _projMatrixMap, _pipelines, _bins, _layers, _viewMatrix, _projMatrix, _state2, _parents, _flags, _userData, _children, _sphere, _matrix3, _topology2, _first, _count, _indices, _points, _normals, _colors, _texCoords, _primitives, _box, _center, _radius, _numSubdivisions, _color, _value, _name, _layer, _bin, _shader2, _topology3, _apply, _reset, _attributes, _code, _module, _data, _device2, _projMatrix2, _viewMatrix2, _instance2, _color2, _twoSidedLight, _lightDir, _uniforms, _bindGroup, _instance3, _color3, _uniforms2, _bindGroup2, _root, _defaultState, _currentState, _info, _context, _depthTexture, _clearColor, _renderPassEncoder, _commandEncoder, _geometry, _info2, _device3, _wasDirty, _indices2, _points2, _colors2, _geom, _boxes, _scene, _current, _color4, _progress, _color5, _point1, _point2, _point3, _edge1, _edge2, _near, _far, _onUpdateNearFar, _fov, _aspect, _matrix4, _inverse, _mode, _localUp, _state3, _fun, _name2, _startTime, _duration, _axis, _angle, _space, _resetRotation, _scaleIn, _scaleOut, _scale, _scale2, _canvas, _context2, _observer, _viewport, _scene2, _projection, _handles, _frame, _visitors, _root2, _defaultState2, _clearColor2, _info3, _flags2, _eventListeners, _d, _mouse, _navBase, _eventHandlers, _keyboardListeners, _mouseListeners, _clientListeners, _branches, _keysDown, _animations, _options, _e, _commands, _inputToCommand;
+var _a, _black, _blue, _gray, _green, _magenta, _orange, _red, _transparent, _white, _yellow, _min, _max, _p0, _p1, _point, _normal, _c2, _r, _b, _id, _c, _instance, _isInitializing, _device, _preferredFormat, _values, _buffer, _state, _shapes, _matrix, _stateGroupMap, _matrix2, _viewMatrixMap, _shader, _topology, _projMatrixMap, _pipelines, _bins, _layers, _viewMatrix, _projMatrix, _state2, _parents, _flags, _userData, _children, _sphere, _matrix3, _topology2, _first, _count, _indices, _points, _normals, _colors, _texCoords, _primitives, _box, _center, _radius, _numSubdivisions, _color, _value, _name, _layer, _bin, _shader2, _topology3, _apply, _reset, _attributes, _code, _module, _data, _device2, _projMatrix2, _viewMatrix2, _instance2, _color2, _twoSidedLight, _lightDir, _uniforms, _bindGroup, _instance3, _color3, _uniforms2, _bindGroup2, _root, _defaultState, _currentState, _info, _context, _depthTexture, _clearColor, _renderPassEncoder, _commandEncoder, _geometry, _info2, _device3, _wasDirty, _indices2, _points2, _colors2, _geom, _boxes, _scene, _current, _color4, _scene2, _viewer, _dirty, _progress, _color5, _point1, _point2, _point3, _edge1, _edge2, _near, _far, _onUpdateNearFar, _fov, _aspect, _matrix4, _inverse, _mode, _localUp, _state3, _fun, _name2, _startTime, _duration, _axis, _angle, _space, _resetRotation, _scaleIn, _scaleOut, _scale, _scale2, _canvas, _context2, _observer, _viewport, _scene3, _projection, _handles, _frame, _visitors, _root2, _defaultState2, _clearColor2, _info3, _flags2, _eventListeners, _d, _mouse, _navBase, _eventHandlers, _keyboardListeners, _mouseListeners, _clientListeners, _branches, _keysDown, _animations, _options, _decorators, _e, _commands, _inputToCommand;
 function _mergeNamespaces(n, m) {
   for (var i = 0; i < m.length; i++) {
     const e = m[i];
@@ -17262,6 +17262,46 @@ const buildBoundingBoxes = (scene) => {
   scene.accept(visitor);
   return visitor.geometry;
 };
+const buildGrid = (input) => {
+  const { center, size, numLines = [11, 11] } = input;
+  const points = [];
+  const indices = [];
+  const numLinesX = numLines[0];
+  const numLinesZ = numLines[1];
+  const sx = size[0];
+  const sz = size[1];
+  const hsx = sx * 0.5;
+  const hsz = sz * 0.5;
+  const startX = center[0] - hsx;
+  const endX = center[0] + hsx;
+  const startZ = center[2] - hsz;
+  const endZ = center[2] + hsz;
+  let count = 0;
+  for (let i = 0; i < numLinesX; ++i) {
+    const x = startX + sx / (numLinesX - 1) * i;
+    points.push(x, center[1], startZ);
+    points.push(x, center[1], endZ);
+    indices.push(count++);
+    indices.push(count++);
+  }
+  for (let j = 0; j < numLinesZ; ++j) {
+    const z = startZ + sz / (numLinesZ - 1) * j;
+    points.push(startX, center[1], z);
+    points.push(endX, center[1], z);
+    indices.push(count++);
+    indices.push(count++);
+  }
+  const topology = "line-list";
+  const primitives = new Indexed({ topology, indices });
+  const geom = new Geometry({ points, primitives });
+  geom.points = new Float32Array(points);
+  if (input == null ? void 0 : input.color) {
+    const state = SolidColor.makeState({ topology });
+    state.addAttribute(new Color(input.color));
+    geom.state = state;
+  }
+  return geom;
+};
 const buildTriangleEdges = (geom) => {
   var _a2, _b2;
   const points = (_a2 = geom.points) == null ? void 0 : _a2.values;
@@ -17425,6 +17465,138 @@ const buildWireframeScene = (scene) => {
   const answer = visitor.scene;
   return false === answer.empty ? answer : null;
 };
+class Decorator extends Base$1 {
+  /**
+   * Construct the class.
+   * @class
+   */
+  constructor() {
+    super();
+    __privateAdd(this, _scene2, new Group());
+    __privateAdd(this, _viewer, null);
+    __privateAdd(this, _dirty, true);
+  }
+  /**
+   * Get the scene.
+   * @returns {Group} The scene.
+   */
+  get scene() {
+    return __privateGet(this, _scene2);
+  }
+  /**
+   * Get the viewer.
+   * @returns {(IViewer | null)} The viewer or null if not set.
+   */
+  get viewer() {
+    return __privateGet(this, _viewer);
+  }
+  /**
+   * Set the viewer.
+   * @param {(IViewer | null)} viewer - The viewer or null to clear it.
+   */
+  set viewer(viewer) {
+    __privateSet(this, _viewer, viewer);
+  }
+  /**
+   * Is the scene dirty?
+   * @returns {boolean} True if the scene is dirty, false if not.
+   */
+  get dirty() {
+    return __privateGet(this, _dirty);
+  }
+  /**
+   * Set the dirty flag.
+   * @param {boolean} value - The new value for the dirty flag.
+   */
+  set dirty(value) {
+    __privateSet(this, _dirty, value);
+  }
+  /**
+   * Update the scene if we should.
+   */
+  updateScene() {
+    if (false === this.dirty) {
+      return;
+    }
+    this.scene.clear();
+    this.scene.addChild(this.buildScene());
+    this.dirty = false;
+  }
+}
+_scene2 = new WeakMap();
+_viewer = new WeakMap();
+_dirty = new WeakMap();
+class Grid extends Decorator {
+  /**
+   * Construct the class.
+   * @class
+   */
+  constructor() {
+    super();
+  }
+  /**
+   * Get the class name.
+   * @returns {string} The class name.
+   */
+  getClassName() {
+    return "Decorators.Grid";
+  }
+  /**
+   * Get the viewer. This is needed because there is a setter.
+   * Otherwise, this.viewer is always undefined.
+   * @returns {(IViewer | null)} The viewer or null if not set.
+   */
+  get viewer() {
+    return super.viewer;
+  }
+  /**
+   * Set the viewer.
+   * @param {(IViewer | null)} viewer - The viewer or null to clear it.
+   */
+  set viewer(viewer) {
+    const existing = this.viewer;
+    if (existing === viewer) {
+      return;
+    }
+    if (existing) {
+      const extraScene = existing.extraScene;
+      extraScene.removeChild(extraScene.findChild((child) => {
+        return child === this.scene;
+      }));
+    }
+    super.viewer = viewer;
+    if (viewer) {
+      viewer.extraScene.addChild(this.scene);
+    }
+  }
+  /**
+   * Build the scene.
+   * @returns {(SceneNode | null)} The scene or null if not available.
+   */
+  buildScene() {
+    const center = [0, 0, 0];
+    const size = [20, 20];
+    const viewer = this.viewer;
+    if (viewer) {
+      const modelScene = viewer.modelScene;
+      if (modelScene) {
+        const bounds = modelScene.bounds;
+        center[0] = bounds.center[0];
+        center[1] = bounds.center[1] - bounds.radius;
+        center[2] = bounds.center[2];
+        const length2 = bounds.radius * 10;
+        size[0] = length2;
+        size[1] = length2;
+      }
+    }
+    return buildGrid({
+      center,
+      size,
+      numLines: [21, 21],
+      color: [...Color$1.black]
+    });
+  }
+}
 class Cancelled extends Error {
   /**
    * Construct the class.
@@ -19907,7 +20079,7 @@ class Surface extends Base$1 {
     __privateAdd(this, _context2, null);
     __privateAdd(this, _observer, null);
     __privateAdd(this, _viewport, { x: 0, y: 0, width: 0, height: 0 });
-    __privateAdd(this, _scene2, null);
+    __privateAdd(this, _scene3, null);
     __privateAdd(this, _projection, new Perspective());
     __privateAdd(this, _handles, { render: 0 });
     __privateAdd(this, _frame, { count: 0, start: 0 });
@@ -19959,7 +20131,7 @@ class Surface extends Base$1 {
     __privateSet(this, _context2, null);
     __privateSet(this, _observer, null);
     __privateSet(this, _viewport, { x: 0, y: 0, width: 0, height: 0 });
-    __privateSet(this, _scene2, null);
+    __privateSet(this, _scene3, null);
     __privateSet(this, _projection, null);
     __privateSet(this, _handles, { render: 0 });
     __privateSet(this, _visitors, null);
@@ -20103,14 +20275,14 @@ class Surface extends Base$1 {
    * @returns {string | null} The scene that gets rendered on the surface.
    */
   get scene() {
-    return __privateGet(this, _scene2);
+    return __privateGet(this, _scene3);
   }
   /**
    * Set the scene.
    * @param {Node | null} scene - The scene that gets rendered on the surface.
    */
   set scene(scene) {
-    __privateSet(this, _scene2, scene);
+    __privateSet(this, _scene3, scene);
   }
   /**
    * Get the update visitor.
@@ -20335,7 +20507,7 @@ class Surface extends Base$1 {
    * rendered. It's public so that it can be called at other times, too.
    */
   update() {
-    const scene = __privateGet(this, _scene2);
+    const scene = __privateGet(this, _scene3);
     if (!scene) {
       return;
     }
@@ -20350,7 +20522,7 @@ class Surface extends Base$1 {
    * Use with caution.
    */
   cull() {
-    const scene = __privateGet(this, _scene2);
+    const scene = __privateGet(this, _scene3);
     if (!scene) {
       return;
     }
@@ -20449,7 +20621,7 @@ _canvas = new WeakMap();
 _context2 = new WeakMap();
 _observer = new WeakMap();
 _viewport = new WeakMap();
-_scene2 = new WeakMap();
+_scene3 = new WeakMap();
 _projection = new WeakMap();
 _handles = new WeakMap();
 _frame = new WeakMap();
@@ -20586,7 +20758,7 @@ let Viewer$1 = (_e = class extends Surface {
    * @param {IViewerConstructor} input - The input for the constructor.
    */
   constructor(input) {
-    const { noMouseEvents, noKeyboardEvents } = input;
+    const { noMouseEvents, noKeyboardEvents, noDecorators } = input;
     super(input);
     __privateAdd(this, _mouse, _e.makeMouseData());
     __privateAdd(this, _navBase, null);
@@ -20598,6 +20770,7 @@ let Viewer$1 = (_e = class extends Surface {
     __privateAdd(this, _keysDown, /* @__PURE__ */ new Set());
     __privateAdd(this, _animations, { nav: new Animation() });
     __privateAdd(this, _options, _e.makeOptions());
+    __privateAdd(this, _decorators, /* @__PURE__ */ new Map());
     super.scene = __privateGet(this, _branches).root;
     if (!noMouseEvents) {
       this.addMouseEventListeners();
@@ -20613,6 +20786,9 @@ let Viewer$1 = (_e = class extends Surface {
         }
       }
     });
+    if (!noDecorators) {
+      this.setDecorator(new Grid());
+    }
   }
   /**
    * Destroy this instance.
@@ -20795,6 +20971,64 @@ let Viewer$1 = (_e = class extends Surface {
    */
   set useKeyboardInput(use) {
     this.flags = setBits(this.flags, _e.Flags.USE_KEYBOARD_INPUT, use);
+  }
+  /**
+   * Add or replace a decorator.
+   * @param {Decorator} decorator - The decorator to add or replace.
+   */
+  setDecorator(decorator) {
+    __privateGet(this, _decorators).set(decorator.type, decorator);
+    decorator.viewer = this;
+  }
+  /**
+   * Get a decorator by type.
+   * @param {string} type - The type of the decorator.
+   * @returns {(Decorator | null)} The decorator or null if not found.
+   */
+  getDecorator(type) {
+    return __privateGet(this, _decorators).get(type) ?? null;
+  }
+  /**
+   * Does the decorator exist?
+   * @param {string} type - The type of the decorator.
+   * @returns {boolean} True if the decorator exists, false if not.
+   */
+  hasDecorator(type) {
+    return __privateGet(this, _decorators).has(type);
+  }
+  /**
+   * Remove a decorator by type.
+   * @param {string} type - The type of the decorator to remove.
+   * @returns {boolean} True if the decorator was removed, false if it was not found.
+   */
+  removeDecorator(type) {
+    const decorator = this.getDecorator(type);
+    if (!decorator) {
+      return false;
+    }
+    decorator.viewer = null;
+    __privateGet(this, _decorators).delete(type);
+    return true;
+  }
+  /**
+   * Clear all the decorators.
+   */
+  clearDecorators() {
+    const keys = __privateGet(this, _decorators).keys();
+    for (const key of keys) {
+      this.removeDecorator(key);
+    }
+    __privateGet(this, _decorators).clear();
+  }
+  /**
+   * Loop through the decorators and call the given function.
+   * @param {IDecoratorCallback} cb - The callback function to call for each decorator.
+   */
+  forEachDecorator(cb) {
+    const decorators = __privateGet(this, _decorators).values();
+    for (const decorator of decorators) {
+      cb(decorator);
+    }
   }
   /**
    * Get the view matrix.
@@ -21234,6 +21468,16 @@ let Viewer$1 = (_e = class extends Surface {
     return __privateGet(this, _options);
   }
   /**
+   * Update the scene if its dirty. This gets called when the scene is
+   * rendered. It's public so that it can be called at other times, too.
+   */
+  update() {
+    super.update();
+    this.forEachDecorator((decorator) => {
+      decorator.updateScene();
+    });
+  }
+  /**
    * Render the scene.
    */
   render() {
@@ -21242,7 +21486,7 @@ let Viewer$1 = (_e = class extends Surface {
     super.render();
     this.clientListeners.notify(this.makeEvent("post_render"));
   }
-}, _mouse = new WeakMap(), _navBase = new WeakMap(), _eventHandlers = new WeakMap(), _keyboardListeners = new WeakMap(), _mouseListeners = new WeakMap(), _clientListeners = new WeakMap(), _branches = new WeakMap(), _keysDown = new WeakMap(), _animations = new WeakMap(), _options = new WeakMap(), _commands = new WeakMap(), _inputToCommand = new WeakMap(), __privateAdd(_e, _commands, makeCommands()), __privateAdd(_e, _inputToCommand, makeInputToCommandMap()), _e.Flags = (_d = class {
+}, _mouse = new WeakMap(), _navBase = new WeakMap(), _eventHandlers = new WeakMap(), _keyboardListeners = new WeakMap(), _mouseListeners = new WeakMap(), _clientListeners = new WeakMap(), _branches = new WeakMap(), _keysDown = new WeakMap(), _animations = new WeakMap(), _options = new WeakMap(), _decorators = new WeakMap(), _commands = new WeakMap(), _inputToCommand = new WeakMap(), __privateAdd(_e, _commands, makeCommands()), __privateAdd(_e, _inputToCommand, makeInputToCommandMap()), _e.Flags = (_d = class {
 }, _d.USE_KEYBOARD_INPUT = 1 << 0, _d), _e);
 function Initialize({ children }) {
   const [initialized, setInitialized] = reactExports.useState(false);
@@ -22089,7 +22333,7 @@ function App() {
   );
   const buildTimeStamp = reactExports.useMemo(
     () => {
-      const date = /* @__PURE__ */ new Date(1780628233003);
+      const date = /* @__PURE__ */ new Date(1780642600281);
       const Y = date.getFullYear();
       const M = String(date.getMonth() + 1).padStart(2, "0");
       const D = String(date.getDate()).padStart(2, "0");
@@ -34343,4 +34587,4 @@ clientExports.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ jsxRuntimeExports.jsx(App, {})
   ] }) })
 );
-//# sourceMappingURL=index-BnX--oO5.js.map
+//# sourceMappingURL=index-q6g3TLxz.js.map
