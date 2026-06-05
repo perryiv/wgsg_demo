@@ -21301,7 +21301,75 @@ function Initialize({ children }) {
     },
     [handleMount]
   );
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: initialized ? children : null });
+  const renderNotSupported = reactExports.useCallback(
+    () => {
+      return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        Card,
+        {
+          style: {
+            position: "absolute",
+            top: "33%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            padding: "20px",
+            textAlign: "center"
+          },
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "h1",
+              {
+                style: {
+                  transform: "rotate(90deg)"
+                },
+                children: ":-("
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "WebGPU is not supported in this browser" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "You can check browser support " }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "a",
+              {
+                href: "https://github.com/gpuweb/gpuweb/wiki/Implementation-Status",
+                target: "_blank",
+                rel: "noopener noreferrer",
+                children: "here"
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: " and " }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "a",
+              {
+                href: "https://caniuse.com/webgpu",
+                target: "_blank",
+                rel: "noopener noreferrer",
+                children: "here"
+              }
+            )
+          ]
+        }
+      );
+    },
+    []
+  );
+  const renderComponent = reactExports.useCallback(() => {
+    if (null === supported) {
+      return null;
+    }
+    if (false === supported) {
+      return renderNotSupported();
+    }
+    if (false === initialized) {
+      return null;
+    }
+    return children;
+  }, [
+    children,
+    initialized,
+    renderNotSupported,
+    supported
+  ]);
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: renderComponent() });
 }
 function Panel(props) {
   const { style: style2, children } = props;
@@ -21629,7 +21697,6 @@ function Viewer({ viewerId, ...rest }) {
   const [edgesScene, setEdgesScene] = reactExports.useState(null);
   const [id] = reactExports.useState(getNextId());
   const [progress, setProgress] = reactExports.useState(0);
-  const [supported] = reactExports.useState(null);
   const canvas = reactExports.useRef(null);
   const loader = reactExports.useRef(null);
   const createViewerState = useViewerStore((store) => store.createViewerState);
@@ -21958,60 +22025,6 @@ function Viewer({ viewerId, ...rest }) {
       }
     );
   }, [handleProgressBarClose]);
-  const renderNotSupported = reactExports.useCallback(
-    () => {
-      if (false !== supported) {
-        return null;
-      }
-      return /* @__PURE__ */ jsxRuntimeExports.jsxs(
-        Card,
-        {
-          style: {
-            position: "absolute",
-            top: "33%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            padding: "20px",
-            textAlign: "center"
-          },
-          children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "h1",
-              {
-                style: {
-                  transform: "rotate(90deg)"
-                },
-                children: ":-("
-              }
-            ),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "WebGPU is not supported in this browser" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "You can check browser support " }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "a",
-              {
-                href: "https://github.com/gpuweb/gpuweb/wiki/Implementation-Status",
-                target: "_blank",
-                rel: "noopener noreferrer",
-                children: "here"
-              }
-            ),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: " and " }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "a",
-              {
-                href: "https://caniuse.com/webgpu",
-                target: "_blank",
-                rel: "noopener noreferrer",
-                children: "here"
-              }
-            )
-          ]
-        }
-      );
-    },
-    [supported]
-  );
   console.log(`Viewer component ${id} render count ${componentRenderCount++}`);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(
     "div",
@@ -22030,7 +22043,6 @@ function Viewer({ viewerId, ...rest }) {
             onDrop: handleDroppedFiles
           }
         ),
-        renderNotSupported(),
         renderProgressBar(progress)
       ]
     }
@@ -22077,7 +22089,7 @@ function App() {
   );
   const buildTimeStamp = reactExports.useMemo(
     () => {
-      const date = /* @__PURE__ */ new Date(1780619040293);
+      const date = /* @__PURE__ */ new Date(1780628233003);
       const Y = date.getFullYear();
       const M = String(date.getMonth() + 1).padStart(2, "0");
       const D = String(date.getDate()).padStart(2, "0");
@@ -34331,4 +34343,4 @@ clientExports.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ jsxRuntimeExports.jsx(App, {})
   ] }) })
 );
-//# sourceMappingURL=index-CksYf3_3.js.map
+//# sourceMappingURL=index-BnX--oO5.js.map
