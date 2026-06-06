@@ -10719,8 +10719,9 @@ function Button(props) {
           {
             sx: {
               color: palette.text.primary,
-              textTransform: "none",
+              justifyContent: "flex-start",
               padding: 0,
+              textTransform: "none",
               ":hover": { color: palette.secondary.main },
               ...style2
             },
@@ -22404,7 +22405,7 @@ function App() {
   );
   const buildTimeStamp = reactExports.useMemo(
     () => {
-      const date = /* @__PURE__ */ new Date(1780703884617);
+      const date = /* @__PURE__ */ new Date(1780706096004);
       const Y = date.getFullYear();
       const M = String(date.getMonth() + 1).padStart(2, "0");
       const D = String(date.getDate()).padStart(2, "0");
@@ -22497,6 +22498,16 @@ function App() {
     },
     []
   );
+  const handleShowGrid = reactExports.useCallback(() => {
+    if (viewer) {
+      const decorator = viewer.getDecorator(Grid.getClassName());
+      if (decorator) {
+        decorator.visible = !decorator.visible;
+        setCount(count + 1);
+        viewer.requestRender();
+      }
+    }
+  }, [count, viewer]);
   const handleShowBoundingBoxes = reactExports.useCallback(() => {
     if (currentViewerId) {
       const vs = viewerStates.get(currentViewerId);
@@ -22555,9 +22566,7 @@ function App() {
         if (!command) {
           return;
         }
-        setCount((current) => {
-          return current + 1;
-        });
+        setCount(count + 1);
       };
       const type = "keyup";
       globalThis.addEventListener(type, handler, false);
@@ -22565,9 +22574,10 @@ function App() {
         globalThis.removeEventListener(type, handler, false);
       });
     },
-    [viewer]
+    [count, viewer]
   );
   const panel1 = reactExports.useMemo(() => {
+    var _a2;
     if (!showPanel) {
       return null;
     }
@@ -22659,6 +22669,15 @@ function App() {
                 Button,
                 {
                   disabled,
+                  onClick: handleShowGrid,
+                  value: viewer ? (_a2 = viewer.getDecorator(Grid.getClassName())) == null ? void 0 : _a2.visible : false,
+                  children: "Grid"
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                Button,
+                {
+                  disabled,
                   onClick: handleShowBoundingBoxes,
                   value: boxesVisible,
                   children: "Bounding boxes"
@@ -22706,6 +22725,7 @@ function App() {
     edgesVisible,
     handleAllowAnimations,
     handleShowBoundingBoxes,
+    handleShowGrid,
     handleShowStats,
     handleShowTriangleEdges,
     handleSimulateDeviceLost,
@@ -34658,4 +34678,4 @@ clientExports.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ jsxRuntimeExports.jsx(App, {})
   ] }) })
 );
-//# sourceMappingURL=index-6LjdOO8v.js.map
+//# sourceMappingURL=index-eE4fLEmN.js.map
