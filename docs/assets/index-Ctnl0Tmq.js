@@ -21442,7 +21442,7 @@ let Viewer$1 = (_e = class extends Surface {
       const d = distance(this.mouseCurrent, this.mousePrevious);
       const mx = this.options.distance.mouse_move_max;
       if (d > mx) {
-        console.warn(`Mouse move event ignored because distance ${d} > ${mx}`);
+        console.warn(`Mouse move event ignored because distance ${d.toFixed(2)} > ${mx}`);
         return;
       }
     }
@@ -22313,20 +22313,21 @@ function Viewer({ viewerId, ...rest }) {
     viewerId,
     viewerStates
   ]);
-  const mountHandlerRef = reactExports.useRef(() => void 0);
-  mountHandlerRef.current = () => {
-    if (false === Device.valid) {
-      throw new Error("Device is not initialized");
-    }
-    if (true === Device.isInitializing) {
-      throw new Error("Device is already being initialized");
-    }
-    getOrCreateViewer().requestRender();
-  };
+  reactExports.useEffect(
+    () => {
+      if (false === Device.valid) {
+        throw new Error("Device is not initialized");
+      }
+      if (true === Device.isInitializing) {
+        throw new Error("Device is already being initialized");
+      }
+      getOrCreateViewer().requestRender();
+    },
+    [id, getOrCreateViewer]
+  );
   reactExports.useEffect(
     () => {
       console.log(`Viewer component ${id} mounted`);
-      mountHandlerRef.current();
       return (() => {
         console.log(`Viewer component ${id} unmounted`);
       });
@@ -22468,7 +22469,7 @@ function App() {
   );
   const buildTimeStamp = reactExports.useMemo(
     () => {
-      const date = /* @__PURE__ */ new Date(1780782301378);
+      const date = /* @__PURE__ */ new Date(1780783966510);
       const Y = date.getFullYear();
       const M = String(date.getMonth() + 1).padStart(2, "0");
       const D = String(date.getDate()).padStart(2, "0");
@@ -34741,4 +34742,4 @@ clientExports.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ jsxRuntimeExports.jsx(App, {})
   ] }) })
 );
-//# sourceMappingURL=index-CYM-n8Q9.js.map
+//# sourceMappingURL=index-Ctnl0Tmq.js.map
