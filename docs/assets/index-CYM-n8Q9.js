@@ -22313,7 +22313,8 @@ function Viewer({ viewerId, ...rest }) {
     viewerId,
     viewerStates
   ]);
-  const handleMount = reactExports.useCallback(() => {
+  const mountHandlerRef = reactExports.useRef(() => void 0);
+  mountHandlerRef.current = () => {
     if (false === Device.valid) {
       throw new Error("Device is not initialized");
     }
@@ -22321,18 +22322,16 @@ function Viewer({ viewerId, ...rest }) {
       throw new Error("Device is already being initialized");
     }
     getOrCreateViewer().requestRender();
-  }, [
-    getOrCreateViewer
-  ]);
+  };
   reactExports.useEffect(
     () => {
       console.log(`Viewer component ${id} mounted`);
-      handleMount();
+      mountHandlerRef.current();
       return (() => {
         console.log(`Viewer component ${id} unmounted`);
       });
     },
-    [id, handleMount]
+    [id]
   );
   const renderProgressBar = reactExports.useCallback((value) => {
     value = clampNumber(value * 100, 0, 100);
@@ -22469,7 +22468,7 @@ function App() {
   );
   const buildTimeStamp = reactExports.useMemo(
     () => {
-      const date = /* @__PURE__ */ new Date(1780781454735);
+      const date = /* @__PURE__ */ new Date(1780782301378);
       const Y = date.getFullYear();
       const M = String(date.getMonth() + 1).padStart(2, "0");
       const D = String(date.getDate()).padStart(2, "0");
@@ -34742,4 +34741,4 @@ clientExports.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ jsxRuntimeExports.jsx(App, {})
   ] }) })
 );
-//# sourceMappingURL=index-BlfdZEej.js.map
+//# sourceMappingURL=index-CYM-n8Q9.js.map
