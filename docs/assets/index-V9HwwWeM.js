@@ -780,7 +780,7 @@ var characters = "";
 function node(value, root, parent, type, props, children, length2) {
   return { value, root, parent, type, props, children, line, column, length: length2, return: "" };
 }
-function copy$4(root, props) {
+function copy$3(root, props) {
   return assign(node("", null, null, "", null, null, 0), root, { length: -root.length }, props);
 }
 function char() {
@@ -1337,7 +1337,7 @@ var prefixer = function prefixer2(element, index, children, callback) {
         element["return"] = prefix(element.value, element.length);
         break;
       case KEYFRAMES:
-        return serialize([copy$4(element, {
+        return serialize([copy$3(element, {
           value: replace(element.value, "@", "@" + WEBKIT)
         })], callback);
       case RULESET:
@@ -1346,16 +1346,16 @@ var prefixer = function prefixer2(element, index, children, callback) {
             // :read-(only|write)
             case ":read-only":
             case ":read-write":
-              return serialize([copy$4(element, {
+              return serialize([copy$3(element, {
                 props: [replace(value, /:(read-\w+)/, ":" + MOZ + "$1")]
               })], callback);
             // :placeholder
             case "::placeholder":
-              return serialize([copy$4(element, {
+              return serialize([copy$3(element, {
                 props: [replace(value, /:(plac\w+)/, ":" + WEBKIT + "input-$1")]
-              }), copy$4(element, {
+              }), copy$3(element, {
                 props: [replace(value, /:(plac\w+)/, ":" + MOZ + "$1")]
-              }), copy$4(element, {
+              }), copy$3(element, {
                 props: [replace(value, /:(plac\w+)/, MS + "input-$1")]
               })], callback);
           }
@@ -10948,7 +10948,7 @@ function create$5() {
   out[8] = 1;
   return out;
 }
-function copy$3(out, a) {
+function copy$2(out, a) {
   out[0] = a[0];
   out[1] = a[1];
   out[2] = a[2];
@@ -11227,7 +11227,7 @@ function fromValues(x, y, z) {
   out[2] = z;
   return out;
 }
-function copy$2(out, a) {
+function copy$1(out, a) {
   out[0] = a[0];
   out[1] = a[1];
   out[2] = a[2];
@@ -11380,7 +11380,7 @@ function create$3() {
   }
   return out;
 }
-function copy$1(out, a) {
+function copy(out, a) {
   out[0] = a[0];
   out[1] = a[1];
   out[2] = a[2];
@@ -11579,11 +11579,6 @@ function create$1() {
     out[0] = 0;
     out[1] = 0;
   }
-  return out;
-}
-function copy(out, a) {
-  out[0] = a[0];
-  out[1] = a[1];
   return out;
 }
 function subtract(out, a, b) {
@@ -12008,8 +12003,8 @@ const _Box = class _Box {
     __privateAdd(this, _max, [-Number.MAX_VALUE, -Number.MAX_VALUE, -Number.MAX_VALUE]);
     if (input) {
       const { min, max } = input;
-      copy$2(__privateGet(this, _min), min);
-      copy$2(__privateGet(this, _max), max);
+      copy$1(__privateGet(this, _min), min);
+      copy$1(__privateGet(this, _max), max);
     }
   }
   /**
@@ -12049,7 +12044,7 @@ const _Box = class _Box {
    * @param {IVector3} v - The new minimum corner of the box.
    */
   set min(v) {
-    copy$2(__privateGet(this, _min), v);
+    copy$1(__privateGet(this, _min), v);
   }
   /**
    * Get the maximum corner of the box.
@@ -12063,7 +12058,7 @@ const _Box = class _Box {
    * @param {IVector3} v - The new maximum corner of the box.
    */
   set max(v) {
-    copy$2(__privateGet(this, _max), v);
+    copy$1(__privateGet(this, _max), v);
   }
   /**
    * Get the size of the box.
@@ -12396,10 +12391,10 @@ const _Line = class _Line {
     __privateAdd(this, _p0, [0, 0, 0]);
     __privateAdd(this, _p1, [0, 0, 1]);
     if (start) {
-      copy$2(__privateGet(this, _p0), start);
+      copy$1(__privateGet(this, _p0), start);
     }
     if (end) {
-      copy$2(__privateGet(this, _p1), end);
+      copy$1(__privateGet(this, _p1), end);
     }
   }
   /**
@@ -12423,7 +12418,7 @@ const _Line = class _Line {
    * @param {IVector3} value - The new start point.
    */
   set start(value) {
-    copy$2(__privateGet(this, _p0), value);
+    copy$1(__privateGet(this, _p0), value);
   }
   /**
    * Get the end point.
@@ -12437,7 +12432,7 @@ const _Line = class _Line {
    * @param {IVector3} value - The new end point.
    */
   set end(value) {
-    copy$2(__privateGet(this, _p1), value);
+    copy$1(__privateGet(this, _p1), value);
   }
   /**
    * See if the line is valid.
@@ -12488,8 +12483,8 @@ const _Line = class _Line {
   setFromLine(line2) {
     const p0 = line2.start;
     const p1 = line2.end;
-    copy$2(__privateGet(this, _p0), p0);
-    copy$2(__privateGet(this, _p1), p1);
+    copy$1(__privateGet(this, _p0), p0);
+    copy$1(__privateGet(this, _p1), p1);
   }
   /**
    * Set this line from two points.
@@ -12497,8 +12492,8 @@ const _Line = class _Line {
    * @param {IVector3} p1 - The end point.
    */
   setFromPoints(p0, p1) {
-    copy$2(__privateGet(this, _p0), p0);
-    copy$2(__privateGet(this, _p1), p1);
+    copy$1(__privateGet(this, _p0), p0);
+    copy$1(__privateGet(this, _p1), p1);
   }
   /**
    * Set this line from a point and a direction.
@@ -12506,7 +12501,7 @@ const _Line = class _Line {
    * @param {IVector3} dir - The direction vector.
    */
   setFromPointAndDirection(pt, dir) {
-    copy$2(__privateGet(this, _p0), pt);
+    copy$1(__privateGet(this, _p0), pt);
     add(__privateGet(this, _p1), pt, dir);
   }
   /**
@@ -12650,7 +12645,7 @@ const _Plane = class _Plane {
    * @param {IVector3} point - The new point.
    */
   set point(point) {
-    copy$2(__privateGet(this, _point), point);
+    copy$1(__privateGet(this, _point), point);
   }
   /**
    * Get the normal vector.
@@ -12664,7 +12659,7 @@ const _Plane = class _Plane {
    * @param {IVector3} normal - The new normal vector.
    */
   set normal(normal) {
-    copy$2(__privateGet(this, _normal), normal);
+    copy$1(__privateGet(this, _normal), normal);
   }
   /**
    * See if the plane is valid.
@@ -12801,7 +12796,7 @@ let Sphere$1 = (_b = class {
     __privateAdd(this, _c2, [0, 0, 0]);
     __privateAdd(this, _r, -1);
     if (center) {
-      copy$2(__privateGet(this, _c2), center);
+      copy$1(__privateGet(this, _c2), center);
     }
     if (radius !== void 0) {
       __privateSet(this, _r, radius);
@@ -12826,7 +12821,7 @@ let Sphere$1 = (_b = class {
    * @param {IVector3} c - The center.
    */
   set center(c) {
-    copy$2(__privateGet(this, _c2), c);
+    copy$1(__privateGet(this, _c2), c);
   }
   /**
    * Get the radius.
@@ -13466,7 +13461,7 @@ class ViewMatrixGroup extends Base$1 {
     super();
     __privateAdd(this, _matrix, [...IDENTITY_MATRIX]);
     __privateAdd(this, _stateGroupMap, /* @__PURE__ */ new Map());
-    copy$3(__privateGet(this, _matrix), matrix);
+    copy$2(__privateGet(this, _matrix), matrix);
   }
   /**
    * Return the class name.
@@ -13525,7 +13520,7 @@ class ProjMatrixGroup extends Base$1 {
     super();
     __privateAdd(this, _matrix2, [...IDENTITY_MATRIX]);
     __privateAdd(this, _viewMatrixMap, /* @__PURE__ */ new Map());
-    copy$3(__privateGet(this, _matrix2), matrix);
+    copy$2(__privateGet(this, _matrix2), matrix);
   }
   /**
    * Return the class name.
@@ -13969,7 +13964,7 @@ class Multiply extends Visitor {
     if (16 !== matrix.length) {
       throw new Error("Projection matrix must have 16 elements");
     }
-    copy$3(__privateGet(this, _projMatrix), matrix);
+    copy$2(__privateGet(this, _projMatrix), matrix);
   }
   /**
    * Visit the transform.
@@ -13979,7 +13974,7 @@ class Multiply extends Visitor {
     const original = [...__privateGet(this, _viewMatrix)];
     multiply$1(__privateGet(this, _viewMatrix), original, tr.matrix);
     super.visitTransform(tr);
-    copy$3(__privateGet(this, _viewMatrix), original);
+    copy$2(__privateGet(this, _viewMatrix), original);
   }
   /**
    * Visit the projection.
@@ -14467,7 +14462,7 @@ class Transform extends Group {
     if (16 !== length2) {
       throw new Error(`Invalid array length ${length2} for transformation matrix, should be 16`);
     }
-    copy$3(__privateGet(this, _matrix3), matrix);
+    copy$2(__privateGet(this, _matrix3), matrix);
     this.dirtyBounds();
   }
   /**
@@ -15149,7 +15144,7 @@ class Sphere extends Geometry {
    * @param {IVector3} center - Center of the sphere.
    */
   set center(center) {
-    copy$2(__privateGet(this, _center), center);
+    copy$1(__privateGet(this, _center), center);
   }
   /**
    * Get the radius.
@@ -15332,7 +15327,7 @@ const _Color = class _Color extends Attribute {
     super();
     __privateAdd(this, _color, [...Color$1.gray]);
     if (color2) {
-      copy$1(__privateGet(this, _color), color2);
+      copy(__privateGet(this, _color), color2);
     }
   }
   /**
@@ -15361,7 +15356,7 @@ const _Color = class _Color extends Attribute {
    * @param {Readonly<IVector4>} color - The new color.
    */
   set color(color2) {
-    copy$1(__privateGet(this, _color), color2);
+    copy(__privateGet(this, _color), color2);
   }
   /**
    * Return the string representation of this attribute.
@@ -15830,7 +15825,7 @@ class WithMatrices extends ShaderBase {
    * @param {IMatrix44} matrix - The projection matrix.
    */
   set projMatrix(matrix) {
-    copy$3(__privateGet(this, _projMatrix2), matrix);
+    copy$2(__privateGet(this, _projMatrix2), matrix);
   }
   /**
    * Get the view matrix.
@@ -15844,7 +15839,7 @@ class WithMatrices extends ShaderBase {
    * @param {IMatrix44} matrix - The view matrix.
    */
   set viewMatrix(matrix) {
-    copy$3(__privateGet(this, _viewMatrix2), matrix);
+    copy$2(__privateGet(this, _viewMatrix2), matrix);
   }
 }
 _projMatrix2 = new WeakMap();
@@ -15950,7 +15945,7 @@ const _PhongShading = class _PhongShading extends WithMatrices {
    * @param {IVector4} color - The color.
    */
   set color(color2) {
-    copy$1(__privateGet(this, _color2), color2);
+    copy(__privateGet(this, _color2), color2);
     __privateSet(this, _uniforms, null);
     __privateSet(this, _bindGroup, null);
   }
@@ -15982,7 +15977,7 @@ const _PhongShading = class _PhongShading extends WithMatrices {
    * @param {IVector4} lightDir - The light direction.
    */
   set lightDir(lightDir) {
-    copy$1(__privateGet(this, _lightDir), lightDir);
+    copy(__privateGet(this, _lightDir), lightDir);
     __privateSet(this, _uniforms, null);
     __privateSet(this, _bindGroup, null);
   }
@@ -16239,7 +16234,7 @@ const _SolidColor = class _SolidColor extends WithMatrices {
    * @param {IVector4} color - The color.
    */
   set color(color2) {
-    copy$1(__privateGet(this, _color3), color2);
+    copy(__privateGet(this, _color3), color2);
     __privateSet(this, _uniforms2, null);
     __privateSet(this, _bindGroup2, null);
   }
@@ -16705,7 +16700,7 @@ class Draw extends Visitor {
     if (4 !== color2.length) {
       throw new Error(`Invalid color length ${color2.length}, expected 4`);
     }
-    copy$1(__privateGet(this, _clearColor), color2);
+    copy(__privateGet(this, _clearColor), color2);
   }
   /**
    * Get the pre-multiplied clear color.
@@ -17191,7 +17186,7 @@ class BuildBoxes extends Multiply {
     if (state) {
       const { shader } = state;
       if (shader instanceof SolidColor) {
-        copy$1(c, shader.color);
+        copy(c, shader.color);
       }
     }
     colors.push(
@@ -17422,7 +17417,7 @@ class BuildEdges extends Multiply {
    * Set the color.
    */
   set color(color2) {
-    copy$2(__privateGet(this, _color4), color2);
+    copy$1(__privateGet(this, _color4), color2);
   }
   /**
    * Get the color.
@@ -17437,7 +17432,7 @@ class BuildEdges extends Multiply {
   reset() {
     __privateGet(this, _scene).clear();
     __privateSet(this, _current, __privateGet(this, _scene));
-    copy$2(__privateGet(this, _color4), Color$1.black);
+    copy$1(__privateGet(this, _color4), Color$1.black);
   }
   /**
    * Visit the node.
@@ -17573,12 +17568,9 @@ const _Grid = class _Grid extends Decorator {
   constructor(input) {
     super();
     __privateAdd(this, _data2, {
-      center: [0, 0, 0],
-      size: [20, 20],
+      localUp: [0, 1, 0],
       numLines: [21, 21],
-      color: [...Color$1.black],
-      autoPosition: true,
-      autoSize: true
+      color: [...Color$1.black]
     });
     if (input) {
       this.data = input;
@@ -17641,54 +17633,103 @@ const _Grid = class _Grid extends Decorator {
     }
   }
   /**
-   * Determine the center and size of the grid based on the scene's bounds.
-   * @param {SceneNode} scene - The scene to get the bounds from.
-   * @returns {{center: IVector3, size: IVector2}} The center and size of the grid.
+   * Update the scene if we should.
    */
-  static getCenterAndSize(scene) {
-    const center = [0, 0, 0];
-    const size = [20, 20];
-    const bounds = scene.bounds;
-    if (false === bounds.valid) {
-      return { center, size };
+  updateScene() {
+    if (false === this.dirty) {
+      return;
     }
-    center[0] = bounds.center[0];
-    center[1] = bounds.center[1] - bounds.radius;
-    center[2] = bounds.center[2];
-    const length2 = bounds.radius * 10;
-    size[0] = length2;
-    size[1] = length2;
-    return { center, size };
+    const { viewer } = this;
+    if (!viewer) {
+      return;
+    }
+    copy$1(__privateGet(this, _data2).localUp, viewer.navBase.getLocalUp());
+    super.updateScene();
   }
   /**
-   * Return the input we use to build the grid.
-   * @returns {IGridBuilderInput} The input we use to build the grid.
+   * Determine the center and size of the grid based on the scene's bounds.
+   * @returns {{center: IVector3, size: IVector2}} The center and size of the grid.
    */
-  get input() {
-    const answer = { ...__privateGet(this, _data2) };
-    if (answer.autoPosition || answer.autoSize) {
-      const viewer = this.viewer;
-      if (viewer) {
-        const scene = viewer.modelScene;
-        if (scene) {
-          const { center, size } = _Grid.getCenterAndSize(scene);
-          if (answer.autoPosition) {
-            copy$2(answer.center, center);
-          }
-          if (answer.autoSize) {
-            copy(answer.size, size);
-          }
+  get modelBounds() {
+    let bounds = new Sphere$1([0, 0, 0], 1);
+    const { viewer } = this;
+    if (viewer) {
+      const { modelScene } = viewer;
+      if (modelScene) {
+        if (true === modelScene.bounds.valid) {
+          bounds = modelScene.bounds.clone();
         }
       }
     }
-    return answer;
+    return bounds;
+  }
+  /**
+   * Determine the center and size of the grid based on the scene's bounds.
+   * @returns {{center: IVector3, size: IVector2}} The center and size of the grid.
+   */
+  getCenterAndSize() {
+    const center = [0, 0, 0];
+    const size = [1, 1];
+    const bounds = this.modelBounds;
+    copy$1(center, bounds.center);
+    const length2 = bounds.radius * 10;
+    scale(size, size, length2);
+    return { center, size };
   }
   /**
    * Build the scene.
    * @returns {(SceneNode | null)} The scene or null if not available.
    */
   buildScene() {
-    return buildGrid(this.input);
+    const { center, size } = this.getCenterAndSize();
+    const input = {
+      ...__privateGet(this, _data2),
+      center: [0, 0, 0],
+      size
+    };
+    const tr = new Transform();
+    tr.addChild(buildGrid(input));
+    const up = [0, 0, 0];
+    copy$1(up, __privateGet(this, _data2).localUp);
+    const { radius } = this.modelBounds;
+    switch (up.toString()) {
+      case [1, 0, 0].toString(): {
+        translate(tr.matrix, tr.matrix, [-radius, 0, 0]);
+        translate(tr.matrix, tr.matrix, center);
+        tr.rotate(Math.PI * 0.5, [0, 0, 1]);
+        break;
+      }
+      case [-1, 0, 0].toString(): {
+        translate(tr.matrix, tr.matrix, [radius, 0, 0]);
+        translate(tr.matrix, tr.matrix, center);
+        tr.rotate(Math.PI * -0.5, [0, 0, 1]);
+        break;
+      }
+      case [0, 1, 0].toString(): {
+        translate(tr.matrix, tr.matrix, [0, -radius, 0]);
+        translate(tr.matrix, tr.matrix, center);
+        break;
+      }
+      case [0, -1, 0].toString(): {
+        translate(tr.matrix, tr.matrix, [0, radius, 0]);
+        translate(tr.matrix, tr.matrix, center);
+        tr.rotate(Math.PI, [1, 0, 0]);
+        break;
+      }
+      case [0, 0, 1].toString(): {
+        translate(tr.matrix, tr.matrix, [0, 0, -radius]);
+        translate(tr.matrix, tr.matrix, center);
+        tr.rotate(Math.PI * -0.5, [1, 0, 0]);
+        break;
+      }
+      case [0, 0, -1].toString(): {
+        translate(tr.matrix, tr.matrix, [0, 0, radius]);
+        translate(tr.matrix, tr.matrix, center);
+        tr.rotate(Math.PI * 0.5, [1, 0, 0]);
+        break;
+      }
+    }
+    return tr;
   }
 };
 _data2 = new WeakMap();
@@ -17776,7 +17817,7 @@ class Common extends Reader {
    * @param {IVector4} color The color to set.
    */
   set color(color2) {
-    copy$2(__privateGet(this, _color5), color2);
+    copy$1(__privateGet(this, _color5), color2);
   }
   /**
    * Return a progress callback function. Make one if needed.
@@ -19128,7 +19169,7 @@ function makeDefaultTrackballState() {
     rotation: [0, 0, 0, 1]
   };
 }
-class Trackball extends NavBase {
+const _Trackball = class _Trackball extends NavBase {
   /**
    * Construct the class.
    * @class
@@ -19138,7 +19179,7 @@ class Trackball extends NavBase {
     __privateAdd(this, _matrix4, null);
     __privateAdd(this, _inverse, null);
     __privateAdd(this, _mode, "track_ball");
-    __privateAdd(this, _localUp, [0, 1, 0]);
+    __privateAdd(this, _localUp, null);
     __privateAdd(this, _state3, makeDefaultTrackballState());
   }
   /**
@@ -19176,7 +19217,7 @@ class Trackball extends NavBase {
     let vm = __privateGet(this, _matrix4);
     if (!vm) {
       vm = [...IDENTITY_MATRIX];
-      copy$3(vm, this.calculateMatrix());
+      copy$2(vm, this.calculateMatrix());
       __privateSet(this, _matrix4, vm);
       __privateSet(this, _inverse, null);
     }
@@ -19220,38 +19261,7 @@ class Trackball extends NavBase {
    * @param {IRotationMode} mode - The rotation mode.
    */
   set mode(mode) {
-    if (mode === __privateGet(this, _mode)) {
-      return;
-    }
     __privateSet(this, _mode, mode);
-    if ("turn_table" !== mode) {
-      return;
-    }
-    const rm = this.rotationMatrix;
-    const rotateVector = (v) => {
-      const answer = [0, 0, 0];
-      transformMat4$1(answer, v, rm);
-      return answer;
-    };
-    const px = [1, 0, 0];
-    const py = [0, 1, 0];
-    const pz = [0, 0, 1];
-    const nx = [-1, 0, 0];
-    const ny = [0, -1, 0];
-    const nz = [0, 0, -1];
-    const yAxis = [0, 1, 0];
-    const dotProducts = [
-      { dot: dot(rotateVector(px), yAxis), axis: px },
-      { dot: dot(rotateVector(py), yAxis), axis: py },
-      { dot: dot(rotateVector(pz), yAxis), axis: pz },
-      { dot: dot(rotateVector(nx), yAxis), axis: nx },
-      { dot: dot(rotateVector(ny), yAxis), axis: ny },
-      { dot: dot(rotateVector(nz), yAxis), axis: nz }
-    ];
-    dotProducts.sort((a, b) => {
-      return b.dot - a.dot;
-    });
-    this.localUp = dotProducts[0].axis;
   }
   /**
    * Get the rotation mode. This is part of the INavigator interface.
@@ -19271,15 +19281,32 @@ class Trackball extends NavBase {
    * Get the local up vector.
    * @returns {IVector3} The local up vector.
    */
-  get localUp() {
+  getLocalUp() {
+    if (__privateGet(this, _localUp)) {
+      return __privateGet(this, _localUp);
+    }
+    const rm = this.rotationMatrix;
+    const px = [1, 0, 0];
+    const py = [0, 1, 0];
+    const pz = [0, 0, 1];
+    const nx = [-1, 0, 0];
+    const ny = [0, -1, 0];
+    const nz = [0, 0, -1];
+    const yAxis = [0, 1, 0];
+    const dotProducts = [
+      { dot: dot(_Trackball.rotateVector(rm, px), yAxis), axis: px },
+      { dot: dot(_Trackball.rotateVector(rm, py), yAxis), axis: py },
+      { dot: dot(_Trackball.rotateVector(rm, pz), yAxis), axis: pz },
+      { dot: dot(_Trackball.rotateVector(rm, nx), yAxis), axis: nx },
+      { dot: dot(_Trackball.rotateVector(rm, ny), yAxis), axis: ny },
+      { dot: dot(_Trackball.rotateVector(rm, nz), yAxis), axis: nz }
+    ];
+    dotProducts.sort((a, b) => {
+      return b.dot - a.dot;
+    });
+    __privateSet(this, _localUp, [0, 1, 0]);
+    copy$1(__privateGet(this, _localUp), dotProducts[0].axis);
     return __privateGet(this, _localUp);
-  }
-  /**
-   * Set the local up vector.
-   * @param {IVector3} value - The local up vector.
-   */
-  set localUp(value) {
-    copy$2(__privateGet(this, _localUp), value);
   }
   /**
    * Get the center point.
@@ -19293,7 +19320,7 @@ class Trackball extends NavBase {
    * @param {IVector3} c - The center point.
    */
   set center(c) {
-    copy$2(__privateGet(this, _state3).center, c);
+    copy$1(__privateGet(this, _state3).center, c);
     __privateSet(this, _matrix4, null);
   }
   /**
@@ -19323,8 +19350,9 @@ class Trackball extends NavBase {
    * @param {IVector4} r - The rotation.
    */
   set rotation(r2) {
-    copy$1(__privateGet(this, _state3).rotation, r2);
+    copy(__privateGet(this, _state3).rotation, r2);
     __privateSet(this, _matrix4, null);
+    __privateSet(this, _localUp, null);
   }
   /**
    * Rotate the navigator.
@@ -19669,7 +19697,7 @@ class Trackball extends NavBase {
       {
         const angle2 = (cm[1] - pm[1]) * DEG_TO_RAD * sensitivity[0] * scale2 * fraction;
         const globalUp = [0, 0, 0];
-        transformMat4$1(globalUp, this.localUp, this.rotationMatrix);
+        transformMat4$1(globalUp, this.getLocalUp(), this.rotationMatrix);
         normalize$2(globalUp, globalUp);
         rotateX(globalUp, globalUp, [0, 0, 0], angle2);
         if (globalUp[1] >= 0) {
@@ -19678,18 +19706,24 @@ class Trackball extends NavBase {
       }
       {
         const angle2 = (cm[0] - pm[0]) * DEG_TO_RAD * sensitivity[1] * scale2 * fraction;
-        this.rotateAxisAngle(this.localUp, angle2, "local");
+        this.rotateAxisAngle(this.getLocalUp(), angle2, "local");
       }
     };
     oneStep(0);
     return oneStep;
   }
-}
+};
 _matrix4 = new WeakMap();
 _inverse = new WeakMap();
 _mode = new WeakMap();
 _localUp = new WeakMap();
 _state3 = new WeakMap();
+_Trackball.rotateVector = (rm, v) => {
+  const answer = [0, 0, 0];
+  transformMat4$1(answer, v, rm);
+  return answer;
+};
+let Trackball = _Trackball;
 const _Animation = class _Animation extends Base$1 {
   /**
    * Construct the class.
@@ -19820,7 +19854,7 @@ class RotateAxisAngle extends Command {
     __privateAdd(this, _axis, [0, 1, 0]);
     __privateAdd(this, _angle, 0);
     __privateAdd(this, _space, "global");
-    copy$2(__privateGet(this, _axis), axis);
+    copy$1(__privateGet(this, _axis), axis);
     __privateSet(this, _angle, angle2);
   }
   /**
@@ -19939,6 +19973,9 @@ class ToggleGridVisibility extends Command {
     if (decorator) {
       const newState = !decorator.visible;
       decorator.visible = newState;
+      if (true === newState) {
+        decorator.dirty = true;
+      }
     }
     viewer.requestRender();
   }
@@ -20378,7 +20415,7 @@ class Surface extends Base$1 {
       throw new Error(`Invalid color array length: ${c.length}, expected 3 or 4`);
     }
     clampVec4(c, 0, 1);
-    copy$1(__privateGet(this, _clearColor2), c);
+    copy(__privateGet(this, _clearColor2), c);
   }
   /**
    * Get the default state or throw an exception.
@@ -22031,7 +22068,7 @@ Lines: ${intF.format(rgi.numLines)}`;
     }
   );
 }
-const buildSceneSphere = (sphere, edges) => {
+const buildSceneSphere = (sphere = new Sphere$1([0, 0, 0], 1), edges = false) => {
   const node2 = new Sphere({
     center: sphere.center,
     radius: sphere.radius,
@@ -22043,9 +22080,19 @@ const buildSceneSphere = (sphere, edges) => {
     state.addAttribute(new TwoSidedLight(false));
     node2.state = state;
   }
-  {
+  if (false === edges) {
     return node2;
   }
+  const root = new Group();
+  root.addChild(node2);
+  const lines = buildTriangleEdges(node2);
+  if (lines) {
+    const state = SolidColor.makeState({ topology: "line-list" });
+    state.addAttribute(new Color([...Color$1.black]));
+    lines.state = state;
+  }
+  root.addChild(lines);
+  return root;
 };
 const buildSceneSpheres = () => {
   const root = new Group();
@@ -22053,17 +22100,17 @@ const buildSceneSpheres = () => {
   {
     const tr = new Transform();
     tr.translate([10, 0, 0]);
-    tr.addChild(buildSceneSphere(new Sphere$1([0, 0, 0], radius)));
-    tr.addChild(buildSceneSphere(new Sphere$1([3, 0, 0], radius)));
+    tr.addChild(buildSceneSphere(new Sphere$1([0, 0, 0], radius), false));
+    tr.addChild(buildSceneSphere(new Sphere$1([3, 0, 0], radius), false));
     root.addChild(tr);
   }
   {
     const tr = new Transform();
     tr.translate([10, 3, 0]);
-    tr.addChild(buildSceneSphere(new Sphere$1([0, 0, 0], radius)));
-    tr.addChild(buildSceneSphere(new Sphere$1([3, 0, 0], radius)));
-    tr.addChild(buildSceneSphere(new Sphere$1([6, 0, 0], radius)));
-    tr.addChild(buildSceneSphere(new Sphere$1([9, 0, 0], radius)));
+    tr.addChild(buildSceneSphere(new Sphere$1([0, 0, 0], radius), false));
+    tr.addChild(buildSceneSphere(new Sphere$1([3, 0, 0], radius), false));
+    tr.addChild(buildSceneSphere(new Sphere$1([6, 0, 0], radius), false));
+    tr.addChild(buildSceneSphere(new Sphere$1([9, 0, 0], radius), false));
     root.addChild(tr);
   }
   return root;
@@ -22469,7 +22516,7 @@ function App() {
   );
   const buildTimeStamp = reactExports.useMemo(
     () => {
-      const date = /* @__PURE__ */ new Date(1780784342076);
+      const date = /* @__PURE__ */ new Date(1781151401794);
       const Y = date.getFullYear();
       const M = String(date.getMonth() + 1).padStart(2, "0");
       const D = String(date.getDate()).padStart(2, "0");
@@ -34742,4 +34789,4 @@ clientExports.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ jsxRuntimeExports.jsx(App, {})
   ] }) })
 );
-//# sourceMappingURL=index-Dv6q4dKX.js.map
+//# sourceMappingURL=index-V9HwwWeM.js.map
