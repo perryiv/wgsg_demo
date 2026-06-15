@@ -11649,6 +11649,15 @@ const midPoint = (out, a, b) => {
   scale$1(out, out, 0.5);
   return out;
 };
+const getSignedAngle = (a, b) => {
+  let angle$1 = angle(a, b);
+  const c = [0, 0, 0];
+  cross(c, a, b);
+  if (c[2] < 0) {
+    angle$1 = -angle$1;
+  }
+  return angle$1;
+};
 let Color$1 = (_a = class {
   /**
    * Make a random color.
@@ -17553,6 +17562,7 @@ class Decorator extends Base$1 {
     }
     this.scene.clear();
     this.scene.addChild(this.buildScene());
+    void this.scene.bounds;
     this.dirty = false;
   }
 }
@@ -19431,6 +19441,19 @@ const _Trackball = class _Trackball extends NavBase {
     __privateSet(this, _matrix4, null);
   }
   /**
+   * Reset the navigator's roll.
+   */
+  resetRoll() {
+    const yAxis = [0, 1, 0];
+    transformMat4$1(yAxis, yAxis, this.rotationMatrix);
+    yAxis[2] = 0;
+    const angle2 = getSignedAngle(yAxis, [0, 1, 0]);
+    if (0 === angle2) {
+      return;
+    }
+    this.rotateAxisAngle([0, 0, 1], angle2, "global");
+  }
+  /**
    * Get the internal state.
    * @returns {INavigationState} The internal state.
    */
@@ -19948,6 +19971,31 @@ class RotateZ extends RotateAxisAngle {
     super([0, 0, 1], angle2);
   }
 }
+class ResetRoll extends Command {
+  /**
+   * Construct the class.
+   * @class
+   */
+  constructor() {
+    super();
+  }
+  /**
+   * Get the class name.
+   * @returns {string} The class name.
+   */
+  getClassName() {
+    return "Viewers.Commands.ResetRoll";
+  }
+  /**
+   * Execute the command.
+   * @param {IEvent} event The event.
+   */
+  execute(event) {
+    const { viewer } = event;
+    viewer.resetRoll();
+    viewer.requestRender();
+  }
+}
 class ToggleGridVisibility extends Command {
   /**
    * Construct the class.
@@ -20169,6 +20217,7 @@ function makeCommands() {
     ["mouse_translate_small", new MouseTranslate(0.1)],
     ["mouse_zoom_large", new Zoom(0.9, 1.1)],
     ["mouse_zoom_small", new Zoom(0.99, 1.01)],
+    ["reset_roll", new ResetRoll()],
     ["rotate_nx_large", new RotateX(DEG_TO_RAD * -45)],
     ["rotate_nx_small", new RotateX(DEG_TO_RAD * -5)],
     ["rotate_ny_large", new RotateY(DEG_TO_RAD * -45)],
@@ -20205,6 +20254,7 @@ function makeInputToCommandMap() {
   const kf = "KeyF";
   const kt = "KeyT";
   const kg = "KeyG";
+  const kr = "KeyR";
   return new Map([
     makeTuple("mouse_rotate_large", "mouse_drag", [0], []),
     makeTuple("mouse_rotate_small", "mouse_drag", [0], [sl]),
@@ -20214,6 +20264,7 @@ function makeInputToCommandMap() {
     makeTuple("mouse_translate_small", "mouse_drag", [2], [sr]),
     makeTuple("mouse_zoom_large", "mouse_wheel", [], []),
     makeTuple("mouse_zoom_small", "mouse_wheel", [], [sl]),
+    makeTuple("reset_roll", "key_down", [], [kr]),
     makeTuple("rotate_nx_large", "key_down", [], [au]),
     makeTuple("rotate_nx_small", "key_down", [], [sl, au]),
     makeTuple("rotate_nx_small", "key_down", [], [sr, au]),
@@ -21204,6 +21255,14 @@ let Viewer$1 = (_e = class extends Surface {
     this.setDecorator(new Grid());
   }
   /**
+   * Dirty all the decorators.
+   */
+  dirtyDecorators() {
+    this.forEachDecorator((decorator) => {
+      decorator.dirty = true;
+    });
+  }
+  /**
    * Get the view matrix.
    * @returns {IMatrix44} The view matrix.
    */
@@ -21322,6 +21381,29 @@ let Viewer$1 = (_e = class extends Surface {
       __privateSet(this, _navBase, n);
     }
     return n;
+  }
+  /**
+   * Reset the navigator's roll.
+   * @param {object} [input] - The input.
+   * @param {boolean} [input.animate] - Whether or not to animate the navigation.
+   */
+  resetRoll(input) {
+    const { animate } = input ?? {};
+    const allowAnimations = animate ?? this.options.animations.allow;
+    if (!allowAnimations) {
+      this.navBase.resetRoll();
+      return;
+    }
+    const navState1 = this.navBase.getInternalState();
+    this.navBase.resetRoll();
+    const navState2 = this.navBase.getInternalState();
+    this.navBase.setInternalState(navState1);
+    this.animations.nav.set(`${this.type}.resetRoll()`, (fraction) => {
+      const newState = this.navBase.blend(navState1, navState2, fraction);
+      this.navBase.setInternalState(newState);
+      this.requestRender();
+    });
+    this.animations.nav.start(this.options.duration.rotate_axis_angle);
   }
   /**
    * Set the navigator so that the sphere is completely within the view-volume.
@@ -22304,6 +22386,7 @@ function Viewer({ viewerId, ...rest }) {
     extraScene.removeChild(extraScene.indexOf(boxesScene));
     setBoxesScene(null);
     viewer.viewAll({ animate: false });
+    viewer.dirtyDecorators();
     viewer.requestRender();
   }, [
     boxesScene,
@@ -22516,7 +22599,7 @@ function App() {
   );
   const buildTimeStamp = reactExports.useMemo(
     () => {
-      const date = /* @__PURE__ */ new Date(1781151401794);
+      const date = /* @__PURE__ */ new Date(1781496591617);
       const Y = date.getFullYear();
       const M = String(date.getMonth() + 1).padStart(2, "0");
       const D = String(date.getDate()).padStart(2, "0");
@@ -34789,4 +34872,4 @@ clientExports.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ jsxRuntimeExports.jsx(App, {})
   ] }) })
 );
-//# sourceMappingURL=index-V9HwwWeM.js.map
+//# sourceMappingURL=index-C2c6Pmh0.js.map
