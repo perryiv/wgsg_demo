@@ -11649,15 +11649,6 @@ const midPoint = (out, a, b) => {
   scale$1(out, out, 0.5);
   return out;
 };
-const getSignedAngle = (a, b) => {
-  let angle$1 = angle(a, b);
-  const c = [0, 0, 0];
-  cross(c, a, b);
-  if (c[2] < 0) {
-    angle$1 = -angle$1;
-  }
-  return angle$1;
-};
 let Color$1 = (_a = class {
   /**
    * Make a random color.
@@ -19441,17 +19432,10 @@ const _Trackball = class _Trackball extends NavBase {
     __privateSet(this, _matrix4, null);
   }
   /**
-   * Reset the navigator's roll.
+   * Reset the navigator's rotation.
    */
-  resetRoll() {
-    const yAxis = [0, 1, 0];
-    transformMat4$1(yAxis, yAxis, this.rotationMatrix);
-    yAxis[2] = 0;
-    const angle2 = getSignedAngle(yAxis, [0, 1, 0]);
-    if (0 === angle2) {
-      return;
-    }
-    this.rotateAxisAngle([0, 0, 1], angle2, "global");
+  resetRotation() {
+    this.rotation = [0, 0, 0, 1];
   }
   /**
    * Get the internal state.
@@ -19971,7 +19955,7 @@ class RotateZ extends RotateAxisAngle {
     super([0, 0, 1], angle2);
   }
 }
-class ResetRoll extends Command {
+class ResetRotation extends Command {
   /**
    * Construct the class.
    * @class
@@ -19984,7 +19968,7 @@ class ResetRoll extends Command {
    * @returns {string} The class name.
    */
   getClassName() {
-    return "Viewers.Commands.ResetRoll";
+    return "Viewers.Commands.ResetRotation";
   }
   /**
    * Execute the command.
@@ -19992,7 +19976,7 @@ class ResetRoll extends Command {
    */
   execute(event) {
     const { viewer } = event;
-    viewer.resetRoll();
+    viewer.resetRotation();
     viewer.requestRender();
   }
 }
@@ -20217,7 +20201,7 @@ function makeCommands() {
     ["mouse_translate_small", new MouseTranslate(0.1)],
     ["mouse_zoom_large", new Zoom(0.9, 1.1)],
     ["mouse_zoom_small", new Zoom(0.99, 1.01)],
-    ["reset_roll", new ResetRoll()],
+    ["reset_rotation", new ResetRotation()],
     ["rotate_nx_large", new RotateX(DEG_TO_RAD * -45)],
     ["rotate_nx_small", new RotateX(DEG_TO_RAD * -5)],
     ["rotate_ny_large", new RotateY(DEG_TO_RAD * -45)],
@@ -20264,7 +20248,7 @@ function makeInputToCommandMap() {
     makeTuple("mouse_translate_small", "mouse_drag", [2], [sr]),
     makeTuple("mouse_zoom_large", "mouse_wheel", [], []),
     makeTuple("mouse_zoom_small", "mouse_wheel", [], [sl]),
-    makeTuple("reset_roll", "key_down", [], [kr]),
+    makeTuple("reset_rotation", "key_down", [], [kr]),
     makeTuple("rotate_nx_large", "key_down", [], [au]),
     makeTuple("rotate_nx_small", "key_down", [], [sl, au]),
     makeTuple("rotate_nx_small", "key_down", [], [sr, au]),
@@ -21383,27 +21367,41 @@ let Viewer$1 = (_e = class extends Surface {
     return n;
   }
   /**
-   * Reset the navigator's roll.
+   * Reset the navigation using the given callback.
    * @param {object} [input] - The input.
    * @param {boolean} [input.animate] - Whether or not to animate the navigation.
+   * @param {() => void} [input.cb] - The callback function to execute to reset the navigation.
    */
-  resetRoll(input) {
-    const { animate } = input ?? {};
+  resetNavigation(input) {
+    const { animate, cb } = input;
     const allowAnimations = animate ?? this.options.animations.allow;
     if (!allowAnimations) {
-      this.navBase.resetRoll();
+      cb();
       return;
     }
     const navState1 = this.navBase.getInternalState();
-    this.navBase.resetRoll();
+    cb();
     const navState2 = this.navBase.getInternalState();
     this.navBase.setInternalState(navState1);
-    this.animations.nav.set(`${this.type}.resetRoll()`, (fraction) => {
+    this.animations.nav.set(`${this.type}.resetNavigation()`, (fraction) => {
       const newState = this.navBase.blend(navState1, navState2, fraction);
       this.navBase.setInternalState(newState);
       this.requestRender();
     });
     this.animations.nav.start(this.options.duration.rotate_axis_angle);
+  }
+  /**
+   * Reset the navigator's rotation.
+   * @param {object} [input] - The input.
+   * @param {boolean} [input.animate] - Whether or not to animate the navigation.
+   */
+  resetRotation(input) {
+    this.resetNavigation({
+      ...input,
+      cb: () => {
+        this.navBase.resetRotation();
+      }
+    });
   }
   /**
    * Set the navigator so that the sphere is completely within the view-volume.
@@ -22599,7 +22597,7 @@ function App() {
   );
   const buildTimeStamp = reactExports.useMemo(
     () => {
-      const date = /* @__PURE__ */ new Date(1781496591617);
+      const date = /* @__PURE__ */ new Date(1782282450201);
       const Y = date.getFullYear();
       const M = String(date.getMonth() + 1).padStart(2, "0");
       const D = String(date.getDate()).padStart(2, "0");
@@ -34872,4 +34870,4 @@ clientExports.createRoot(document.getElementById("root")).render(
     /* @__PURE__ */ jsxRuntimeExports.jsx(App, {})
   ] }) })
 );
-//# sourceMappingURL=index-C2c6Pmh0.js.map
+//# sourceMappingURL=index-Cd01c2VP.js.map
